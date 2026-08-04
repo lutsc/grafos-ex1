@@ -4,7 +4,7 @@
 struct Node
 {
 	void * data;
-	Node * next;
+	struct Node * next;
 };
 
 /*
