@@ -1,16 +1,22 @@
-CFLAGS += -I./include
+CFLAGS = -Iinclude
 
-OBJS = lista_encadeada.o
+OBJS = build/main.o build/lista_encadeada.o
 
-all:
-	gcc -c src/lista_encadeada.c -o build/lista_encadeada.o
-	gcc $(CFLAGS) src/main.c build/$(OBJS) -o bin/main
-	make commands
-	
-commands:
-	compiledb --no-build make all
+TARGET = bin/main
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS) | bin
+	gcc $(OBJS) -o $(TARGET)
+
+build/%.o: src/%.c | build
+	gcc $(CFLAGS) -c $< -o $@
+
+build:
+	mkdir -p build
+
+bin:
+	mkdir -p bin
 
 clean:
-	rm -rf build/*
-	rm -rf bin/*
-
+	rm -rf build bin
