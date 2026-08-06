@@ -1,4 +1,4 @@
-CFLAGS = -Iinclude
+CFLAGS = -Iinclude -g
 
 OBJS = build/main.o build/lista_encadeada.o
 

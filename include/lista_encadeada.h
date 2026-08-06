@@ -8,19 +8,29 @@ struct Node
 };
 
 /*
+ * Aloca memória para um node
+ */
+int criarNode(struct Node ** node, void * data);
+
+/*
  * Insere dado no fim da lista, retorna 0 em sucesso e 1 em outros casos.
  */
-int insereListaFim(struct Node * root, void * data);
+int insereListaFim(struct Node ** root, void * data);
 
 /*
  * Remove o dado no fim da lista, retorna 0 em sucesso e 1 em outros casos.
  */
-int removeListaFim(struct Node * root);
+int removeListaFim(struct Node ** root);
 
 /*
  *  Busca um dado na lista e retorna o ponteiro do Nodo em *ret, a função
  *  retorna 0 caso encontre o dado e 1 caso contrário.
  */
-int buscaLista(struct Node * root, void * data, struct Node * ret);
+int buscaLista(struct Node * root, void * data, struct Node ** ret);
+
+/*
+ *  Imprime a lista encadeada
+ */
+void imprimeLista(struct Node * root, void (* printFunction)(void *));
 
 #endif
