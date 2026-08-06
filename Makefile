@@ -1,6 +1,6 @@
 CFLAGS = -Iinclude -g
 
-OBJS = build/main.o build/lista_encadeada.o
+OBJS = build/main.o build/lista_encadeada.o build/grafos.o
 
 TARGET = bin/main
 
