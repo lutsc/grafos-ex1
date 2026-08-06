@@ -31,6 +31,6 @@ int buscaLista(struct Node * root, void * data, struct Node ** ret);
 /*
  *  Imprime a lista encadeada
  */
-void imprimeLista(struct Node * root, void (* printFunction)(void *));
+void imprimirLista(struct Node * root, void (* printFunction)(void *));
 
 #endif

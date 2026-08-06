@@ -11,7 +11,7 @@ int32_t gerarMatrizAdjacente(bool ***mat, uint32_t nos);
 /*
  * Liga um nó a outro na matriz de adjacência
 */
-int32_t preencherMatrizAdjacente(bool ** mat, uint32_t tamanhoMatriz, uint32_t no1, uint32_t no2);
+int32_t inserirNaMatrizAdjacente(bool ** mat, uint32_t tamanhoMatriz, uint32_t no1, uint32_t no2);
 
 
 #endif

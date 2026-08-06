@@ -14,7 +14,7 @@ int32_t gerarMatrizAdjacente(bool ***mat, uint32_t nos) {
 	return 0;
 }
 
-int32_t preencherMatrizAdjacente(bool ** mat, uint32_t tamanhoMatriz, uint32_t no1, uint32_t no2)
+int32_t inserirNaMatrizAdjacente(bool ** mat, uint32_t tamanhoMatriz, uint32_t no1, uint32_t no2)
 {
 	if (no1 >= tamanhoMatriz || no2 >= tamanhoMatriz)
 		return 2;

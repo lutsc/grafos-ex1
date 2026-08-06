@@ -62,7 +62,7 @@ int buscaLista(struct Node * root, void * data, struct Node ** ret) {
 	return 1;
 }
 
-void imprimeLista(struct Node * root, void (* printFunction)(void *)) { 
+void imprimirLista(struct Node * root, void (* printFunction)(void *)) { 
 	while(root != NULL)
 	{
 		printFunction(root->data);
