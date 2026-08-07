@@ -33,4 +33,8 @@ int buscaLista(struct Node * root, void * data, struct Node ** ret);
  */
 void imprimirLista(struct Node * root, void (* printFunction)(void *));
 
+void liberarLista(struct Node * root);
+
+void imprimeChar(void * data);
+
 #endif

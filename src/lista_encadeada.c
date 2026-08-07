@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include "lista_encadeada.h"
 
@@ -70,5 +71,16 @@ void imprimirLista(struct Node * root, void (* printFunction)(void *)) {
 	}
 }
 
+void liberarLista(struct Node * root) {
+	struct Node * atual = root;
+	while (atual != NULL) {
+		struct Node * prox = atual->next;
+		free(atual->data);
+		free(atual);
+		atual = prox;
+	}
+}
 
-
+void imprimeChar(void * data) {
+	printf("%c, ", *(char *)data);
+}
