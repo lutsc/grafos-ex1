@@ -12,11 +12,8 @@ $(TARGET): $(OBJS) | bin
 build/%.o: src/%.c | build
 	gcc $(CFLAGS) -c $< -o $@
 
-build:
-	mkdir -p build
-
-bin:
-	mkdir -p bin
+bin build:
+	mkdir -p $@
 
 clean:
 	rm -rf build bin
