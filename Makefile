@@ -1,4 +1,4 @@
-CFLAGS = -Iinclude -g
+CFLAGS = -Iinclude -g -Wall -Wextra
 
 OBJS = build/main.o build/lista_encadeada.o build/grafos.o
 
