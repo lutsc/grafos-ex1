@@ -4,6 +4,9 @@
 
 int criarNode(struct Node ** node, void * data) {
 	struct Node * newNode = malloc(sizeof(struct Node));
+	if (newNode == NULL)
+		return 1;
+
 	newNode->data = data;
 	newNode->next = NULL;
 
@@ -11,74 +14,117 @@ int criarNode(struct Node ** node, void * data) {
 	return 0;
 }
 
-int insereListaFim(struct Node ** root, void * data) {
+int insereListaFim(struct List * root, void * data) {
+	if (root == NULL)
+		return 1;
+
 	struct Node * newNode = NULL;
-	criarNode(&newNode, data);
+	if (criarNode(&newNode, data) != 0)
+		return 1;
 
-	if (*root == NULL) 
-	{
-		*root = newNode;
-	}
-	else {
-		struct Node * t = *root;
-		while(t->next != NULL) 
+	if (root->head == NULL) {
+		root->head = newNode;
+	} else {
+		struct Node * t = root->head;
+		while (t->next != NULL)
 			t = t->next;
-
 		t->next = newNode;
 	}
+
+	root->edgesQtd++;
+	
 	return 0;
 }
 
-int removeListaFim(struct Node ** root) {
-	if (*root == NULL) 
+int removeListaFim(struct List * root) {
+	if (root == NULL || root->head == NULL)
 		return 1;
-	struct Node * t1 = *root;
-	struct Node * t2 = (*root)->next;
-	if(t1->next == NULL) {
-		*root = NULL;
+
+	struct Node * t1 = root->head;
+	struct Node * t2 = t1->next;
+
+	if (t2 == NULL) {
+		root->head = NULL;
 		free(t1);
 		return 0;
 	}
-	while(t2->next != NULL) {
+
+	while (t2->next != NULL) {
 		t1 = t1->next;
 		t2 = t2->next;
 	}
+
 	t1->next = NULL;
+	free(t2->data);
 	free(t2);
+	root->edgesQtd--;
+
 	return 0;
 }
 
-int buscaLista(struct Node * root, void * data, struct Node ** ret) {
+int buscaLista(struct List * root, void * data, struct Node ** ret) {
 	if (root == NULL)
 		return 1;
-	while (root->next != NULL)
-	{
-		if (root->data == data)
-		{
-			*ret = root;
+
+	struct Node * atual = root->head;
+	while (atual != NULL) {
+		if (atual->data == data) {
+			*ret = atual;
 			return 0;
 		}
-		root = root->next;
+		atual = atual->next;
 	}
 	return 1;
 }
 
-void imprimirLista(struct Node * root, void (* printFunction)(void *)) { 
-	while(root != NULL)
-	{
-		printFunction(root->data);
-		root = root->next;
+void imprimirLista(struct List * root, void (* printFunction)(void *)) {
+	struct Node * atual = root->head;
+	while (atual != NULL) {
+		printFunction(atual->data);
+		atual = atual->next;
 	}
 }
 
-void liberarLista(struct Node * root) {
-	struct Node * atual = root;
+void liberarLista(struct List * root) {
+	struct Node * atual = root->head;
 	while (atual != NULL) {
 		struct Node * prox = atual->next;
 		free(atual->data);
+		atual->data = NULL;
 		free(atual);
 		atual = prox;
 	}
+	root->head = NULL;
+	root->edgesQtd = 0;
+}
+
+
+int iniciarLista(struct List * root) {
+	if (root == NULL)
+		return 1;
+ 
+	root->id = 0;
+	root->edgesQtd = 0;
+	root->head = NULL;
+	return 0;
+}
+
+int iniciarGrafo(struct Graph * graph) {
+	if (graph == NULL)
+		return 1;
+ 
+	graph->array = (struct List *)calloc(graph->verticesQtd, sizeof(struct List));
+	if (graph->array == NULL) {
+		printf("\nErro ao alocar memória para o vetor de listas.\n");
+		return 1;
+	}
+ 
+	for (size_t i = 0; i < graph->verticesQtd; i++) {
+		iniciarLista(&graph->array[i]);
+		graph->array[i].id = i + 1;
+	}
+ 
+	return 0;
 }
 
 void imprimeChar(void * data) {
