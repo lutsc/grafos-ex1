@@ -61,7 +61,7 @@ int iniciarLista(struct List * root);
  * Aloca o vetor de listas do grafo.
  * Retorna 0 em sucesso e 1 em falha de alocação.
  */
-int iniciarGrafo(struct Graph * graph);
+int iniciarGrafo(struct Graph * graph, int vertices);
 
 /*
  * Imprime dados dos nós do tipo void * em tipo char

@@ -109,9 +109,11 @@ int iniciarLista(struct List * root) {
 	return 0;
 }
 
-int iniciarGrafo(struct Graph * graph) {
+int iniciarGrafo(struct Graph * graph, int vertices) {
 	if (graph == NULL)
 		return 1;
+
+	graph->verticesQtd = vertices;
  
 	graph->array = (struct List *)calloc(graph->verticesQtd, sizeof(struct List));
 	if (graph->array == NULL) {

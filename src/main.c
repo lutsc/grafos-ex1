@@ -3,26 +3,27 @@
 #include "lista_encadeada.h"
 
 int main() {
-	struct Graph graph;
+	int dirigido, verticesQtd;
 
 	puts("\nO gráfico é dirigido?\n[1] Sim\n[0] Não");
-	scanf("%zu", &graph.directed);
-	if (graph.directed != 0 && graph.directed != 1) {
+	scanf("%d", &dirigido);
+	if (dirigido != 0 && dirigido != 1) {
 		printf("Opção inválida.\n");
 		return 1;
 	}
-
+	
 	printf("\nQuantos vértices terão em seu grafo: ");
-	scanf("%zu", &graph.verticesQtd);
-	if (graph.verticesQtd <= 0) {
+	scanf("%d", &verticesQtd);
+	if (verticesQtd <= 0) {
 		printf("Opção inválida.\n");
 		return 1;
 	}
-
-	printf("Dirigido: %zu, Quantidade: %zu\n", graph.directed, graph.verticesQtd);
-
+	
+	printf("Dirigido: %d, Quantidade: %d\n", dirigido, verticesQtd);
+	
 	// Vetor de listas, uma struct List por vértice
-	if (iniciarGrafo(&graph) != 0) {
+	struct Graph graph;
+	if (iniciarGrafo(&graph, verticesQtd) != 0) {
 		return 1;
 	}
 
