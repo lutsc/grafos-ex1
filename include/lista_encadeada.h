@@ -1,6 +1,7 @@
 #ifndef H_LISTA_ENCADEADA
 #define H_LISTA_ENCADEADA 1
 #include <stdbool.h>
+#include <stdlib.h>
 
 struct Node {
 	size_t id;
