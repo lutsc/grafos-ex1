@@ -13,5 +13,18 @@ int32_t gerarMatrizAdjacente(bool ***mat, uint32_t nos);
 */
 int32_t inserirNaMatrizAdjacente(bool ** mat, uint32_t tamanhoMatriz, uint32_t no1, uint32_t no2);
 
+/*
+ * Percorre o grafo em profundidade (DFS) a partir do vértice "inicio",
+ * imprimindo a ordem de visita (vértices rotulados de A a Z).
+ * Retorna 0 em sucesso e 1 caso "inicio" seja inválido.
+*/
+int32_t dfs(bool ** mat, uint32_t tamanhoMatriz, uint32_t inicio);
+
+/*
+ * Percorre o grafo em largura (BFS) a partir do vértice "inicio",
+ * imprimindo a ordem de visita (vértices rotulados de A a Z).
+ * Retorna 0 em sucesso e 1 caso "inicio" seja inválido.
+*/
+int32_t bfs(bool ** mat, uint32_t tamanhoMatriz, uint32_t inicio);
 
 #endif
