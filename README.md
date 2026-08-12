@@ -1,4 +1,13 @@
-### Implementação de Grafos por Vetor de Listas Encadeadas 
+# Implementação de DFS e BFS por Vetor Dinâmico de Listas Encadeadas 
 
-Dirigido: Matriz de Adjacência e Listas de Adjacência.
-Não Dirigido: Matriz de Adjacência e Listas de Adjacência.
+### Como baixar e compilar
+
+```
+$ git clone https://github.com/lutsc/grafos-ex1
+$ cd grafos-ex1
+
+$ make clean
+$ make run
+$ cd bin
+$ ./main
+```
