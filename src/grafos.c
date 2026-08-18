@@ -1,6 +1,7 @@
 #include "grafos.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <sys/types.h>
 
 int32_t gerarMatrizAdjacente(bool ***mat, uint32_t nos) {
 	*mat = malloc(sizeof(bool*)*nos);
@@ -31,15 +32,15 @@ int32_t dfs(bool ** mat, uint32_t tamanhoMatriz, uint32_t inicio) {
 
 	bool * visitado = calloc(tamanhoMatriz, sizeof(bool));
 	uint32_t * pilha = malloc(tamanhoMatriz * sizeof(uint32_t));
-	long topo = -1;
+	uint32_t topo = 0;
 
-	pilha[++topo] = inicio;
+	pilha[topo] = inicio;
 	while (topo >= 0) {
 		uint32_t atual = pilha[topo--];
 
 		if (!visitado[atual]) {
 			visitado[atual] = true;
-			printf("%c ", (char)('A' + atual));
+			printf("%c ", (char)('A' + atual)); //NOTE: Passar uma função de print como argumento
 
 			// Empilha vizinhos em ordem reversa, para visitar em ordem crescente
 			for (uint32_t j = tamanhoMatriz; j-- > 0; ) {
