@@ -10,7 +10,7 @@ int main(void) {
 
 	// 1. Direcionado ou não
 	puts("\nO grafo é dirigido?\n[1] Sim\n[0] Não");
-	if (scanf("%zu", &graph.directed) != 1 || (graph.directed != 0 && graph.directed != 1)) {
+	if (scanf("%zu", &graph.directed) != 1 || (graph.directed > 1)) {
 		printf("Opção inválida.\n");
 		return 1;
 	}
