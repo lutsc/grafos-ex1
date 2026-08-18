@@ -2,11 +2,12 @@
 #include <stdlib.h>
 #include "lista_encadeada.h"
 
-int32_t criarNode(struct Node ** node, void * data) {
+int32_t criarNode(struct Node ** node, void * data, size_t id) {
 	struct Node * newNode = malloc(sizeof(struct Node));
 	if (newNode == NULL)
 		return 1;
 
+	newNode ->id = id;
 	newNode->data = data;
 	newNode->next = NULL;
 
@@ -14,12 +15,12 @@ int32_t criarNode(struct Node ** node, void * data) {
 	return 0;
 }
 
-int32_t insereListaFim(struct List * root, void * data) {
+int32_t insereListaFim(struct List * root, void * data, size_t id) {
 	if (root == NULL)
 		return 1;
 
 	struct Node * newNode = NULL;
-	if (criarNode(&newNode, data) != 0)
+	if (criarNode(&newNode, data, id) != 0)
 		return 1;
 
 	if (root->head == NULL) {
@@ -36,7 +37,7 @@ int32_t insereListaFim(struct List * root, void * data) {
 	return 0;
 }
 
-int32_t removeListaFim(struct List * root) {
+int32_t removeListaFim(struct List * root) { //TODO: Retornar node removido
 	if (root == NULL || root->head == NULL)
 		return 1;
 
