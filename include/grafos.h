@@ -1,7 +1,24 @@
 #ifndef H_GRAFOS
 #define H_GRAFOS 1
+#include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include "lista_encadeada.h"
+
+struct Graph {
+	size_t directed;
+	size_t verticesQtd;
+	struct List * array; //Lista de adjacência
+};
+
+/*
+ * Aloca o vetor de listas do grafo.
+ * Retorna 0 em sucesso e 1 em falha de alocação.
+ */
+int32_t iniciarGrafo(struct Graph * graph, uint32_t vertices, bool dirigido);
+
+//TODO: Comentar
+int32_t inserirArco(struct Graph * graph, size_t id1, size_t id2);
 
 /*
  * Gera a matriz de adjacência para uma determinada quantidade de nós

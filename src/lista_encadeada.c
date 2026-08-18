@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "lista_encadeada.h"
 
-int criarNode(struct Node ** node, void * data) {
+int32_t criarNode(struct Node ** node, void * data) {
 	struct Node * newNode = malloc(sizeof(struct Node));
 	if (newNode == NULL)
 		return 1;
@@ -14,7 +14,7 @@ int criarNode(struct Node ** node, void * data) {
 	return 0;
 }
 
-int insereListaFim(struct List * root, void * data) {
+int32_t insereListaFim(struct List * root, void * data) {
 	if (root == NULL)
 		return 1;
 
@@ -36,7 +36,7 @@ int insereListaFim(struct List * root, void * data) {
 	return 0;
 }
 
-int removeListaFim(struct List * root) {
+int32_t removeListaFim(struct List * root) {
 	if (root == NULL || root->head == NULL)
 		return 1;
 
@@ -62,7 +62,7 @@ int removeListaFim(struct List * root) {
 	return 0;
 }
 
-int buscaLista(struct List * root, void * data, struct Node ** ret) {
+int32_t buscaLista(struct List * root, void * data, struct Node ** ret) {
 	if (root == NULL)
 		return 1;
 
@@ -99,7 +99,7 @@ void liberarLista(struct List * root) {
 }
 
 
-int iniciarLista(struct List * root) {
+int32_t iniciarLista(struct List * root) {
 	if (root == NULL)
 		return 1;
  
@@ -109,25 +109,6 @@ int iniciarLista(struct List * root) {
 	return 0;
 }
 
-int iniciarGrafo(struct Graph * graph, int vertices) {
-	if (graph == NULL)
-		return 1;
-
-	graph->verticesQtd = vertices;
- 
-	graph->array = (struct List *)calloc(graph->verticesQtd, sizeof(struct List));
-	if (graph->array == NULL) {
-		printf("\nErro ao alocar memória para o vetor de listas.\n");
-		return 1;
-	}
- 
-	for (size_t i = 0; i < graph->verticesQtd; i++) {
-		iniciarLista(&graph->array[i]);
-		graph->array[i].id = i + 1;
-	}
- 
-	return 0;
-}
 
 void imprimeChar(void * data) {
 	printf("%c, ", *(char *)data);
