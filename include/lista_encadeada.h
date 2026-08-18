@@ -5,7 +5,7 @@
 
 struct Node {
 	size_t id;
-	void * data;
+	void * data; //FIX: Matar (talvez)
 	struct Node * next;
 };
 
@@ -18,12 +18,12 @@ struct List {
 /*
  * Aloca memória para um node. Retorna 0 em sucesso e 1 em falha de alocação.
  */
-int32_t criarNode(struct Node ** node, void * data);
+int32_t criarNode(struct Node ** node, void * data, size_t id);
 
 /*
  * Insere dado no fim da lista, retorna 0 em sucesso e 1 em outros casos.
  */
-int32_t insereListaFim(struct List * root, void * data);
+int32_t insereListaFim(struct List * root, void * data, size_t id);
 
 /*
  * Remove o dado no fim da lista, retorna 0 em sucesso e 1 em outros casos.
@@ -34,7 +34,7 @@ int32_t removeListaFim(struct List * root);
  *  Busca um dado na lista e retorna o ponteiro do Nodo em *ret, a função
  *  retorna 0 caso encontre o dado e 1 caso contrário.
  */
-int32_t buscaLista(struct List * root, void * data, struct Node ** ret);
+int32_t buscaLista(struct List * root, void * data, struct Node ** ret); //TODO: Adicionar função para buscar usando id
 
 /*
  *  Imprime a lista encadeada

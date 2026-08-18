@@ -17,7 +17,9 @@ struct Graph {
  */
 int32_t iniciarGrafo(struct Graph * graph, uint32_t vertices, bool dirigido);
 
-//TODO: Comentar
+/*
+ * Cria uma conexão (arco) entre dois nós usando os seus ids
+ */
 int32_t inserirArco(struct Graph * graph, size_t id1, size_t id2);
 
 /*
