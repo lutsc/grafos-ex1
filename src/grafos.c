@@ -35,13 +35,60 @@ int32_t liberaGrafo(struct Graph * graph) {
 	return 0;
 }
 
-// int32_t inserirAresta(struct Graph * graph, size_t id1, size_t id2){
+/*
+ * Checa se há conexão já existente, se não, adiciona conexão para id2 no vértice id1, idem se o grafo é dirigido
+ */
+int32_t inserirAresta(struct Graph * graph, uint32_t id1, uint32_t id2){
+	if (graph == NULL)
+		return 1;
 
-// }
+	if (id1 <= 0 || id2 <= 0 || id1 > graph->verticesQtd || id2 > graph->verticesQtd) 
+		// Vértice inválido
+		return 1;
 
-// int32_t inserirVertice(struct Graph * graph, struct Node ** node){
+	// Checa se conexão já existe
+	struct Node * temp = graph->array[id1-1].head;
+	while (temp != NULL) {
+		if (temp->id == id2)
+			return 1;
+		temp = temp->next;
+	}
 
-// }
+	// Conexão id1 -> id2
+	struct Node * novoNode;
+	if (criarNode(&novoNode, 0, id2))
+		return 1;
+	insereListaFim(&graph->array[id1-1], &novoNode);
+
+	// Se dirigido
+	// Conexão id2 -> id1
+	if (graph->directed == 0) {
+		struct Node * novoNode2;
+		if (criarNode(&novoNode2, 0, id1))
+			return 1;
+		insereListaFim(&graph->array[id2-1], &novoNode);
+	}
+
+	return 0;
+}
+
+/*
+ * Insere nova vertice no grafo, realocando o array de listas encadeadas com mais um elemento
+ */
+int32_t inserirVertice(struct Graph * graph){
+	if (graph == NULL)
+		return 1;
+
+	uint32_t novoId = graph->verticesQtd;
+
+	struct List * novoArray = realloc(graph->array, (novoId + 1) * sizeof(struct List));
+	if (novoArray == NULL)
+		return 1;
+
+	iniciarLista(&graph->array[novoId], novoId);
+	graph->verticesQtd++;
+	return 0;
+}
 
 // int32_t dfs(struct Graph ** graph, uint32_t inicio) {
 	// if (inicio >= tamanhoMatriz)
