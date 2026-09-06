@@ -1,13 +1,14 @@
 #ifndef H_GRAFOS
 #define H_GRAFOS 1
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdbool.h>
+
 #include "lista_encadeada.h"
+#include "matrizes.h"
+
+#include <sys/types.h>
 
 struct Graph {
-	size_t directed;
-	size_t verticesQtd;
+	bool directed;
+	uint32_t verticesQtd;
 	struct List * array; //Lista de adjacência
 };
 
@@ -18,33 +19,43 @@ struct Graph {
 int32_t iniciarGrafo(struct Graph * graph, uint32_t vertices, bool dirigido);
 
 /*
- * Cria uma conexão (arco) entre dois nós usando os seus ids
+ * Libera memória de todos o conteúdo do grafo
  */
-int32_t inserirArco(struct Graph * graph, size_t id1, size_t id2);
+int32_t liberaGrafo(struct Graph * graph);
 
 /*
- * Gera a matriz de adjacência para uma determinada quantidade de nós
-*/
-int32_t gerarMatrizAdjacente(bool ***mat, uint32_t nos);
+ * Cria uma conexão entre dois nós usando os seus ids
+ */
+int32_t inserirAresta(struct Graph * graph, size_t id1, size_t id2);
 
 /*
- * Liga um nó a outro na matriz de adjacência
-*/
-int32_t inserirNaMatrizAdjacente(bool ** mat, uint32_t tamanhoMatriz, uint32_t no1, uint32_t no2);
+ * Adiciona um vértice em um grafo já existente
+ */
+int32_t inserirVertice(struct Graph * graph, struct Node ** node);
 
 /*
  * Percorre o grafo em profundidade (DFS) a partir do vértice "inicio",
  * imprimindo a ordem de visita (vértices rotulados de A a Z).
  * Retorna 0 em sucesso e 1 caso "inicio" seja inválido.
 */
-int32_t dfs(bool ** mat, uint32_t tamanhoMatriz, uint32_t inicio);
+int32_t dfs(struct Graph ** graph, uint32_t inicio);
 
 /*
  * Percorre o grafo em largura (BFS) a partir do vértice "inicio",
  * imprimindo a ordem de visita (vértices rotulados de A a Z).
  * Retorna 0 em sucesso e 1 caso "inicio" seja inválido.
 */
-int32_t bfs(bool ** mat, uint32_t tamanhoMatriz, uint32_t inicio);
+int32_t bfs(struct Graph ** graph, uint32_t inicio);
+
+/*
+ * Gera a matriz de adjacência para uma determinada quantidade de nós
+*/
+int32_t gerarMatrizAdjacente(struct Graph * graph, bool ***mat);
+
+/*
+ * Liga um nó a outro na matriz de adjacência
+*/
+int32_t inserirNaMatrizAdjacente(bool ** mat, uint32_t tamanhoMatriz, uint32_t no1, uint32_t no2);
 
 /*
  * Retorna o fecho transitivo direto do node passado na função
