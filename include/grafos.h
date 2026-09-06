@@ -26,12 +26,23 @@ int32_t liberaGrafo(struct Graph * graph);
 /*
  * Cria uma conexão entre dois nós usando os seus ids
  */
-int32_t inserirAresta(struct Graph * graph, size_t id1, size_t id2);
+int32_t inserirAresta(struct Graph * graph, uint32_t id1, uint32_t id2);
+
+/*
+ * Desfaz uma conexão entre dois nós usando os seus ids
+ */
+int32_t removerAresta(struct Graph * graph, uint32_t id1, uint32_t id2);
 
 /*
  * Adiciona um vértice em um grafo já existente
+ * Implementar id? ordem das vértices não influencia nas conexões
  */
-int32_t inserirVertice(struct Graph * graph, struct Node ** node);
+int32_t inserirVertice(struct Graph * graph);
+
+/*
+ * Remove um vértice do id dado em um grafo já existente
+ */
+int32_t removerVertice(struct Graph * graph, uint32_t id);
 
 /*
  * Percorre o grafo em profundidade (DFS) a partir do vértice "inicio",
