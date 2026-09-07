@@ -45,18 +45,17 @@ int32_t inserirVertice(struct Graph * graph);
 int32_t removerVertice(struct Graph * graph, uint32_t id);
 
 /*
- * Percorre o grafo em profundidade (DFS) a partir do vértice "inicio",
- * imprimindo a ordem de visita (vértices rotulados de A a Z).
+ * Percorre o grafo em profundidade (DFS) a partir do vértice "inicio", imprimindo a ordem de visita
  * Retorna 0 em sucesso e 1 caso "inicio" seja inválido.
 */
-int32_t dfs(struct Graph ** graph, uint32_t inicio);
+int32_t dfs(struct Graph * graph, uint32_t inicio);
 
 /*
  * Percorre o grafo em largura (BFS) a partir do vértice "inicio",
  * imprimindo a ordem de visita (vértices rotulados de A a Z).
  * Retorna 0 em sucesso e 1 caso "inicio" seja inválido.
 */
-int32_t bfs(struct Graph ** graph, uint32_t inicio);
+int32_t bfs(struct Graph * graph, uint32_t inicio);
 
 /*
  * Gera a matriz de adjacência para uma determinada quantidade de nós
