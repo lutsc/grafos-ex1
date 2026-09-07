@@ -2,6 +2,43 @@
 #include <stdlib.h>
 #include "grafos.h"
 
+void mostrarGrafo(struct Graph * graph) {
+    if (graph == NULL || graph->array == NULL) {
+        printf("Grafo inválido ou vazio.\n");
+        return;
+    }
+    
+    printf("\n- LISTA DE ADJACÊNCIA -\n");
+    for (uint32_t i = 0; i < graph->verticesQtd; i++) {
+        printf("%d -> ", i + 1);
+        struct List * atual = &graph->array[i];
+        if (atual == NULL) {
+            printf("NULL");
+        }
+		imprimirLista(atual);
+        printf("\n");
+    }
+    
+    printf("\n- MATRIZ DE ADJACÊNCIA -\n");
+    bool ** mat = NULL;
+    if (gerarMatrizAdjacente(graph, &mat) == 0) {
+        printf("   ");
+        for (uint32_t i = 0; i < graph->verticesQtd; i++) {
+            printf(" %d ", i + 1);
+        }
+        printf("\n");
+        
+        for (uint32_t i = 0; i < graph->verticesQtd; i++) {
+            printf(" %d ", i + 1);
+            for (uint32_t j = 0; j < graph->verticesQtd; j++) {
+                printf(" %d ", mat[i][j]);
+            }
+            printf("\n");
+        }
+        
+        liberarMatriz(mat, graph->verticesQtd);
+    }
+}
 
 static void menu(void) {
 	printf("\n===== MENU =====\n");
@@ -138,14 +175,7 @@ int main(void) {
 			}
 
 			case 6: {
-
-				// Mostrar grafo
-				// TODO: Necessário a implantação do mostrar grafo.
-				// mostrarGrafo(&graph);
-
-				bool ** mat;
-				gerarMatrizAdjacente(&graph, &mat);
-				printMatriz(mat, graph.verticesQtd);
+				mostrarGrafo(&graph);
 				break;
 			}
 
@@ -155,7 +185,7 @@ int main(void) {
 				uint32_t v;
 				printf("Vértice inicial (1 a %u): ", graph.verticesQtd);
 				scanf("%u", &v);
-				printf("DFS a partir de %u: ", v);
+				// printf("DFS a partir de %u: ", v);
 				if (dfs(&graph, v) != 0)
 				    printf("\nVértice inválido.\n");
 				
@@ -168,7 +198,7 @@ int main(void) {
 				uint32_t v;
 				printf("Vértice inicial (1 a %u): ", graph.verticesQtd);
 				scanf("%u", &v);
-				printf("BFS a partir de %u: ", v);
+				// printf("BFS a partir de %u: ", v);
 				if (bfs(&graph, v) != 0)
 				    printf("\nVértice inválido.\n");
 				
@@ -186,14 +216,12 @@ int main(void) {
 					printf("Vértice inválido.\n");
 				}
 				else{
-					printf("Fecho transitivo direto do vértice selecionado\n");
+					printf("Fecho transitivo direto do vértice selecionado:\n");
 					for(size_t i = 0; i < graph.verticesQtd; i++) {
 						printf("%d ", ftdA[i]);
 					}
 					puts("");
-
 				}
-				
 				break;
 			}
 
@@ -208,12 +236,11 @@ int main(void) {
 					printf("Vértice inválido.\n");
 				}
 				else{
-					printf("Fecho transitivo direto do vértice selecionado\n");
+					printf("Fecho transitivo inverso do vértice selecionado:\n");
 					for(size_t i = 0; i < graph.verticesQtd; i++) {
 						printf("%d ", ftdiA[i]);
 					}
 					puts("");
-
 				}
 				break;
 			}
@@ -224,22 +251,20 @@ int main(void) {
 				if (grafoConexo(&graph)) {
 				    printf("O grafo é conexo.\n");
 				} else {
-				    printf("O grafo NÃO é conexo. Subgrafos fortemente conexos máximos:\n");
-				    //componentesFortementeConexas(&graph);
+				    printf("O grafo NÃO é conexo.\n");
+					printf("Subgrafos fortemente conexos máximos:\n");
+				    // componentesFortementeConexas(&graph);
 				}
-
 				break;
 			}
 
 			case 0:
-
 				// Sair
 				printf("Encerrando...\n");
 				break;
 
 			default:
 				printf("Opção inválida.\n");
-
 		}
 	} while (opcao != 0);
 

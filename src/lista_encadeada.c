@@ -102,6 +102,8 @@ void imprimirLista(struct List * list) {
 	struct Node * atual = list->head;
 	while (atual != NULL) {
 		printf("%d ", atual->id);
+		if (atual->next != NULL) 
+			printf("-> ");
 		atual = atual->next;
 	}
 }
