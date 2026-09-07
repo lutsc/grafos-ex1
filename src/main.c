@@ -194,16 +194,16 @@ int main(void) {
 				break;
 			}
 
-			// case 11: {
-			// 	if (grafoConexo(&graph)) {
-			// 	    printf("O grafo é conexo.\n");
-			// 	} else {
-			// 	    printf("O grafo NÃO é conexo. Subgrafos fortemente conexos máximos:\n");
-			// 	    componentesFortementeConexas(&graph);
-			// 	}
-			//
-			// 	break;
-			// }
+			case 11: {
+				if (grafoConexo(&graph)) {
+				    printf("O grafo é conexo.\n");
+				} else {
+				    printf("O grafo NÃO é conexo. Subgrafos fortemente conexos máximos:\n");
+				    // componentesFortementeConexas(&graph);
+				}
+
+				break;
+			}
 
 			case 0:
 				printf("Encerrando...\n");
