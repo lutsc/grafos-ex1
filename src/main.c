@@ -157,34 +157,53 @@ int main(void) {
 
 			case 9: {
 				uint32_t v;
+				int32_t ftdA[graph.verticesQtd] = {};
 				printf("Vértice (1 a %u): ", graph.verticesQtd);
 				scanf("%u", &v);
-				if (ftd(&graph, v) != 0)
-				    printf("Vértice inválido.\n");
+				if (ftdGrafo(&graph, v, ftdA) != 0) {
+					printf("Vértice inválido.\n");
+				}
+				else{
+					printf("Fecho transitivo direto do vértice selecionado\n");
+					for(size_t i = 0; i < graph.verticesQtd; i++) {
+						printf("%d ", ftdA[i]);
+					}
+					puts("");
+
+				}
 				
 				break;
 			}
 
 			case 10: {
 				uint32_t v;
+				int32_t ftdiA[graph.verticesQtd] = {};
 				printf("Vértice (1 a %u): ", graph.verticesQtd);
 				scanf("%u", &v);
-				if (fdti(&graph, v) != 0)
-			    printf("Vértice inválido.\n");
-				
-				break;
-			}
-
-			case 11: {
-				if (grafoConexo(&graph)) {
-				    printf("O grafo é conexo.\n");
-				} else {
-				    printf("O grafo NÃO é conexo. Subgrafos fortemente conexos máximos:\n");
-				    componentesFortementeConexas(&graph);
+				if (ftdiGrafo(&graph, v, ftdiA) != 0) {
+					printf("Vértice inválido.\n");
 				}
+				else{
+					printf("Fecho transitivo direto do vértice selecionado\n");
+					for(size_t i = 0; i < graph.verticesQtd; i++) {
+						printf("%d ", ftdiA[i]);
+					}
+					puts("");
 
+				}
 				break;
 			}
+
+			// case 11: {
+			// 	if (grafoConexo(&graph)) {
+			// 	    printf("O grafo é conexo.\n");
+			// 	} else {
+			// 	    printf("O grafo NÃO é conexo. Subgrafos fortemente conexos máximos:\n");
+			// 	    componentesFortementeConexas(&graph);
+			// 	}
+			//
+			// 	break;
+			// }
 
 			case 0:
 				printf("Encerrando...\n");
