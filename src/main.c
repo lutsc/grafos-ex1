@@ -4,14 +4,6 @@
 #include "grafos.h"
 #include "matrizes.h"
 
-// void limparTela() {
-//     #if defined(_WIN32) || defined(_WIN64)
-//         system("cls");
-//     #else
-//         system("clear");
-//     #endif
-// }
-
 static void menu(void) {
 	printf("\n===== MENU =====\n");
 	printf("[1]  Criar novo grafo\n");
@@ -142,70 +134,55 @@ int main(void) {
 			}
 
 			case 7: {
-				/*
-				 * TODO: depende de dfs(struct Graph *, uint32_t)
-				 *
-				 * uint32_t v;
-				 * printf("Vértice inicial (1 a %u): ", graph.verticesQtd);
-				 * scanf("%u", &v);
-				 * printf("DFS a partir de %u: ", v);
-				 * if (dfs(&graph, v) != 0)
-				 *     printf("\nVértice inválido.\n");
-				 */
+				uint32_t v;
+				printf("Vértice inicial (1 a %u): ", graph.verticesQtd);
+				scanf("%u", &v);
+				printf("DFS a partir de %u: ", v);
+				if (dfs(&graph, v) != 0)
+				    printf("\nVértice inválido.\n");
+				
 				break;
 			}
 
 			case 8: {
-				/*
-				 * TODO: depende de bfs(struct Graph *, uint32_t)
-				 *
-				 * uint32_t v;
-				 * printf("Vértice inicial (1 a %u): ", graph.verticesQtd);
-				 * scanf("%u", &v);
-				 * printf("BFS a partir de %u: ", v);
-				 * if (bfs(&graph, v) != 0)
-				 *     printf("\nVértice inválido.\n");
-				 */
+				uint32_t v;
+				printf("Vértice inicial (1 a %u): ", graph.verticesQtd);
+				scanf("%u", &v);
+				printf("BFS a partir de %u: ", v);
+				if (bfs(&graph, v) != 0)
+				    printf("\nVértice inválido.\n");
+				
 				break;
 			}
 
 			case 9: {
-				/*
-				 * TODO: depende de fechoTransitivoDireto(struct Graph *, uint32_t),
-				 *
-				 * uint32_t v;
-				 * printf("Vértice (1 a %u): ", graph.verticesQtd);
-				 * scanf("%u", &v);
-				 * if (fechoTransitivoDireto(&graph, v) != 0)
-				 *     printf("Vértice inválido.\n");
-				 */
+				uint32_t v;
+				printf("Vértice (1 a %u): ", graph.verticesQtd);
+				scanf("%u", &v);
+				if (ftd(&graph, v) != 0)
+				    printf("Vértice inválido.\n");
+				
 				break;
 			}
 
 			case 10: {
-				/*
-				 * TODO: depende de fechoTransitivoInverso(struct Graph *, uint32_t),
-				 *
-				 * uint32_t v;
-				 * printf("Vértice (1 a %u): ", graph.verticesQtd);
-				 * scanf("%u", &v);
-				 * if (fechoTransitivoInverso(&graph, v) != 0)
-				 *     printf("Vértice inválido.\n");
-				 */
+				uint32_t v;
+				printf("Vértice (1 a %u): ", graph.verticesQtd);
+				scanf("%u", &v);
+				if (fdti(&graph, v) != 0)
+			    printf("Vértice inválido.\n");
+				
 				break;
 			}
 
 			case 11: {
-				/*
-				 * TODO: depende de grafoConexo(struct Graph *)
-				 *
-				 * if (grafoConexo(&graph)) {
-				 *     printf("O grafo é conexo.\n");
-				 * } else {
-				 *     printf("O grafo NÃO é conexo. Subgrafos fortemente conexos máximos:\n");
-				 *     componentesFortementeConexas(&graph);
-				 * }
-				 */
+				if (grafoConexo(&graph)) {
+				    printf("O grafo é conexo.\n");
+				} else {
+				    printf("O grafo NÃO é conexo. Subgrafos fortemente conexos máximos:\n");
+				    componentesFortementeConexas(&graph);
+				}
+
 				break;
 			}
 
