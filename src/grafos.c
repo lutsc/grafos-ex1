@@ -236,7 +236,7 @@ int32_t dfs(struct Graph * graph, uint32_t inicio) {
 		return 1;
 	}
 
-	uint32_t topo = 0;
+	int32_t topo = 0;
 	pilha[topo] = (inicio - 1);
 	printf("\nDFS a partir de %d: ", inicio);
 
@@ -266,7 +266,7 @@ int32_t dfs(struct Graph * graph, uint32_t inicio) {
 						temp = temp->next;
 					}
 
-					for (uint32_t i = (vizinhosQtd - 1); i >= 0; i--) {
+					for (uint32_t i = ((int32_t)vizinhosQtd - 1); i >= 0; i--) {
 						uint32_t vizinho = vizinhos[i];
 						if (!visitado[vizinho]) {
 							pilha[++topo] = vizinho;
