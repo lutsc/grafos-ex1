@@ -77,7 +77,7 @@ int32_t inserirAresta(struct Graph * graph, uint32_t id1, uint32_t id2){
 		struct Node * novoNode2;
 		if (criarNode(&novoNode2, 0, id1))
 			return 1;
-		insereListaFim(&graph->array[id2-1], &novoNode);
+		insereListaFim(&graph->array[id2-1], &novoNode2);
 	}
 
 	return 0;
@@ -160,9 +160,11 @@ int32_t inserirVertice(struct Graph * graph){
 	struct List * novoArray = realloc(graph->array, (novoId + 1) * sizeof(struct List));
 	if (novoArray == NULL)
 		return 1;
-
-	iniciarLista(&graph->array[novoId], novoId);
+	
+	graph->array = novoArray;
+	iniciarLista(&graph->array[novoId], (novoId + 1));
 	graph->verticesQtd++;
+
 	return 0;
 }
 
@@ -209,64 +211,132 @@ int32_t removerVertice(struct Graph * graph, uint32_t id) {
     return 0;
 }
 
-// int32_t dfs(struct Graph ** graph, uint32_t inicio) {
-	// if (inicio >= tamanhoMatriz)
-	// 	return 1;
+int32_t dfs(struct Graph * graph, uint32_t inicio) {
+	if (graph == NULL || graph->array == NULL) {
+		// Grafo ou Lista inválida
+		return 1;
+	}
 
-	// bool * visitado = calloc(tamanhoMatriz, sizeof(bool));
-	// uint32_t * pilha = malloc(tamanhoMatriz * sizeof(uint32_t));
-	// uint32_t topo = 0;
+	if (inicio <= 0 || inicio > graph->verticesQtd){
+		// Vértice inválido
+		return 1;
+	}
 
-	// pilha[topo] = inicio;
-	// while (topo >= 0) {
-	// 	uint32_t atual = pilha[topo--];
+	// Array de vértices visitados
+	bool * visitado = (bool *)calloc(graph->verticesQtd, sizeof(bool));
+	if (visitado == NULL) {
+		free(visitado);
+		return 1;
+	}
 
-	// 	if (!visitado[atual]) {
-	// 		visitado[atual] = true;
-	// 		printf("%c ", (char)('A' + atual)); //NOTE: Passar uma função de print como argumento
+	// Pilha da ordem de visitas
+	uint32_t * pilha = malloc(graph->verticesQtd * sizeof(uint32_t));
+	if (pilha == NULL) {
+		free(visitado);
+		return 1;
+	}
 
-	// 		// Empilha vizinhos em ordem reversa, para visitar em ordem crescente
-	// 		for (uint32_t j = tamanhoMatriz; j-- > 0; ) {
-	// 			if (mat[atual][j] && !visitado[j])
-	// 				pilha[++topo] = j;
-	// 		}
-	// 	}
-	// }
-	// printf("\n");
+	uint32_t topo = 0;
+	pilha[topo] = (inicio - 1);
+	printf("\nDFS a partir de %d: ", inicio);
 
-	// free(pilha);
-	// free(visitado);
-	// return 0;
-// }
+	while (topo >= 0) {
+		// Desempilha elemento
+		uint32_t atual = pilha[topo--];
 
-// int32_t bfs(struct Graph ** graph, uint32_t inicio) {
-	// if (inicio >= tamanhoMatriz)
-	// 	return 1;
+		if (!visitado[atual]) {
+			visitado[atual] = 1;
+			printf("%d ", (atual + 1));
 
-	// bool * visitado = calloc(tamanhoMatriz, sizeof(bool));
-	// uint32_t * fila = malloc(tamanhoMatriz * sizeof(uint32_t));
-	// uint32_t frente = 0, tras = 0;
+			// Conta os vizinhos do vértice atual
+			struct Node * temp = graph->array[atual].head;
+			uint32_t vizinhosQtd = 0;
+			while (temp != NULL) {
+				vizinhosQtd++;
+				temp = temp->next;
+			}
 
-	// visitado[inicio] = true;
-	// fila[tras++] = inicio;
+			// Empilha vizinhos
+			if (vizinhosQtd > 0) {
+				uint32_t * vizinhos = (uint32_t *)malloc(vizinhosQtd * sizeof(uint32_t));
+				if (vizinhos != NULL) {
+					temp = graph->array[atual].head;
+					for (uint32_t i = 0; i < vizinhosQtd; i++) {
+						vizinhos[i] = (temp->id - 1);
+						temp = temp->next;
+					}
 
-	// while (frente < tras) {
-	// 	uint32_t atual = fila[frente++];
-	// 	printf("%c ", (char)('A' + atual));
+					for (uint32_t i = (vizinhosQtd - 1); i >= 0; i--) {
+						uint32_t vizinho = vizinhos[i];
+						if (!visitado[vizinho]) {
+							pilha[++topo] = vizinho;
+						}
+					}
+					free(vizinhos);
+				}
+			}
+		}
+	}
+	printf("\n");
 
-	// 	for (uint32_t j = 0; j < tamanhoMatriz; j++) {
-	// 		if (mat[atual][j] && !visitado[j]) {
-	// 			visitado[j] = true;
-	// 			fila[tras++] = j;
-	// 		}
-	// 	}
-	// }
-	// printf("\n");
+	free(pilha);
+	free(visitado);
 
-	// free(fila);
-	// free(visitado);
-	// return 0;
-// }
+	return 0;
+}
+
+int32_t bfs(struct Graph * graph, uint32_t inicio) {
+	if (graph == NULL || graph->array == NULL) {
+		// Grafo ou Lista inválida
+		return 1;
+	}
+
+	if (inicio <= 0 || inicio > graph->verticesQtd){
+		// Vértice inválido
+		return 1;
+	}
+
+	// Array de vértices visitados
+	bool * visitado = (bool *)calloc(graph->verticesQtd, sizeof(bool));
+	if (visitado == NULL) {
+		free(visitado);
+		return 1;
+	}
+
+	// Fila da ordem de visitas
+	uint32_t * fila = malloc(graph->verticesQtd * sizeof(uint32_t));
+	if (fila == NULL) {
+		free(fila);
+		return 1;
+	}
+
+	uint32_t frente = 0, tras = 0;
+	visitado[(inicio - 1)] = 1;
+	fila[tras++] = (inicio - 1);
+
+	printf("\nBFS a partir de %d: ", inicio);
+
+	while (frente < tras) {
+		uint32_t atual = fila[frente++];
+		printf("%d ", (atual + 1));
+
+		struct Node * temp = graph->array[atual].head;
+		while (temp != NULL) {
+			uint32_t vizinho = (temp->id - 1);
+			if (!visitado[vizinho]) {
+				visitado[vizinho] = 1;
+				fila[tras++] = vizinho;
+			}
+			temp = temp->next;
+		}
+	}
+	printf("\n");
+
+	free(fila);
+	free(visitado);
+
+	return 0;
+}
 
 int32_t gerarMatrizAdjacente(struct Graph * graph, bool ***mat) {
 	*mat = malloc(sizeof(bool*) * graph->verticesQtd);
