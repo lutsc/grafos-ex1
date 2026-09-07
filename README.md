@@ -1,4 +1,4 @@
-# Implementação de DFS e BFS por Vetor Dinâmico de Listas Encadeadas 
+# Implementação de DFS, BFS, Fecho Transitivo Direto/Inverso e Conectividade por Vetor Dinâmico de Listas Encadeadas 
 
 ### Como baixar e compilar
 
@@ -8,6 +8,4 @@ $ cd grafos-ex1
 
 $ make clean
 $ make run
-$ cd bin
-$ ./main
 ```
