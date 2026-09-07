@@ -251,9 +251,9 @@ int main(void) {
 				if (grafoConexo(&graph)) {
 				    printf("O grafo é conexo.\n");
 				} else {
-				    printf("O grafo NÃO é conexo.\n");
+				    printf("O grafo NÃO é conexo.\n\n");
 					printf("Subgrafos fortemente conexos máximos:\n");
-				    // componentesFortementeConexas(&graph);
+				    componentesFortementeConexos(&graph);
 				}
 				break;
 			}
