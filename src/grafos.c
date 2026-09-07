@@ -488,3 +488,11 @@ int32_t eConexo(bool ** mat, uint32_t tamanhoMatriz)
 	return 1;
 }
 
+int32_t grafoConexo(struct Graph * graph)
+{
+	bool **mat;
+	gerarMatrizAdjacente(graph, &mat);
+
+	return eConexo(mat, graph->verticesQtd);
+}
+
