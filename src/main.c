@@ -44,6 +44,8 @@ int main(void) {
 		}
 
 		switch (opcao) {
+
+			// Criar novo grafo
 			case 1: {
 				if (existeGrafo)
 					liberaGrafo(&graph);
@@ -80,6 +82,8 @@ int main(void) {
 			}
 
 			case 2: {
+
+				// Inserir vértice
 				if (inserirVertice(&graph) == 0)
 					printf("Vértice %u inserido.\n", graph.verticesQtd);
 				else
@@ -88,6 +92,8 @@ int main(void) {
 			}
 
 			case 3: {
+
+				// Remover vértice
 				uint32_t v;
 				printf("Vértice a remover (1 a %u): ", graph.verticesQtd);
 				scanf("%u", &v);
@@ -100,6 +106,8 @@ int main(void) {
 			}
 
 			case 4: {
+
+				// Inserir aresta
 				uint32_t origem, destino;
 				printf("Vértice de origem (1 a %u): ", graph.verticesQtd);
 				scanf("%u", &origem);
@@ -114,6 +122,8 @@ int main(void) {
 			}
 
 			case 5: {
+
+				// Remover aresta
 				uint32_t origem, destino;
 				printf("Vértice de origem (1 a %u): ", graph.verticesQtd);
 				scanf("%u", &origem);
@@ -128,12 +138,16 @@ int main(void) {
 			}
 
 			case 6: {
+
+				// Mostrar grafo
 				// TODO: Necessário a implantação do mostrar grafo.
 				// mostrarGrafo(&graph);
 				break;
 			}
 
 			case 7: {
+
+				// Percorrer em profundidade (DFS)
 				uint32_t v;
 				printf("Vértice inicial (1 a %u): ", graph.verticesQtd);
 				scanf("%u", &v);
@@ -145,6 +159,8 @@ int main(void) {
 			}
 
 			case 8: {
+
+				// Percorrer em largura (BFS)
 				uint32_t v;
 				printf("Vértice inicial (1 a %u): ", graph.verticesQtd);
 				scanf("%u", &v);
@@ -156,6 +172,8 @@ int main(void) {
 			}
 
 			case 9: {
+
+				// Fecho transitivo direto de um vértice
 				uint32_t v;
 				int32_t ftdA[graph.verticesQtd] = {};
 				printf("Vértice (1 a %u): ", graph.verticesQtd);
@@ -176,6 +194,8 @@ int main(void) {
 			}
 
 			case 10: {
+
+				// Fecho transitivo inverso de um vértice
 				uint32_t v;
 				int32_t ftdiA[graph.verticesQtd] = {};
 				printf("Vértice (1 a %u): ", graph.verticesQtd);
@@ -195,6 +215,8 @@ int main(void) {
 			}
 
 			case 11: {
+
+				// Verificar conexidade / componentes fortemente conexos
 				if (grafoConexo(&graph)) {
 				    printf("O grafo é conexo.\n");
 				} else {
@@ -206,6 +228,8 @@ int main(void) {
 			}
 
 			case 0:
+
+				// Sair
 				printf("Encerrando...\n");
 				break;
 
