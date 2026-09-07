@@ -6,7 +6,7 @@ int32_t iniciarGrafo(struct Graph * graph, uint32_t vertices, bool dirigido) {
 		return 1;
 	}
 	
-	if (vertices <= 0 || dirigido < 0 || dirigido > 1) {
+	if (vertices <= 0) {
 		// Argumentos inválidos
 		return 1;
 	}
@@ -266,7 +266,7 @@ int32_t dfs(struct Graph * graph, uint32_t inicio) {
 						temp = temp->next;
 					}
 
-					for (uint32_t i = ((int32_t)vizinhosQtd - 1); i >= 0; i--) {
+					for (int32_t i = ((int32_t)vizinhosQtd - 1); i >= 0; i--) {
 						uint32_t vizinho = vizinhos[i];
 						if (!visitado[vizinho]) {
 							pilha[++topo] = vizinho;
