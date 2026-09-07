@@ -78,7 +78,7 @@ int32_t ftdiGrafo(struct Graph * graph, uint32_t v, int32_t * ftdiA);
  * Retorna se a o grafo é conexo(1) ou não(0)
 */
 int32_t eConexo(bool ** mat, uint32_t tamanhoMatriz);
-int32_t grafoConexo(struct Graph * graph);
+
 
 
 #endif

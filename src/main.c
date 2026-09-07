@@ -1,8 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lista_encadeada.h"
 #include "grafos.h"
 #include "matrizes.h"
+
+static void menu(void) {
+	printf("\n===== MENU =====\n");
+	printf("[1]  Criar novo grafo\n");
+	printf("[2]  Inserir vértice\n");
+	printf("[3]  Remover vértice\n");
+	printf("[4]  Inserir aresta/arco\n");
+	printf("[5]  Remover aresta\n");
+	printf("[6]  Mostrar grafo (lista e matriz de adjacência)\n");
+	printf("[7]  Percorrer em profundidade (DFS)\n");
+	printf("[8]  Percorrer em largura (BFS)\n");
+	printf("[9]  Fecho transitivo direto de um vértice\n");
+	printf("[10] Fecho transitivo inverso de um vértice\n");
+	printf("[11] Verificar conexidade / componentes fortemente conexos\n");
+	printf("[0]  Sair\n");
+	printf("Escolha: ");
+}
 
 static void menu(void) {
 	printf("\n===== MENU =====\n");
@@ -77,6 +93,7 @@ int main(void) {
 					printf("Grafo criado com %u vértices (%s).\n", vertices, tipo);
 					existeGrafo = true;
 				}
+				break;
 			}
 
 			case 2: {
@@ -195,11 +212,11 @@ int main(void) {
 			}
 
 			case 11: {
-				if (grafoConexo(&graph)) {
+				if (eConexo(&graph)) {
 				    printf("O grafo é conexo.\n");
 				} else {
 				    printf("O grafo NÃO é conexo. Subgrafos fortemente conexos máximos:\n");
-				    // componentesFortementeConexas(&graph);
+				    //componentesFortementeConexas(&graph);
 				}
 
 				break;
