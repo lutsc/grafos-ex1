@@ -142,6 +142,10 @@ int main(void) {
 				// Mostrar grafo
 				// TODO: Necessário a implantação do mostrar grafo.
 				// mostrarGrafo(&graph);
+
+				bool ** mat;
+				gerarMatrizAdjacente(&graph, &mat);
+				printMatriz(mat, graph.verticesQtd);
 				break;
 			}
 
@@ -178,7 +182,7 @@ int main(void) {
 				int32_t ftdA[graph.verticesQtd] = {};
 				printf("Vértice (1 a %u): ", graph.verticesQtd);
 				scanf("%u", &v);
-				if (ftdGrafo(&graph, v, ftdA-1) != 0) {
+				if (ftdGrafo(&graph, v, ftdA) != 0) {
 					printf("Vértice inválido.\n");
 				}
 				else{
@@ -200,7 +204,7 @@ int main(void) {
 				int32_t ftdiA[graph.verticesQtd] = {};
 				printf("Vértice (1 a %u): ", graph.verticesQtd);
 				scanf("%u", &v);
-				if (ftdiGrafo(&graph, v, ftdiA-1) != 0) {
+				if (ftdiGrafo(&graph, v, ftdiA) != 0) {
 					printf("Vértice inválido.\n");
 				}
 				else{

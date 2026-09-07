@@ -340,10 +340,16 @@ int32_t bfs(struct Graph * graph, uint32_t inicio) {
 
 int32_t gerarMatrizAdjacente(struct Graph * graph, bool ***mat) {
 	*mat = malloc(sizeof(bool*) * graph->verticesQtd);
+
+	struct Node * atual;
+
 	for(uint32_t i = 0; i < graph->verticesQtd; i++) {
+		atual  = graph->array[i].head;
 		(*mat)[i] = calloc(graph->verticesQtd, sizeof(bool));
-		for(uint32_t j = 0; j < graph->verticesQtd; j++) {
-			(*mat)[i][j] = 0;
+		while(atual != NULL)
+		{
+			(*mat)[i][atual->id-1] = 1;
+			atual = atual->next;
 		}
 	}
 	return 0;
