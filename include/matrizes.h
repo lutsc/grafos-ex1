@@ -5,10 +5,14 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-int32_t multiplicarMatrizes(bool ** mat1, bool ** mat2, bool ** matRet, uint32_t tam);
+uint32_t inserirNaMatrizAdjacente(bool ** mat, uint32_t tam, uint32_t no1, uint32_t no2);
 
-int32_t somarMatrizes(bool ** mat1, bool ** mat2, bool ** matRet, uint32_t tam);
+uint32_t multiplicarMatrizes(bool ** mat1, bool ** mat2, bool ** matRet, uint32_t tam);
 
-int32_t printMatriz(bool ** mat, uint32_t tam);
+uint32_t somarMatrizes(bool ** mat1, bool ** mat2, bool ** matRet, uint32_t tam);
+
+uint32_t liberarMatriz(bool ** mat, uint32_t tam);
+
+uint32_t printMatriz(bool ** mat, uint32_t tam);
 
 #endif
