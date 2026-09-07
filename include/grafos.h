@@ -73,7 +73,7 @@ int32_t ftd(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftd[tama
 int32_t ftdi(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdi[tamanhoMatriz]);
 
 /*
- * Retorna se a o grafo é conexo(1) ou não(2)
+ * Retorna se a o grafo é conexo(1) ou não(0)
 */
 int32_t eConexo(bool ** mat, uint32_t tamanhoMatriz);
 

@@ -349,6 +349,9 @@ int32_t gerarMatrizAdjacente(struct Graph * graph, bool ***mat) {
 	return 0;
 }
 
+/*
+ * Retorna o fecho transitivo direto do node passado na função
+*/
 int32_t ftd(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdA[tamanhoMatriz])
 {
 	int32_t result[tamanhoMatriz] = {};
@@ -397,6 +400,9 @@ int32_t ftd(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdA[tam
 	return 0;
 }
 
+/*
+ * Retorna o fecho transitivo direto inverso do node passado na função
+*/
 int32_t ftdi(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdiA[tamanhoMatriz])
 {
 	int32_t result[tamanhoMatriz] = {};
@@ -445,6 +451,9 @@ int32_t ftdi(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdiA[t
 	return 0;
 }
 
+/*
+ * Retorna se a o grafo é conexo(1) ou não(2)
+*/
 int32_t eConexo(bool ** mat, uint32_t tamanhoMatriz)
 {
 	int32_t ftdA[tamanhoMatriz] = {};
