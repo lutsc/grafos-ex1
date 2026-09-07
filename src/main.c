@@ -12,11 +12,11 @@ static void menu(void) {
 	printf("[4]  Inserir aresta/arco\n");
 	printf("[5]  Remover aresta\n");
 	printf("[6]  Mostrar grafo (lista e matriz de adjacência)\n");
-	printf("[7]  Percorrer em profundidade (DFS)  (em breve)\n");
-	printf("[8]  Percorrer em largura (BFS)       (em breve)\n");
-	printf("[9]  Fecho transitivo direto de um vértice   (em breve)\n");
-	printf("[10] Fecho transitivo inverso de um vértice  (em breve)\n");
-	printf("[11] Verificar conexidade / componentes fortemente conexas (em breve)\n");
+	printf("[7]  Percorrer em profundidade (DFS)\n");
+	printf("[8]  Percorrer em largura (BFS)\n");
+	printf("[9]  Fecho transitivo direto de um vértice\n");
+	printf("[10] Fecho transitivo inverso de um vértice\n");
+	printf("[11] Verificar conexidade / componentes fortemente conexos\n");
 	printf("[0]  Sair\n");
 	printf("Escolha: ");
 }
@@ -130,7 +130,7 @@ int main(void) {
 			case 6: {
 				// TODO: Necessário a implantação do mostrar grafo.
 				// mostrarGrafo(&graph);
-				// break;
+				break;
 			}
 
 			case 7: {
