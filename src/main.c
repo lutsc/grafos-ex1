@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "grafos.h"
-#include "matrizes.h"
 
 
 static void menu(void) {
@@ -9,7 +8,7 @@ static void menu(void) {
 	printf("[1]  Criar novo grafo\n");
 	printf("[2]  Inserir vértice\n");
 	printf("[3]  Remover vértice\n");
-	printf("[4]  Inserir aresta/arco\n");
+	printf("[4]  Inserir aresta\n");
 	printf("[5]  Remover aresta\n");
 	printf("[6]  Mostrar grafo (lista e matriz de adjacência)\n");
 	printf("[7]  Percorrer em profundidade (DFS)\n");
