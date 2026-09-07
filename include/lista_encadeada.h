@@ -40,7 +40,7 @@ int32_t removeListaFim(struct List * list, struct Node ** ret);
 /*
  * Busca um dado na lista e retorna o ponteiro do Nodo em *ret, a função retorna 0 caso encontre o dado e 1 caso contrário.
  */
-int32_t buscaLista(struct List * list, uint32_t data, struct Node ** ret); //TODO: Adicionar função para buscar usando id
+int32_t buscaLista(struct List * list, uint32_t data, struct Node ** ret); 
 
 /*
  * Libera memória de todos os nós de uma lista encadeada a partir da raiz

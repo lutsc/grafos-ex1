@@ -212,7 +212,7 @@ int main(void) {
 				int32_t ftdA[graph.verticesQtd] = {};
 				printf("Vértice (1 a %u): ", graph.verticesQtd);
 				scanf("%u", &v);
-				if (ftdGrafo(&graph, v-1, ftdA) != 0) {  //FIX: código irá crashar se v estiver fora do intervalo da matriz, aplica-se a função de ftdi também
+				if (ftdGrafo(&graph, v-1, ftdA) != 0) {  
 					printf("Vértice inválido.\n");
 				}
 				else{
