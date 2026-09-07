@@ -445,3 +445,21 @@ int32_t ftdi(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdiA[t
 	return 0;
 }
 
+int32_t eConexo(bool ** mat, uint32_t tamanhoMatriz)
+{
+	int32_t ftdA[tamanhoMatriz] = {};
+	int32_t ftdiA[tamanhoMatriz] = {};
+
+	ftd(mat, tamanhoMatriz, 0, ftdA);
+	ftdi(mat, tamanhoMatriz, 0, ftdiA);
+
+	for(uint32_t i = 0; i < tamanhoMatriz; i++)
+	{
+		if(ftdA[i] == -1 || ftdiA[i] == -1)
+		{
+			return 0;
+		}
+	}
+	return 1;
+}
+
