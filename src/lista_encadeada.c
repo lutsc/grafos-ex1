@@ -101,7 +101,7 @@ void liberarLista(struct List * list) {
 void imprimirLista(struct List * list) {
 	struct Node * atual = list->head;
 	while (atual != NULL) {
-		printf("%d ", atual->data);
+		printf("%d ", atual->id);
 		atual = atual->next;
 	}
 }

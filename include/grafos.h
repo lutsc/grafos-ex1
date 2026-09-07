@@ -80,6 +80,10 @@ int32_t ftdiGrafo(struct Graph * graph, uint32_t v, int32_t * ftdiA);
 int32_t eConexo(bool ** mat, uint32_t tamanhoMatriz);
 int32_t grafoConexo(struct Graph * graph);
 
-
+/*
+ * Encontra e imprime os componentes fortemente conexos máximos do grafo
+ * Retorna 0 em sucesso e 1 em erro
+ */
+int32_t componentesFortementeConexos(struct Graph * graph);
 
 #endif
