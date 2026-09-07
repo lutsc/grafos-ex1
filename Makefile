@@ -17,3 +17,7 @@ bin build:
 
 clean:
 	rm -rf build bin
+
+run:
+	make
+	./bin/main
