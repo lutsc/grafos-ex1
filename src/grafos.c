@@ -20,7 +20,7 @@ int32_t iniciarGrafo(struct Graph * graph, uint32_t vertices, bool dirigido) {
 		return 1;
 	}
  
-	for (size_t i = 0; i < graph->verticesQtd; i++) {
+	for (uint32_t i = 0; i < graph->verticesQtd; i++) {
 		iniciarLista(&graph->array[i], (i + 1));
 	}
  
@@ -358,8 +358,7 @@ int32_t gerarMatrizAdjacente(struct Graph * graph, bool ***mat) {
 /*
  * Retorna o fecho transitivo direto do node passado na função
 */
-int32_t ftd(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdA[tamanhoMatriz])
-{
+int32_t ftd(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdA[tamanhoMatriz]) {
 	int32_t result[tamanhoMatriz] = {};
 	for(uint32_t i = 0; i < tamanhoMatriz; i++)
 	{
@@ -406,19 +405,24 @@ int32_t ftd(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdA[tam
 	return 0;
 }
 
-int32_t ftdGrafo(struct Graph * graph, uint32_t v, int32_t * ftdA)
-{
+int32_t ftdGrafo(struct Graph * graph, uint32_t v, int32_t * ftdA) {
+	if (graph == NULL || graph->array == NULL || v >= graph->verticesQtd) {
+		return 1;
+	}
+
 	bool ** mat = NULL;
 	gerarMatrizAdjacente(graph, &mat);
 
-	return ftd(mat, graph->verticesQtd, v, ftdA);
+	int32_t ret = ftd(mat, graph->verticesQtd, v, ftdA);
+	liberarMatriz(mat, graph->verticesQtd);
+
+	return ret;
 }
 
 /*
  * Retorna o fecho transitivo direto inverso do node passado na função
 */
-int32_t ftdi(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdiA[tamanhoMatriz])
-{
+int32_t ftdi(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdiA[tamanhoMatriz]) {
 	int32_t result[tamanhoMatriz] = {};
 	for(uint32_t i = 0; i < tamanhoMatriz; i++)
 	{
@@ -465,12 +469,18 @@ int32_t ftdi(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdiA[t
 	return 0;
 }
 
-int32_t ftdiGrafo(struct Graph * graph, uint32_t v, int32_t * ftdiA)
-{
+int32_t ftdiGrafo(struct Graph * graph, uint32_t v, int32_t * ftdiA) {
+	if (graph == NULL || graph->array == NULL || v >= graph->verticesQtd) {
+		return 1;
+	}
+
 	bool ** mat = NULL;
 	gerarMatrizAdjacente(graph, &mat);
 
-	return ftdi(mat, graph->verticesQtd, v, ftdiA);
+	int32_t ret = ftdi(mat, graph->verticesQtd, v, ftdiA);
+	liberarMatriz(mat, graph->verticesQtd);
+
+	return ret;
 }
 
 /*
@@ -494,11 +504,16 @@ int32_t eConexo(bool ** mat, uint32_t tamanhoMatriz)
 	return 1;
 }
 
-int32_t grafoConexo(struct Graph * graph)
-{
-	bool **mat;
+int32_t grafoConexo(struct Graph * graph) {
+	if (graph == NULL || graph->array == NULL || graph->verticesQtd <= 0) {
+		return 1;
+	}
+
+	bool ** mat = NULL;
 	gerarMatrizAdjacente(graph, &mat);
 
-	return eConexo(mat, graph->verticesQtd);
+	int32_t ret = eConexo(mat, graph->verticesQtd);
+	liberarMatriz(mat, graph->verticesQtd);
+	return ret;
 }
 
