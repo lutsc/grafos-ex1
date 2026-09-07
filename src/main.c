@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lista_encadeada.h"
 #include "grafos.h"
-#include "matrizes.h"
 
 static void menu(void) {
 	printf("\n===== MENU =====\n");
@@ -77,6 +75,7 @@ int main(void) {
 					printf("Grafo criado com %u vértices (%s).\n", vertices, tipo);
 					existeGrafo = true;
 				}
+				break;
 			}
 
 			case 2: {
@@ -194,16 +193,16 @@ int main(void) {
 				break;
 			}
 
-			// case 11: {
-			// 	if (grafoConexo(&graph)) {
-			// 	    printf("O grafo é conexo.\n");
-			// 	} else {
-			// 	    printf("O grafo NÃO é conexo. Subgrafos fortemente conexos máximos:\n");
-			// 	    componentesFortementeConexas(&graph);
-			// 	}
-			//
-			// 	break;
-			// }
+			case 11: {
+				if (eConexo(&graph)) {
+				    printf("O grafo é conexo.\n");
+				} else {
+				    printf("O grafo NÃO é conexo. Subgrafos fortemente conexos máximos:\n");
+				    //componentesFortementeConexas(&graph);
+				}
+
+				break;
+			}
 
 			case 0:
 				printf("Encerrando...\n");
