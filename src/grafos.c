@@ -84,3 +84,54 @@ int32_t bfs(bool ** mat, uint32_t tamanhoMatriz, uint32_t inicio) {
 	free(visitado);
 	return 0;
 }
+
+int32_t ftd(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdA[tamanhoMatriz])
+{
+	int32_t result[tamanhoMatriz] = {};
+	for(uint32_t i = 0; i < tamanhoMatriz; i++)
+	{
+		result[i] = -1;
+	}
+
+	uint32_t current;
+	uint32_t * stack = calloc(tamanhoMatriz, sizeof(uint32_t));
+	uint32_t top = 0;
+
+	stack[0] = node;
+	current = node;
+	result[node] = 0;
+	bool change;
+
+	while(true)
+	{
+		change = false;
+		for(uint32_t i = 0; i < tamanhoMatriz; i++)
+		{
+			if(mat[current][i] > 0)
+			{
+				if(result[i] == -1)
+				{
+					result[i] = result[current]+1;
+					stack[++top] = i; 
+					change = true;
+				}
+			}
+
+		}
+		current = stack[top];
+		top--;
+		if(!change)
+			break;
+	}
+	free(stack);
+
+	for(uint32_t i = 0; i < tamanhoMatriz; i++)
+	{
+		ftdA[i] = result[i];
+	}
+
+	return 0;
+}
+
+int32_t ftdi(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdiA[tamanhoMatriz]);
+

@@ -30,11 +30,11 @@ int32_t bfs(bool ** mat, uint32_t tamanhoMatriz, uint32_t inicio);
 /*
  * Retorna o fecho transitivo direto do node passado na função
 */
-int32_t ftd(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, bool ftd[tamanhoMatriz]);
+int32_t ftd(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftd[tamanhoMatriz]);
 
 /*
  * Retorna o fecho transitivo direto inverso do node passado na função
 */
-int32_t ftdi(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, bool ftdi[tamanhoMatriz]);
+int32_t ftdi(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdi[tamanhoMatriz]);
 
 #endif
