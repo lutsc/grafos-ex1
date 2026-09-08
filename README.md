@@ -9,3 +9,4 @@ $ cd grafos-ex1
 $ make clean
 $ make run
 ```
+
