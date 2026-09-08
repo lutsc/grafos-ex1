@@ -1,4 +1,4 @@
-CFLAGS = -Iinclude -g -Wall -Wextra
+CFLAGS = -Iinclude -lm -lraylib -g -Wall -Wextra
 
 OBJS = build/main.o build/lista_encadeada.o build/matrizes.o build/grafos.o
 
@@ -7,7 +7,7 @@ TARGET = bin/main
 all: $(TARGET)
 
 $(TARGET): $(OBJS) | bin
-	gcc $(OBJS) -o $(TARGET)
+	gcc $(OBJS) $(CFLAGS) -o $(TARGET)
 
 build/%.o: src/%.c | build
 	gcc $(CFLAGS) -c $< -o $@

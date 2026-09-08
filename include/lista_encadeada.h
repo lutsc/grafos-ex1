@@ -4,8 +4,10 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <raylib.h>
 
 struct Node {
+	Vector2 pos;
 	uint32_t id;
 	uint32_t data;
 	struct Node * next;

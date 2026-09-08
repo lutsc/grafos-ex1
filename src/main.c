@@ -1,275 +1,64 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <raylib.h>
+#include <raygui.h>
 #include "grafos.h"
 
-void mostrarGrafo(struct Graph * graph) {
-    if (graph == NULL || graph->array == NULL) {
-        printf("Grafo inválido ou vazio.\n");
-        return;
-    }
-    
-    printf("\n- LISTA DE ADJACÊNCIA -\n");
-    for (uint32_t i = 0; i < graph->verticesQtd; i++) {
-        printf("%d -> ", i + 1);
-        struct List * atual = &graph->array[i];
-        if (atual == NULL) {
-            printf("NULL");
-        }
-		imprimirLista(atual);
-        printf("\n");
-    }
-    
-    printf("\n- MATRIZ DE ADJACÊNCIA -\n");
-    bool ** mat = NULL;
-    if (gerarMatrizAdjacente(graph, &mat) == 0) {
-        printf("   ");
-        for (uint32_t i = 0; i < graph->verticesQtd; i++) {
-            printf(" %d ", i + 1);
-        }
-        printf("\n");
-        
-        for (uint32_t i = 0; i < graph->verticesQtd; i++) {
-            printf(" %d ", i + 1);
-            for (uint32_t j = 0; j < graph->verticesQtd; j++) {
-                printf(" %d ", mat[i][j]);
-            }
-            printf("\n");
-        }
-        
-        liberarMatriz(mat, graph->verticesQtd);
-    }
+#define RAYGUI_IMPLEMENTATION
+
+#define WIDTH 800
+#define HEIGHT 600
+
+#define BUTTON_COLOR BLUE
+
+/*
+ * Returns a boolean representing if the button is pressed or not
+ */
+int32_t CircleButton(int32_t posX, int32_t posY, int32_t radius)
+{
+	bool clicked = false;
+	Color circleColor = BUTTON_COLOR;
+
+	if(CheckCollisionPointCircle(GetMousePosition(), (Vector2){posX, posY}, radius)) {
+		if(IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+			clicked = true;
+		}
+		if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+			circleColor = ColorBrightness(BUTTON_COLOR, -0.2);
+		}
+	}
+
+	DrawCircle(posX, posY, radius, circleColor);
+	return clicked;
 }
 
-static void menu(void) {
-	printf("\n===== MENU =====\n");
-	printf("[1]  Criar novo grafo\n");
-	printf("[2]  Inserir vértice\n");
-	printf("[3]  Remover vértice\n");
-	printf("[4]  Inserir aresta\n");
-	printf("[5]  Remover aresta\n");
-	printf("[6]  Mostrar grafo (lista e matriz de adjacência)\n");
-	printf("[7]  Percorrer em profundidade (DFS)\n");
-	printf("[8]  Percorrer em largura (BFS)\n");
-	printf("[9]  Fecho transitivo direto de um vértice\n");
-	printf("[10] Fecho transitivo inverso de um vértice\n");
-	printf("[11] Verificar conexidade / componentes fortemente conexos\n");
-	printf("[0]  Sair\n");
-	printf("Escolha: ");
-}
+int main()
+{
+	SetTraceLogLevel(LOG_NONE);
 
-int main(void) {
-	struct Graph graph;
-	bool existeGrafo = false;
-	int opcao;
 
-	do {
+	InitWindow(WIDTH, HEIGHT, "Grafos");
+	SetTargetFPS(60);
 
-		menu();
+	// ToggleFullscreen();
 
-		if (scanf("%d", &opcao) != 1) {
-			printf("Entrada inválida.\n");
-			int c;
-			while ((c = getchar()) != '\n' && c != EOF);
-			if (c == EOF)
-				break;
-			continue;
-		}
- 
-		if (opcao != 1 && opcao != 0 && !existeGrafo) {
-			printf("Crie um grafo primeiro (opção 1).\n");
-			continue;
-		}
+	while(!WindowShouldClose())
+	{
 
-		switch (opcao) {
-
-			// Criar novo grafo
-			case 1: {
-				if (existeGrafo)
-					liberaGrafo(&graph);
- 
-				uint32_t dirigido, vertices;
-				printf("O grafo é dirigido? [1] Sim [0] Não: ");
-				if (scanf("%u", &dirigido) != 1 || dirigido > 1) {
-					printf("Opção inválida.\n");
-					existeGrafo = false;
-					break;
-				}
- 
-				printf("Quantidade de vértices: ");
-				if (scanf("%u", &vertices) != 1 || vertices == 0) {
-					printf("Opção inválida.\n");
-					existeGrafo = false;
-					break;
-				}
- 
-				if (iniciarGrafo(&graph, vertices, (bool)dirigido) != 0) {
-					printf("Erro ao criar o grafo.\n");
-					existeGrafo = false;
-				} else {
-					const char * tipo;
-					if (dirigido)
-						tipo = "dirigido";
-					else
-						tipo = "não dirigido";
- 
-					printf("Grafo criado com %u vértices (%s).\n", vertices, tipo);
-					existeGrafo = true;
-				}
-				break;
-			}
-
-			case 2: {
-
-				// Inserir vértice
-				if (inserirVertice(&graph) == 0)
-					printf("Vértice %u inserido.\n", graph.verticesQtd);
-				else
-					printf("Erro ao inserir vértice.\n");
-				break;
-			}
-
-			case 3: {
-
-				// Remover vértice
-				uint32_t v;
-				printf("Vértice a remover (1 a %u): ", graph.verticesQtd);
-				scanf("%u", &v);
-				if (removerVertice(&graph, v) == 0)
-				    printf("Vértice %u removido.\n", v);
-				else
-				    printf("Vértice inválido.\n");
-				
-				break;
-			}
-
-			case 4: {
-
-				// Inserir aresta
-				uint32_t origem, destino;
-				printf("Vértice de origem (1 a %u): ", graph.verticesQtd);
-				scanf("%u", &origem);
-				printf("Vértice de destino (1 a %u): ", graph.verticesQtd);
-				scanf("%u", &destino);
-
-				if (inserirAresta(&graph, origem, destino) == 0)
-					printf("Aresta %u -> %u inserida.\n", origem, destino);
-				else
-					printf("Erro ao inserir aresta (vértice inválido ou já existente).\n");
-				break;
-			}
-
-			case 5: {
-
-				// Remover aresta
-				uint32_t origem, destino;
-				printf("Vértice de origem (1 a %u): ", graph.verticesQtd);
-				scanf("%u", &origem);
-				printf("Vértice de destino (1 a %u): ", graph.verticesQtd);
-				scanf("%u", &destino);
-				if (removerAresta(&graph, origem, destino) == 0)
-				    printf("Aresta %u -> %u removida.\n", origem, destino);
-				else
-				    printf("Aresta não encontrada ou vértice inválido.\n");
-				
-				break;
-			}
-
-			case 6: {
-				mostrarGrafo(&graph);
-				break;
-			}
-
-			case 7: {
-
-				// Percorrer em profundidade (DFS)
-				uint32_t v;
-				printf("Vértice inicial (1 a %u): ", graph.verticesQtd);
-				scanf("%u", &v);
-				// printf("DFS a partir de %u: ", v);
-				if (dfs(&graph, v) != 0)
-				    printf("\nVértice inválido.\n");
-				
-				break;
-			}
-
-			case 8: {
-
-				// Percorrer em largura (BFS)
-				uint32_t v;
-				printf("Vértice inicial (1 a %u): ", graph.verticesQtd);
-				scanf("%u", &v);
-				// printf("BFS a partir de %u: ", v);
-				if (bfs(&graph, v) != 0)
-				    printf("\nVértice inválido.\n");
-				
-				break;
-			}
-
-			case 9: {
-
-				// Fecho transitivo direto de um vértice
-				uint32_t v;
-				int32_t ftdA[graph.verticesQtd] = {};
-				printf("Vértice (1 a %u): ", graph.verticesQtd);
-				scanf("%u", &v);
-				if (ftdGrafo(&graph, v-1, ftdA) != 0) {  
-					printf("Vértice inválido.\n");
-				}
-				else{
-					printf("Fecho transitivo direto do vértice selecionado:\n");
-					for(size_t i = 0; i < graph.verticesQtd; i++) {
-						printf("%d ", ftdA[i]);
-					}
-					puts("");
-				}
-				break;
-			}
-
-			case 10: {
-
-				// Fecho transitivo inverso de um vértice
-				uint32_t v;
-				int32_t ftdiA[graph.verticesQtd] = {};
-				printf("Vértice (1 a %u): ", graph.verticesQtd);
-				scanf("%u", &v);
-				if (ftdiGrafo(&graph, v-1, ftdiA) != 0) {
-					printf("Vértice inválido.\n");
-				}
-				else{
-					printf("Fecho transitivo inverso do vértice selecionado:\n");
-					for(size_t i = 0; i < graph.verticesQtd; i++) {
-						printf("%d ", ftdiA[i]);
-					}
-					puts("");
-				}
-				break;
-			}
-
-			case 11: {
-
-				// Verificar conexidade / componentes fortemente conexos
-				if (grafoConexo(&graph)) {
-				    printf("O grafo é conexo.\n");
-				} else {
-				    printf("O grafo NÃO é conexo.\n\n");
-					printf("Subgrafos fortemente conexos máximos:\n");
-				    componentesFortementeConexos(&graph);
-				}
-				break;
-			}
-
-			case 0:
-				// Sair
-				printf("Encerrando...\n");
-				break;
-
+		switch(GetKeyPressed())
+		{
+			case KEY_Q:
+				exit(0);
 			default:
-				printf("Opção inválida.\n");
+				break;
 		}
-	} while (opcao != 0);
 
-	if (existeGrafo)
-		liberaGrafo(&graph);
 
-	return 0;
+
+		BeginDrawing();
+
+		ClearBackground(RAYWHITE);
+		DrawRectangle(0, 0, WIDTH/5, HEIGHT, LIGHTGRAY);
+		CircleButton(WIDTH/10, 40, 20);
+
+		EndDrawing();
+	}
 }
