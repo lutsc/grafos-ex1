@@ -1,8 +1,16 @@
+/*
+ * Comandos atuais:
+ * [q]: Fecha a janela e imprime o grafo no terminal
+ * [clique do meio do mouse]: remove um vértice
+ * [clique esquerdo do mouse]: movimenta um vértice ou cria um vértice ou aresta
+ */
+
+
 #include <raylib.h>
 #include "grafos.h"
 
-#include <raygui.h>
 #define RAYGUI_IMPLEMENTATION
+#include <raygui.h>
 
 #define WIDTH 800
 #define HEIGHT 600
@@ -12,6 +20,8 @@
 #define BUTTON_COLOR BLUE
 #define CIRCLE_RADIUS 15
 #define PADDING 60
+
+#define FONT_SIZE CIRCLE_RADIUS/5
 
 #define V_COLOR PURPLE
 
@@ -23,7 +33,7 @@ void mostrarGrafo(struct Graph * graph) {
     
     printf("\n- LISTA DE ADJACÊNCIA -\n");
     for (uint32_t i = 0; i < graph->verticesQtd; i++) {
-        printf("%d -> ", i + 1);
+        printf("%2d -> ", i + 1);
         struct List * atual = &graph->array[i];
         if (atual == NULL) {
             printf("NULL");
@@ -37,14 +47,14 @@ void mostrarGrafo(struct Graph * graph) {
     if (gerarMatrizAdjacente(graph, &mat) == 0) {
         printf("   ");
         for (uint32_t i = 0; i < graph->verticesQtd; i++) {
-            printf(" %d ", i + 1);
+            printf(" %2d ", i + 1);
         }
         printf("\n");
         
         for (uint32_t i = 0; i < graph->verticesQtd; i++) {
             printf(" %d ", i + 1);
             for (uint32_t j = 0; j < graph->verticesQtd; j++) {
-                printf(" %d ", mat[i][j]);
+                printf(" %2d ", mat[i][j]);
             }
             printf("\n");
         }
@@ -112,7 +122,6 @@ int main()
 	struct List * currentVertice = NULL;
 	struct Node * tempNode = NULL;
 
-
 	// ToggleFullscreen();
 
 	while(!WindowShouldClose())
@@ -145,6 +154,7 @@ int main()
 		for(uint32_t i = 0; i < graph.verticesQtd; i++)
 		{
 			DrawCircleV(graph.array[i].pos, CIRCLE_RADIUS, V_COLOR);
+			DrawText(TextFormat("%d", graph.array[i].id), graph.array[i].pos.x-(int)(MeasureText(TextFormat("%d", graph.array[i].id), FONT_SIZE)/2), graph.array[i].pos.y-(int)(FONT_SIZE), FONT_SIZE, BLACK);
 			tempNode = graph.array[i].head;
 			while(tempNode != NULL)
 			{
@@ -181,7 +191,7 @@ int main()
 				}
 
 				else if(IsMouseButtonPressed(MOUSE_MIDDLE_BUTTON)) {
-					removerVertice(&graph, graph.array[i].id); //NOTE: Mover para um menu de contexto (eventulamente eu espero)
+					removerVertice(&graph, graph.array[i].id); //NOTE: Mover para um menu de contexto (eventualmente eu espero)
 				}
 
 			}
@@ -196,6 +206,9 @@ int main()
 			case KEY_Q:
 				mostrarGrafo(&graph);
 				exit(0);
+			case KEY_S:
+				mostrarGrafo(&graph);
+				break;
 			case KEY_SPACE:
 				mouseState = SELECT;
 			default:
