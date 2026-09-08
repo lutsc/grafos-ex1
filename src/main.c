@@ -1,10 +1,10 @@
 /*
  * Comandos atuais:
  * [q]: Fecha a janela e imprime o grafo no terminal
+ * [s]: Imprime o grafo no terminal
  * [clique do meio do mouse]: remove um vértice
  * [clique esquerdo do mouse]: movimenta um vértice ou cria um vértice ou aresta
  */
-
 
 #include <raylib.h>
 #include "grafos.h"
@@ -247,7 +247,6 @@ int main()
 				currentVertice->pos = GetMousePosition();
 			}
 		}
-
 		EndDrawing();
 	}
 }
