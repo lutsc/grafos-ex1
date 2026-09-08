@@ -1,4 +1,5 @@
 #include "grafos.h"
+#include <raylib.h>
 
 int32_t iniciarGrafo(struct Graph * graph, uint32_t vertices, bool dirigido) {
 	if (graph == NULL) {
@@ -6,7 +7,7 @@ int32_t iniciarGrafo(struct Graph * graph, uint32_t vertices, bool dirigido) {
 		return 1;
 	}
 	
-	if (vertices <= 0) {
+	if (vertices < 0) {
 		// Argumentos inválidos
 		return 1;
 	}
@@ -21,7 +22,7 @@ int32_t iniciarGrafo(struct Graph * graph, uint32_t vertices, bool dirigido) {
 	}
  
 	for (uint32_t i = 0; i < graph->verticesQtd; i++) {
-		iniciarLista(&graph->array[i], (i + 1));
+		iniciarLista(&graph->array[i], (i + 1), GetMousePosition());
 	}
  
 	return 0;
@@ -162,7 +163,7 @@ int32_t inserirVertice(struct Graph * graph){
 		return 1;
 	
 	graph->array = novoArray;
-	iniciarLista(&graph->array[novoId], (novoId + 1));
+	iniciarLista(&graph->array[novoId], (novoId + 1), GetMousePosition());
 	graph->verticesQtd++;
 
 	return 0;

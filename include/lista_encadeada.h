@@ -7,13 +7,13 @@
 #include <raylib.h>
 
 struct Node {
-	Vector2 pos;
 	uint32_t id;
 	uint32_t data;
 	struct Node * next;
 };
 
 struct List {
+	Vector2 pos;
 	uint32_t id;
 	uint32_t nodeQtd;
 	struct Node * head;
@@ -22,7 +22,7 @@ struct List {
 /*
  * Inicializa a List
  */
-int32_t iniciarLista(struct List * list, uint32_t id);
+int32_t iniciarLista(struct List * list, uint32_t id, Vector2 pos);
 
 /*
  * Aloca memória para um node, retorna 0 em sucesso e 1 em falha de alocação.

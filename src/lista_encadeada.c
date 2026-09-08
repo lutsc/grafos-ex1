@@ -1,9 +1,10 @@
 #include "lista_encadeada.h"
 
-int32_t iniciarLista(struct List * list, uint32_t id) {
+int32_t iniciarLista(struct List * list, uint32_t id, Vector2 pos) {
 	if (list == NULL)
 		return 1;
  
+	list->pos = pos;
 	list->id = id;
 	list->nodeQtd = 0;
 	list->head = NULL;
