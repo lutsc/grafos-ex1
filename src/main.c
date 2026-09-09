@@ -56,7 +56,7 @@ Vector2 concentricPointStop(Vector2 a, Vector2 b, float r) {
 	return c;
 }
 
-void DrawArrow(Vector2 pos1, Vector2 pos2, float angle, float wing_size)
+void DrawArrow(Vector2 pos1, Vector2 pos2, float angle, float wing_size, Color color)
 {
 	float deltaX = pos2.x - pos1.x;
 	float deltaY = pos2.y - pos1.y;
@@ -79,9 +79,9 @@ void DrawArrow(Vector2 pos1, Vector2 pos2, float angle, float wing_size)
 	wing2.x = bX * cos(-angle)- bY * sin(-angle) + pos2.x;
 	wing2.y = bX * sin(-angle)+ bY * cos(-angle) + pos2.y;
 
-	DrawLineV(pos1, pos2, BLACK);
-	DrawLineV(pos2, wing1, BLACK);
-	DrawLineV(pos2, wing2, BLACK);
+	DrawLineV(pos1, pos2, color);
+	DrawLineV(pos2, wing1, color);
+	DrawLineV(pos2, wing2, color);
 }
 
 void mostrarGrafo(struct Graph * graph) {
@@ -179,12 +179,20 @@ int main()
 	iniciarGrafo(&graph, graph.verticesQtd, graph.directed);
 
 	struct List * currentVertice = NULL;
+	struct List * hoverVertice = NULL;
+	struct List * remover1 = NULL;
+	struct List * remover2 = NULL;
 	struct Node * tempNode = NULL;
+
+	bool verticeCollision = false;
+
+	Vector2 mousePos;
 
 	// ToggleFullscreen();
 
 	while(!WindowShouldClose())
 	{
+		mousePos = GetMousePosition();
 
 		BeginDrawing();
 
@@ -202,15 +210,17 @@ int main()
 		{
 			case SELECT_CIRCLE:
 				// DrawCircleV(GetMousePosition(), CIRCLE_RADIUS, ColorAlpha(BUTTON_COLOR, 0.7));
-				DrawPoly(GetMousePosition(),CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, ColorAlpha(BUTTON_COLOR, 0.7));
+				DrawPoly(mousePos,CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, ColorAlpha(BUTTON_COLOR, 0.7));
 				break;
 			case SELECT_LINE:
-				DrawLine(GetMousePosition().x-15, GetMousePosition().y+15,GetMousePosition().x+15, GetMousePosition().y-15, ColorAlpha(BLACK, 0.7));
+				DrawLine(mousePos.x-15, mousePos.y+15,mousePos.x+15, mousePos.y-15, ColorAlpha(BLACK, 0.7));
 				break;
 			default:
 				break;
 		}
 
+		verticeCollision = false;
+		hoverVertice = NULL;
 		for(uint32_t i = 0; i < graph.verticesQtd; i++)
 		{
 			// DrawCircleV(graph.array[i].pos, CIRCLE_RADIUS, V_COLOR);
@@ -219,15 +229,29 @@ int main()
 			tempNode = graph.array[i].head;
 			while(tempNode != NULL)
 			{
+
+				if(CheckCollisionCircleLine(mousePos, 15, graph.array[i].pos, graph.array[tempNode->id-1].pos))
+				{
+					DrawArrow(concentricPointStop(graph.array[tempNode->id-1].pos, graph.array[i].pos, CIRCLE_RADIUS), concentricPointStop(graph.array[i].pos, graph.array[tempNode->id-1].pos, CIRCLE_RADIUS), ARROW_ANGLE, ARROW_WING, RED);
+					if(IsMouseButtonPressed(MOUSE_MIDDLE_BUTTON)){
+						remover1 = &graph.array[i];
+						remover2 = &graph.array[tempNode->id-1];
+					}
+				}
+				else {
+					DrawArrow(concentricPointStop(graph.array[tempNode->id-1].pos, graph.array[i].pos, CIRCLE_RADIUS), concentricPointStop(graph.array[i].pos, graph.array[tempNode->id-1].pos, CIRCLE_RADIUS), ARROW_ANGLE, ARROW_WING, BLACK);
+				}
+
+
 				// DrawLineV(graph.array[i].pos, graph.array[tempNode->id-1].pos, BLACK);
-				DrawArrow(concentricPointStop(graph.array[tempNode->id-1].pos, graph.array[i].pos, CIRCLE_RADIUS), concentricPointStop(graph.array[i].pos, graph.array[tempNode->id-1].pos, CIRCLE_RADIUS), ARROW_ANGLE, ARROW_WING);
+
 
 				tempNode = tempNode->next;
 			}
-			if(CheckCollisionPointCircle(GetMousePosition(), graph.array[i].pos, CIRCLE_RADIUS))
+			if(CheckCollisionPointCircle(mousePos, graph.array[i].pos, CIRCLE_RADIUS))
 			{
-				// DrawCircleLinesV(graph.array[i].pos, CIRCLE_RADIUS, BLACK);
-				DrawPolyLines(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, BLACK);
+				hoverVertice = &graph.array[i];
+				verticeCollision = true;
 				
 				if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 					switch(mouseState){
@@ -267,6 +291,17 @@ int main()
 			// DrawCircleLinesV(currentVertice->pos, CIRCLE_RADIUS, RED);
 			DrawPolyLines(currentVertice->pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, RED);
 		}
+		if(hoverVertice != NULL)
+		{
+			// DrawCircleLinesV(graph.array[i].pos, CIRCLE_RADIUS, BLACK);
+			DrawPolyLines(hoverVertice->pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, BLACK);
+		}
+		if(remover1 != NULL && remover2 != NULL)
+		{
+			removerAresta(&graph, remover1->id, remover2->id);
+			remover1 = NULL;
+			remover2 = NULL;
+		}
 
 		switch(GetKeyPressed())
 		{
@@ -294,8 +329,12 @@ int main()
 		{
 			switch(mouseState)
 			{
+				case SELECT:
+					if(!verticeCollision)
+						currentVertice = NULL;
+					break;
 				case SELECT_CIRCLE:
-					if(GetMousePosition().y > BAR_HEIGHT+CIRCLE_RADIUS) {
+					if(mousePos.y > BAR_HEIGHT+CIRCLE_RADIUS) {
 						inserirVertice(&graph);
 					}
 					break;
@@ -317,9 +356,9 @@ int main()
 
 		if(IsMouseButtonDown(MOUSE_LEFT_BUTTON))
 		{
-			if(currentVertice != NULL && mouseState == SELECT && GetMousePosition().y > BAR_HEIGHT+CIRCLE_RADIUS)
+			if(currentVertice != NULL && mouseState == SELECT && mousePos.y > BAR_HEIGHT+CIRCLE_RADIUS)
 			{
-				currentVertice->pos = GetMousePosition();
+				currentVertice->pos = mousePos;
 			}
 		}
 		EndDrawing();
