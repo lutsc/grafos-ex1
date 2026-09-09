@@ -241,7 +241,8 @@ int main()
 							}
 							else{
 								inserirAresta(&graph, currentVertice->id, graph.array[i].id);
-								currentVertice = NULL;
+								// currentVertice = NULL; //NOTE: Funcionamento em que remove a seleção após inserção
+								currentVertice = &graph.array[i];
 							}
 						default:
 							break;
