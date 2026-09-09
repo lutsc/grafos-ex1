@@ -164,7 +164,6 @@ int main()
 {
 	SetTraceLogLevel(LOG_NONE);
 
-
 	InitWindow(WIDTH, HEIGHT, "Grafos");
 	SetTargetFPS(60);
 
@@ -252,6 +251,8 @@ int main()
 
 				else if(IsMouseButtonPressed(MOUSE_MIDDLE_BUTTON)) {
 					removerVertice(&graph, graph.array[i].id); //NOTE: Mover para um menu de contexto (eventualmente eu espero)
+					if(currentVertice == &graph.array[i])
+						currentVertice = NULL;
 				}
 
 			}
@@ -268,6 +269,12 @@ int main()
 				exit(0);
 			case KEY_S:
 				mostrarGrafo(&graph);
+				break;
+			case KEY_V:
+				mouseState = SELECT_CIRCLE;
+				break;
+			case KEY_A:
+				mouseState = SELECT_LINE;
 				break;
 			case KEY_SPACE:
 				mouseState = SELECT;

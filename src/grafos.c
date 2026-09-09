@@ -7,11 +7,6 @@ int32_t iniciarGrafo(struct Graph * graph, uint32_t vertices, bool dirigido) {
 		return 1;
 	}
 	
-	if (vertices < 0) {
-		// Argumentos inválidos
-		return 1;
-	}
-
 	graph->verticesQtd = vertices;
 	graph->directed = dirigido;
  
@@ -175,10 +170,10 @@ int32_t removerVertice(struct Graph * graph, uint32_t id) {
 		return 1;
 	}
 
-    if (graph->verticesQtd <= 1) {
-		// Temporário, impede de deixar o grafo com 0 vértices
-        return 1;
-    }
+		//   if (graph->verticesQtd <= 1) {
+		// // Temporário, impede de deixar o grafo com 0 vértices
+		//       return 1;
+		//   }
     
     // Remove todas as conexões para o vértice dado
     for (uint32_t i = 0; i < graph->verticesQtd; i++) {
