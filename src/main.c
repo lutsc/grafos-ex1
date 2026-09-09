@@ -246,7 +246,6 @@ int main()
 							}
 							else{
 								inserirAresta(&graph, currentVertice->id, graph.array[i].id);
-								// currentVertice = NULL; //NOTE: Funcionamento em que remove a seleção após inserção
 								currentVertice = &graph.array[i];
 							}
 						default:
@@ -256,7 +255,7 @@ int main()
 				}
 
 				else if(IsMouseButtonPressed(MOUSE_MIDDLE_BUTTON)) {
-					removerVertice(&graph, graph.array[i].id); //NOTE: Mover para um menu de contexto (eventualmente eu espero)
+					removerVertice(&graph, graph.array[i].id);
 					if(currentVertice == &graph.array[i])
 						currentVertice = NULL;
 				}
@@ -278,9 +277,11 @@ int main()
 				mostrarGrafo(&graph);
 				break;
 			case KEY_V:
+			case KEY_ONE:
 				mouseState = SELECT_CIRCLE;
 				break;
 			case KEY_A:
+			case KEY_TWO:
 				mouseState = SELECT_LINE;
 				break;
 			case KEY_SPACE:
