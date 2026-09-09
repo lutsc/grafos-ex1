@@ -21,6 +21,8 @@
 #define CIRCLE_RADIUS 15
 #define PADDING 60
 
+#define CIRCLE_RESOLUTION 60
+
 #define ARROW_ANGLE PI/6
 #define ARROW_WING 20
 
@@ -137,7 +139,8 @@ int32_t CircleButton(int32_t posX, int32_t posY, int32_t radius)
 			circleColor = ColorBrightness(BUTTON_COLOR, -0.2);
 		}
 	}
-DrawCircle(posX, posY, radius, circleColor); return clicked;
+// DrawCircle(posX, posY, radius, circleColor); return clicked;
+DrawPoly((Vector2){posX, posY}, CIRCLE_RESOLUTION, radius, 0,circleColor); return clicked;
 }
 
 int32_t LineButton(Rectangle rect)
@@ -198,7 +201,8 @@ int main()
 		switch(mouseState)
 		{
 			case SELECT_CIRCLE:
-				DrawCircleV(GetMousePosition(), CIRCLE_RADIUS, ColorAlpha(BUTTON_COLOR, 0.7));
+				// DrawCircleV(GetMousePosition(), CIRCLE_RADIUS, ColorAlpha(BUTTON_COLOR, 0.7));
+				DrawPoly(GetMousePosition(),CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, ColorAlpha(BUTTON_COLOR, 0.7));
 				break;
 			case SELECT_LINE:
 				DrawLine(GetMousePosition().x-15, GetMousePosition().y+15,GetMousePosition().x+15, GetMousePosition().y-15, ColorAlpha(BLACK, 0.7));
@@ -209,7 +213,8 @@ int main()
 
 		for(uint32_t i = 0; i < graph.verticesQtd; i++)
 		{
-			DrawCircleV(graph.array[i].pos, CIRCLE_RADIUS, V_COLOR);
+			// DrawCircleV(graph.array[i].pos, CIRCLE_RADIUS, V_COLOR);
+			DrawPoly(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, V_COLOR);
 			DrawText(TextFormat("%d", graph.array[i].id), graph.array[i].pos.x-(int)(MeasureText(TextFormat("%d", graph.array[i].id), FONT_SIZE)/2), graph.array[i].pos.y-(int)(FONT_SIZE), FONT_SIZE, BLACK);
 			tempNode = graph.array[i].head;
 			while(tempNode != NULL)
@@ -221,7 +226,8 @@ int main()
 			}
 			if(CheckCollisionPointCircle(GetMousePosition(), graph.array[i].pos, CIRCLE_RADIUS))
 			{
-				DrawCircleLinesV(graph.array[i].pos, CIRCLE_RADIUS, BLACK);
+				// DrawCircleLinesV(graph.array[i].pos, CIRCLE_RADIUS, BLACK);
+				DrawPolyLines(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, BLACK);
 				
 				if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 					switch(mouseState){
@@ -259,7 +265,8 @@ int main()
 		}
 		if(currentVertice != NULL)
 		{
-			DrawCircleLinesV(currentVertice->pos, CIRCLE_RADIUS, RED);
+			// DrawCircleLinesV(currentVertice->pos, CIRCLE_RADIUS, RED);
+			DrawPolyLines(currentVertice->pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, RED);
 		}
 
 		switch(GetKeyPressed())
