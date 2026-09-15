@@ -45,45 +45,8 @@ int32_t inserirVertice(struct Graph * graph);
 int32_t removerVertice(struct Graph * graph, uint32_t id);
 
 /*
- * Percorre o grafo em profundidade (DFS) a partir do vértice "inicio", imprimindo a ordem de visita
- * Retorna 0 em sucesso e 1 caso "inicio" seja inválido.
-*/
-int32_t dfs(struct Graph * graph, uint32_t inicio);
-
-/*
- * Percorre o grafo em largura (BFS) a partir do vértice "inicio",
- * imprimindo a ordem de visita (vértices rotulados de A a Z).
- * Retorna 0 em sucesso e 1 caso "inicio" seja inválido.
-*/
-int32_t bfs(struct Graph * graph, uint32_t inicio);
-
-/*
  * Gera a matriz de adjacência para uma determinada quantidade de nós
 */
 int32_t gerarMatrizAdjacente(struct Graph * graph, bool ***mat);
-
-/*
- * Retorna o fecho transitivo direto do node passado na função
-*/
-int32_t ftd(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdA[tamanhoMatriz]);
-int32_t ftdGrafo(struct Graph * graph, uint32_t v, int32_t * ftdA);
-
-/*
- * Retorna o fecho transitivo direto inverso do node passado na função
-*/
-int32_t ftdi(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdiA[tamanhoMatriz]);
-int32_t ftdiGrafo(struct Graph * graph, uint32_t v, int32_t * ftdiA);
-
-/*
- * Retorna se a o grafo é conexo(1) ou não(0)
-*/
-int32_t eConexo(bool ** mat, uint32_t tamanhoMatriz);
-int32_t grafoConexo(struct Graph * graph);
-
-/*
- * Encontra e imprime os componentes fortemente conexos máximos do grafo
- * Retorna 0 em sucesso e 1 em erro
- */
-int32_t componentesFortementeConexos(struct Graph * graph);
 
 #endif

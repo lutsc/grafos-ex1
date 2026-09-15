@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "grafos.h"
+
+#include "dfs.h"
+#include "bfs.h"
+#include "fechotransitivo.h"
+#include "kosaraju.h"
 
 void mostrarGrafo(struct Graph * graph) {
     if (graph == NULL || graph->array == NULL) {
