@@ -291,11 +291,12 @@ int main()
 			// DrawCircleLinesV(currentVertice->pos, CIRCLE_RADIUS, RED);
 			DrawPolyLines(currentVertice->pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, RED);
 		}
-		if(hoverVertice != NULL)
+		else if(hoverVertice != NULL)
 		{
 			// DrawCircleLinesV(graph.array[i].pos, CIRCLE_RADIUS, BLACK);
 			DrawPolyLines(hoverVertice->pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, BLACK);
 		}
+
 		if(remover1 != NULL && remover2 != NULL)
 		{
 			removerAresta(&graph, remover1->id, remover2->id);
@@ -310,6 +311,28 @@ int main()
 				exit(0);
 			case KEY_S:
 				mostrarGrafo(&graph);
+				break;
+			case KEY_F:
+				if(currentVertice != NULL) {
+					int ftdA[graph.verticesQtd] = {};
+					ftdGrafo(&graph, currentVertice->id-1, ftdA);
+					printf("Ftd do vértice %d:", currentVertice->id);
+					for(uint32_t i = 0; i < graph.verticesQtd; i++) {
+						printf("%d ", ftdA[i]);
+					}
+					puts("");
+				}
+				break;
+			case KEY_I:
+				if(currentVertice != NULL) {
+					int ftiA[graph.verticesQtd] = {};
+					ftdiGrafo(&graph, currentVertice->id-1, ftiA);
+					printf("Fti do vértice %d:", currentVertice->id);
+					for(uint32_t i = 0; i < graph.verticesQtd; i++) {
+						printf("%d ", ftiA[i]);
+					}
+					puts("");
+				}
 				break;
 			case KEY_V:
 			case KEY_ONE:
