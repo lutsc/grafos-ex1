@@ -361,6 +361,10 @@ int main()
 						inserirVertice(&graph);
 					}
 					break;
+				case SELECT_LINE:
+					if(!verticeCollision)
+						currentVertice = NULL;
+					break;
 
 				default:
 					break;
