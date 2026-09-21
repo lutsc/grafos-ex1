@@ -291,7 +291,7 @@ int main()
 			// DrawCircleLinesV(currentVertice->pos, CIRCLE_RADIUS, RED);
 			DrawPolyLines(currentVertice->pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, RED);
 		}
-		else if(hoverVertice != NULL)
+		if(hoverVertice != NULL && hoverVertice != currentVertice)
 		{
 			// DrawCircleLinesV(graph.array[i].pos, CIRCLE_RADIUS, BLACK);
 			DrawPolyLines(hoverVertice->pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, BLACK);
