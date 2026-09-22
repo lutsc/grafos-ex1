@@ -33,6 +33,10 @@
 #include <stdio.h>
 #include <math.h>
 
+uint32_t module(Vector2 vec)
+{
+	return sqrt(pow(vec.x,2)+pow(vec.y,2));
+}
 
 Vector2 concentricPointStop(Vector2 a, Vector2 b, float r) {
 	double D = sqrt(pow(b.x - a.x, 2) + pow(b.y - a.y, 2));
@@ -383,7 +387,7 @@ int main()
 
 		if(IsMouseButtonDown(MOUSE_LEFT_BUTTON))
 		{
-			if(currentVertice != NULL && mouseState == SELECT && mousePos.y > BAR_HEIGHT+CIRCLE_RADIUS)
+			if(currentVertice != NULL && mouseState == SELECT && mousePos.y > BAR_HEIGHT+CIRCLE_RADIUS && module(GetMouseDelta()) > 0)
 			{
 				currentVertice->pos = mousePos;
 			}
