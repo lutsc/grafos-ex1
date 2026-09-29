@@ -257,7 +257,7 @@ int32_t gerarMatrizAdjacente(struct Graph * graph, int32_t ***mat) {
 		(*mat)[i] = calloc(graph->verticesQtd, sizeof(int32_t));
 		while(atual != NULL)
 		{
-			(*mat)[i][atual->id-1] = 1;
+			(*mat)[i][atual->id-1] = atual->data;
 			atual = atual->next;
 		}
 	}
