@@ -2,6 +2,7 @@
 #define H_FECHOTRANSITIVO 1
 
 #include "grafos.h"
+#include "matrizes.h"
 
 /*
  * Retorna o fecho transitivo direto do node passado na função

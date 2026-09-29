@@ -2,7 +2,7 @@
 #define H_GRAFOS 1
 
 #include "lista_encadeada.h"
-#include "matrizes.h"
+// #include "matrizes.h"
 
 #include <sys/types.h>
 

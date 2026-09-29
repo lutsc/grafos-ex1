@@ -6,6 +6,8 @@
 #include "fechotransitivo.h"
 #include "kosaraju.h"
 
+// #include "matrizes.h"
+
 void mostrarGrafo(struct Graph * graph) {
     if (graph == NULL || graph->array == NULL) {
         printf("Grafo inválido ou vazio.\n");

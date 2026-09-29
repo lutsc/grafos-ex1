@@ -2,6 +2,7 @@
 #define H_KOSARAJU 1
 
 #include "grafos.h"
+#include "matrizes.h"
 
 /*
  * Encontra e imprime os componentes fortemente conexos máximos do grafo
