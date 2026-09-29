@@ -7,44 +7,6 @@
 
 // #include "matrizes.h"
 
-void mostrarGrafo(struct Graph * graph) {
-    if (graph == NULL || graph->array == NULL) {
-        printf("Grafo inválido ou vazio.\n");
-        return;
-    }
-    
-    printf("\n- LISTA DE ADJACÊNCIA -\n");
-    for (uint32_t i = 0; i < graph->verticesQtd; i++) {
-        printf("%d -> ", i + 1);
-        struct List * atual = &graph->array[i];
-        if (atual == NULL) {
-            printf("NULL");
-        }
-		imprimirLista(atual);
-        printf("\n");
-    }
-    
-    printf("\n- MATRIZ DE ADJACÊNCIA -\n");
-    int32_t ** mat = NULL;
-    if (gerarMatrizAdjacente(graph, &mat) == 0) {
-        printf("   ");
-        for (uint32_t i = 0; i < graph->verticesQtd; i++) {
-            printf(" %d ", i + 1);
-        }
-        printf("\n");
-        
-        for (uint32_t i = 0; i < graph->verticesQtd; i++) {
-            printf(" %d ", i + 1);
-            for (uint32_t j = 0; j < graph->verticesQtd; j++) {
-                printf(" %d ", mat[i][j]);
-            }
-            printf("\n");
-        }
-        
-        liberarMatriz(mat, graph->verticesQtd);
-    }
-}
-
 static void menu(void) {
 	printf("\n===== MENU =====\n");
 	printf("[1]  Criar novo grafo\n");

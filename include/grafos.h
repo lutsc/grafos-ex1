@@ -25,6 +25,11 @@ int32_t iniciarGrafo(struct Graph * graph, uint32_t vertices, bool dirigido);
 int32_t liberaGrafo(struct Graph * graph);
 
 /*
+ * Mostra grafo
+ */
+void mostrarGrafo(struct Graph * graph);
+
+/*
  * Cria uma conexão entre dois nós usando os seus ids
  */
 int32_t inserirAresta(struct Graph * graph, uint32_t id1, uint32_t id2);

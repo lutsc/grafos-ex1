@@ -1,4 +1,5 @@
 #include "grafos.h"
+#include "matrizes.h"
 
 int32_t iniciarGrafo(struct Graph * graph, uint32_t vertices, bool dirigido) {
 	if (graph == NULL) {
@@ -43,6 +44,46 @@ int32_t liberaGrafo(struct Graph * graph) {
 	return 0;
 }
 
+/*
+ * Função auxiliar para mostrar grafo (matriz e lista de adjacência)
+ */
+void mostrarGrafo(struct Graph * graph) {
+    if (graph == NULL || graph->array == NULL) {
+        printf("Grafo inválido ou vazio.\n");
+        return;
+    }
+    
+    printf("\n- LISTA DE ADJACÊNCIA -\n");
+    for (uint32_t i = 0; i < graph->verticesQtd; i++) {
+        printf("%d -> ", i + 1);
+        struct List * atual = &graph->array[i];
+        if (atual == NULL) {
+            printf("NULL");
+        }
+		imprimirLista(atual);
+        printf("\n");
+    }
+    
+    printf("\n- MATRIZ DE ADJACÊNCIA -\n");
+    int32_t ** mat = NULL;
+    if (gerarMatrizAdjacente(graph, &mat) == 0) {
+        printf("   ");
+        for (uint32_t i = 0; i < graph->verticesQtd; i++) {
+            printf(" %d ", i + 1);
+        }
+        printf("\n");
+        
+        for (uint32_t i = 0; i < graph->verticesQtd; i++) {
+            printf(" %d ", i + 1);
+            for (uint32_t j = 0; j < graph->verticesQtd; j++) {
+                printf(" %d ", mat[i][j]);
+            }
+            printf("\n");
+        }
+        
+        liberarMatriz(mat, graph->verticesQtd);
+    }
+}
 /*
  * Checa se há conexão já existente, se não, adiciona conexão para id2 no vértice id1, idem se o grafo é dirigido
  */
