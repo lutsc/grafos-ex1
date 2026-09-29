@@ -16,6 +16,7 @@
 
 #include <raylib.h>
 #include <stdlib.h>
+
 #include "grafos.h"
 #include "fechotransitivo.h"
 #include "busca.h"
