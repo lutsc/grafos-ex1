@@ -7,6 +7,15 @@
 
 // #include "matrizes.h"
 
+void printVetor (int vet[], int quantidade)
+{
+	for (int i = 0; i < quantidade; i++)
+	{
+		printf("%d ", vet[1]);
+	}
+	puts("");
+}
+
 static void menu(void) {
 	printf("\n===== MENU =====\n");
 	printf("[1]  Criar novo grafo\n");
@@ -20,6 +29,8 @@ static void menu(void) {
 	printf("[9]  Fecho transitivo direto de um vértice\n");
 	printf("[10] Fecho transitivo inverso de um vértice\n");
 	printf("[11] Verificar conexidade / componentes fortemente conexos\n");
+	printf("[12] Coloração");
+	printf("[13] Algoritmo de Dijkstra");
 	printf("[0]  Sair\n");
 	printf("Escolha: ");
 }
@@ -223,6 +234,18 @@ int main(void) {
 				    componentesFortementeConexos(&graph);
 				}
 				break;
+			}
+
+			case 12: {
+
+				// Algoritmo de Dijkstra
+				// @Param 
+				if (1) {
+
+				}
+				else {
+
+				}
 			}
 
 			case 0:
