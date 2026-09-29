@@ -1,6 +1,7 @@
 #ifndef H_COLORACAO
 #define H_COLORACAO 1
 
+#include "matrizes.h"
 #include "grafos.h"
 
 int32_t verticesColoracao(struct Graph * graph, int *ret);
