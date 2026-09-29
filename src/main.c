@@ -383,7 +383,7 @@ int main()
 							}
 							else{
 								// TODO: Pedir peso para aresta
-								inserirAresta(&graph, currentVertice->id, graph.array[i].id, 0);
+								inserirAresta(&graph, currentVertice->id, graph.array[i].id, 1);
 								currentVertice = &graph.array[i];
 							}
 						default:
