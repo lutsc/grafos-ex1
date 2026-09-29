@@ -48,6 +48,6 @@ int32_t removerVertice(struct Graph * graph, uint32_t id);
 /*
  * Gera a matriz de adjacência para uma determinada quantidade de nós
 */
-int32_t gerarMatrizAdjacente(struct Graph * graph, bool ***mat);
+int32_t gerarMatrizAdjacente(struct Graph * graph, int32_t ***mat);
 
 #endif

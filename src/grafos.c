@@ -211,14 +211,14 @@ int32_t removerVertice(struct Graph * graph, uint32_t id) {
     return 0;
 }
 
-int32_t gerarMatrizAdjacente(struct Graph * graph, bool ***mat) {
-	*mat = malloc(sizeof(bool*) * graph->verticesQtd);
+int32_t gerarMatrizAdjacente(struct Graph * graph, int32_t ***mat) {
+	*mat = malloc(sizeof(int32_t*) * graph->verticesQtd);
 
 	struct Node * atual;
 
 	for(uint32_t i = 0; i < graph->verticesQtd; i++) {
 		atual  = graph->array[i].head;
-		(*mat)[i] = calloc(graph->verticesQtd, sizeof(bool));
+		(*mat)[i] = calloc(graph->verticesQtd, sizeof(int32_t));
 		while(atual != NULL)
 		{
 			(*mat)[i][atual->id-1] = 1;

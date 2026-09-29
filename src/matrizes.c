@@ -1,6 +1,6 @@
 #include "matrizes.h"
 
-uint32_t inserirNaMatrizAdjacente(bool ** mat, uint32_t tam, uint32_t no1, uint32_t no2) {
+uint32_t inserirNaMatrizAdjacente(int32_t ** mat, uint32_t tam, uint32_t no1, uint32_t no2) {
 	if (no1 >= tam || no2 >= tam)
 		return 2;
 	if(mat[no1][no2] == 1)
@@ -9,7 +9,7 @@ uint32_t inserirNaMatrizAdjacente(bool ** mat, uint32_t tam, uint32_t no1, uint3
 	return 0;
 }
 
-uint32_t multiplicarMatrizes(bool ** mat1, bool ** mat2, bool ** matRet, uint32_t tam){
+uint32_t multiplicarMatrizes(int32_t ** mat1, int32_t ** mat2, int32_t ** matRet, uint32_t tam){
 	if(mat1 == NULL || mat2 == NULL || tam <= 0)
 		return 1;
 
@@ -23,7 +23,7 @@ uint32_t multiplicarMatrizes(bool ** mat1, bool ** mat2, bool ** matRet, uint32_
 	return 0;
 }
 
-uint32_t somarMatrizes(bool ** mat1, bool ** mat2, bool ** matRet, uint32_t tam){
+uint32_t somarMatrizes(int32_t ** mat1, int32_t ** mat2, int32_t ** matRet, uint32_t tam){
 	if(mat1 == NULL || mat2 == NULL || tam <= 0)
 		return 1;
 
@@ -35,7 +35,7 @@ uint32_t somarMatrizes(bool ** mat1, bool ** mat2, bool ** matRet, uint32_t tam)
 	return 0;
 }
 
-uint32_t liberarMatriz(bool ** mat, uint32_t tam) {
+uint32_t liberarMatriz(int32_t ** mat, uint32_t tam) {
 	if (mat == NULL) {
 		return 1;
 	}
@@ -48,7 +48,7 @@ uint32_t liberarMatriz(bool ** mat, uint32_t tam) {
 	return 0;
 }
 
-uint32_t printMatriz(bool ** mat, uint32_t tam){
+uint32_t printMatriz(int32_t ** mat, uint32_t tam){
 	if(mat == NULL || tam <= 0) {
 		return 1;
 	}

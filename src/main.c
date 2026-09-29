@@ -25,7 +25,7 @@ void mostrarGrafo(struct Graph * graph) {
     }
     
     printf("\n- MATRIZ DE ADJACÊNCIA -\n");
-    bool ** mat = NULL;
+    int32_t ** mat = NULL;
     if (gerarMatrizAdjacente(graph, &mat) == 0) {
         printf("   ");
         for (uint32_t i = 0; i < graph->verticesQtd; i++) {
