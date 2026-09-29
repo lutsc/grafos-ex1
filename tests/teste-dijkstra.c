@@ -29,16 +29,16 @@ int main()
 	struct Graph graph;
 	iniciarGrafo(&graph, 5, 1); 
 
-	inserirAresta(&graph, 1, 2, 1); // 1
-	inserirAresta(&graph, 1, 3, 5); // 5
+	inserirAresta(&graph, 1, 2, 1);
+	inserirAresta(&graph, 1, 3, 5);
 
-	inserirAresta(&graph, 2, 5, 5); // 5
-	inserirAresta(&graph, 2, 3, 1); // 1
+	inserirAresta(&graph, 2, 5, 5);
+	inserirAresta(&graph, 2, 3, 1);
 
-	inserirAresta(&graph, 3, 4, 1); // 1
+	inserirAresta(&graph, 3, 4, 1);
 
-	inserirAresta(&graph, 4, 2, 3); // 3
-	inserirAresta(&graph, 4, 5, 6); // 6
+	inserirAresta(&graph, 4, 2, 3);
+	inserirAresta(&graph, 4, 5, 1);
 
 	mostrarGrafo(&graph);
 

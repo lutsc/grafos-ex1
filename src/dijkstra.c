@@ -28,16 +28,22 @@ int32_t dijkstra(struct Graph * graph, uint32_t vertice, int32_t estimate[], int
 	{
 		for(uint32_t i = 0; i < graph->verticesQtd; i++) {
 			if(mat[current][i] > 0 && !closed[i]) 
-					if(estimate[i] == -1 || (estimate[current]+mat[current][i] > estimate[i] && estimate[i] != -1)){
+					if(estimate[i] == -1 || (estimate[current]+mat[current][i] < estimate[i] && estimate[i] != -1)){
 						estimate[i] = estimate[current] + mat[current][i];
 						previous[i] = current;
 					}
 		}
 		closed[current] = 1;
 
-		min = current;
 		for(uint32_t i = 0; i < graph->verticesQtd; i++) {
-			if(estimate[i] < estimate[min] && !closed[i] && estimate[i] != -1)
+			if(!closed[i]) {
+				min = i;
+				break;
+			}
+		}
+
+		for(uint32_t i = 0; i < graph->verticesQtd; i++) {
+			if((estimate[i] < estimate[min] && !closed[i] && estimate[i] != -1))
 				min = i;
 		}
 
