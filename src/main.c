@@ -141,21 +141,21 @@ DrawLine(rect.x, rect.y+rect.height, rect.x+rect.width, rect.y, lineColor); retu
 int32_t TextButton(Rectangle rect, const char * label, bool enabled)
 {
 	bool clicked = false;
-	Color btnColor = BUTTON_COLOR;
+	Color buttonColor = BUTTON_COLOR;
 
 	if(!enabled) {
-		btnColor = GRAY;
+		buttonColor = GRAY;
 	}
 	else if(CheckCollisionPointRec(GetMousePosition(), rect)) {
 		if(IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
 			clicked = true;
 		}
 		if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-			btnColor = ColorBrightness(BUTTON_COLOR, -0.2);
+			buttonColor = ColorBrightness(BUTTON_COLOR, -0.2);
 		}
 	}
 
-	DrawRectangleRec(rect, btnColor);
+	DrawRectangleRec(rect, buttonColor);
 	int textSize = 14;
 	int textW = MeasureText(label, textSize);
 	DrawText(label, rect.x + (rect.width - textW)/2, rect.y + (rect.height - textSize)/2, textSize, WHITE);
@@ -271,26 +271,26 @@ int main()
 
 		// Botões de ações (as que dependem de vértice ficam cinza sem seleção)
 		{
-			bool temSelecao = (currentVertice != NULL);
-			float btnX = WIDTH/20 + PADDING + 50;
-			float btnY = BAR_HEIGHT/2 - 15;
-			float btnW = 55;
-			float btnH = 30;
-			float btnGap = 10;
+			bool isSelected = (currentVertice != NULL);
+			float buttonW = 55;
+			float buttonH = 30;
+			float buttonGap = 10;
+			float buttonX = (int)(WIDTH/20) + PADDING + 50;
+			float buttonY = (int)(BAR_HEIGHT/2) - buttonH/2;
 
-			if(TextButton((Rectangle){btnX, btnY, btnW, btnH}, "FTD", temSelecao))
+			if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "FTD", isSelected))
 				acaoFtd(&graph, currentVertice);
-			btnX += btnW + btnGap;
-			if(TextButton((Rectangle){btnX, btnY, btnW, btnH}, "FTI", temSelecao))
+			buttonX += buttonW + buttonGap;
+			if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "FTI", isSelected))
 				acaoFti(&graph, currentVertice);
-			btnX += btnW + btnGap;
-			if(TextButton((Rectangle){btnX, btnY, btnW, btnH}, "DFS", temSelecao))
+			buttonX += buttonW + buttonGap;
+			if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "DFS", isSelected))
 				acaoDfs(&graph, currentVertice);
-			btnX += btnW + btnGap;
-			if(TextButton((Rectangle){btnX, btnY, btnW, btnH}, "BFS", temSelecao))
+			buttonX += buttonW + buttonGap;
+			if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "BFS", isSelected))
 				acaoBfs(&graph, currentVertice);
-			btnX += btnW + btnGap;
-			if(TextButton((Rectangle){btnX, btnY, btnW + 20, btnH}, "Conexo", graph.verticesQtd > 0))
+			buttonX += buttonW + buttonGap;
+			if(TextButton((Rectangle){buttonX, buttonY, buttonW + 20, buttonH}, "Conexo", graph.verticesQtd > 0))
 				acaoConexidade(&graph);
 		}
 
