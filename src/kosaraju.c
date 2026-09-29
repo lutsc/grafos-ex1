@@ -3,7 +3,7 @@
 /*
  * Função auxiliar para DFS que preenche a pilha em ordem de finalização
  */
-static void dfsPreencheOrdem(bool ** mat, uint32_t tam, uint32_t v, bool * visitado, uint32_t * pilha, uint32_t * topo) {
+static void dfsPreencheOrdem(int32_t ** mat, uint32_t tam, uint32_t v, bool * visitado, uint32_t * pilha, uint32_t * topo) {
     visitado[v] = true;
     for (uint32_t i = 0; i < tam; i++) {
         if (mat[v][i] && !visitado[i]) {
@@ -16,7 +16,7 @@ static void dfsPreencheOrdem(bool ** mat, uint32_t tam, uint32_t v, bool * visit
 /*
  * Função auxiliar para DFS que coleta um componente no grafo transposto
  */
-static void dfsColetaComponente(bool ** matT, uint32_t tam, uint32_t v, bool * visitado, uint32_t * componente, uint32_t * qtd) {
+static void dfsColetaComponente(int32_t ** matT, uint32_t tam, uint32_t v, bool * visitado, uint32_t * componente, uint32_t * qtd) {
     visitado[v] = true;
     componente[(*qtd)++] = v;
     for (uint32_t i = 0; i < tam; i++) {
@@ -41,7 +41,7 @@ int32_t componentesFortementeConexos(struct Graph * graph) {
         return 1;
     }
 
-    bool ** mat = NULL;
+    int32_t ** mat = NULL;
     if (gerarMatrizAdjacente(graph, &mat) != 0) {
         printf("Erro ao gerar matriz de adjacência.\n");
         return 1;
@@ -66,7 +66,7 @@ int32_t componentesFortementeConexos(struct Graph * graph) {
     }
 
     // 2: Grafo transposto
-    bool ** matT = malloc(tam * sizeof(bool *));
+    int32_t ** matT = malloc(tam * sizeof(int32_t *));
     if (matT == NULL) {
         free(pilha);
         free(visitado);
@@ -75,7 +75,7 @@ int32_t componentesFortementeConexos(struct Graph * graph) {
     }
     
     for (uint32_t i = 0; i < tam; i++) {
-        matT[i] = calloc(tam, sizeof(bool));
+        matT[i] = calloc(tam, sizeof(int32_t));
         if (matT[i] == NULL) {
             for (uint32_t j = 0; j < i; j++) {
                 free(matT[j]);

@@ -8,6 +8,7 @@
 
 #include <raylib.h>
 #include "grafos.h"
+#include "fechotransitivo.h"
 
 #define RAYGUI_IMPLEMENTATION
 #include <raygui.h>
@@ -87,45 +88,6 @@ void DrawArrow(Vector2 pos1, Vector2 pos2, float angle, float wing_size, Color c
 	DrawLineV(pos2, wing1, color);
 	DrawLineV(pos2, wing2, color);
 }
-
-void mostrarGrafo(struct Graph * graph) {
-    if (graph == NULL || graph->array == NULL) {
-        printf("Grafo inválido ou vazio.\n");
-        return;
-    }
-    
-    printf("\n- LISTA DE ADJACÊNCIA -\n");
-    for (uint32_t i = 0; i < graph->verticesQtd; i++) {
-        printf("%2d -> ", i + 1);
-        struct List * atual = &graph->array[i];
-        if (atual == NULL) {
-            printf("NULL");
-        }
-		imprimirLista(atual);
-        printf("\n");
-    }
-    
-    printf("\n- MATRIZ DE ADJACÊNCIA -\n");
-    bool ** mat = NULL;
-    if (gerarMatrizAdjacente(graph, &mat) == 0) {
-        printf("   ");
-        for (uint32_t i = 0; i < graph->verticesQtd; i++) {
-            printf(" %2d ", i + 1);
-        }
-        printf("\n");
-        
-        for (uint32_t i = 0; i < graph->verticesQtd; i++) {
-            printf(" %d ", i + 1);
-            for (uint32_t j = 0; j < graph->verticesQtd; j++) {
-                printf(" %2d ", mat[i][j]);
-            }
-            printf("\n");
-        }
-        
-        liberarMatriz(mat, graph->verticesQtd);
-    }
-}
-
 
 /*
  * Returns a boolean representing if the button is pressed or not
