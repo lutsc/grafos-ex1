@@ -3,7 +3,7 @@
 /*
  * Retorna o fecho transitivo direto do node passado na função
 */
-int32_t ftd(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdA[tamanhoMatriz]) {
+int32_t ftd(int32_t ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdA[tamanhoMatriz]) {
 	int32_t result[tamanhoMatriz] = {};
 	for(uint32_t i = 0; i < tamanhoMatriz; i++)
 	{
@@ -55,7 +55,7 @@ int32_t ftdGrafo(struct Graph * graph, uint32_t v, int32_t * ftdA) {
 		return 1;
 	}
 
-	bool ** mat = NULL;
+	int32_t ** mat = NULL;
 	gerarMatrizAdjacente(graph, &mat);
 
 	int32_t ret = ftd(mat, graph->verticesQtd, v, ftdA);
@@ -67,7 +67,7 @@ int32_t ftdGrafo(struct Graph * graph, uint32_t v, int32_t * ftdA) {
 /*
  * Retorna o fecho transitivo inverso do node passado na função
 */
-int32_t ftdi(bool ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdiA[tamanhoMatriz]) {
+int32_t ftdi(int32_t ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdiA[tamanhoMatriz]) {
 	int32_t result[tamanhoMatriz] = {};
 	for(uint32_t i = 0; i < tamanhoMatriz; i++)
 	{
@@ -119,7 +119,7 @@ int32_t ftdiGrafo(struct Graph * graph, uint32_t v, int32_t * ftdiA) {
 		return 1;
 	}
 
-	bool ** mat = NULL;
+	int32_t ** mat = NULL;
 	gerarMatrizAdjacente(graph, &mat);
 
 	int32_t ret = ftdi(mat, graph->verticesQtd, v, ftdiA);
@@ -131,7 +131,7 @@ int32_t ftdiGrafo(struct Graph * graph, uint32_t v, int32_t * ftdiA) {
 /*
  * Retorna se a o grafo é conexo(1) ou não(0)
 */
-int32_t eConexo(bool ** mat, uint32_t tamanhoMatriz)
+int32_t eConexo(int32_t ** mat, uint32_t tamanhoMatriz)
 {
 	int32_t ftdA[tamanhoMatriz] = {};
 	int32_t ftdiA[tamanhoMatriz] = {};
@@ -154,7 +154,7 @@ int32_t grafoConexo(struct Graph * graph) {
 		return 1;
 	}
 
-	bool ** mat = NULL;
+	int32_t ** mat = NULL;
 	gerarMatrizAdjacente(graph, &mat);
 
 	int32_t ret = eConexo(mat, graph->verticesQtd);

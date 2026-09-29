@@ -7,7 +7,7 @@
 /*
  * Recebe um grafo e retorna o vetor de estimativas de distância e de vértice anterior do algoritmo de dijkstra
  */
-int32_t dijkstra(struct Graph graph, int32_t estimate[], int32_t previous[]);
+int32_t dijkstra(struct Graph * graph, int32_t estimate[], int32_t previous[]);
 
 
 #endif
