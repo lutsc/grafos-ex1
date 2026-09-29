@@ -21,6 +21,7 @@
 #include "fechotransitivo.h"
 #include "busca.h"
 #include "kosaraju.h"
+#include "dijkstra.h"
 
 #define WIDTH 800
 #define HEIGHT 600
@@ -42,6 +43,8 @@
 
 #include <stdio.h>
 #include <math.h>
+
+void mostraVetor (int32_t vet[], int n);
 
 uint32_t module(Vector2 vec)
 {
@@ -222,6 +225,25 @@ void acaoConexidade(struct Graph * graph)
 	}
 }
 
+
+void acaoDijkstra(struct Graph * graph, struct List * v, int32_t est[], int32_t prev[])
+{
+	if(v == NULL)
+		return;
+
+	est = malloc(sizeof(int32_t)*graph->verticesQtd);
+	prev = malloc(sizeof(int32_t)*graph->verticesQtd);
+
+	if(dijkstra(graph, v->id-1, est, prev))
+	{
+		puts("Dijkstra: \n");
+		printf("Estimado: ");mostraVetor(est, graph->verticesQtd);
+		printf("Antecessor: ");mostraVetor(prev, graph->verticesQtd);
+	}
+	free(est);
+	free(prev);
+}
+
 enum MOUSE_STATE {
 	SELECT, SELECT_CIRCLE, SELECT_LINE
 };
@@ -246,6 +268,9 @@ int main()
 	struct List * remover1 = NULL;
 	struct List * remover2 = NULL;
 	struct Node * tempNode = NULL;
+
+	int32_t * prev;
+	int32_t * est;
 
 	bool verticeCollision = false;
 
@@ -473,3 +498,13 @@ int main()
 		EndDrawing();
 	}
 }
+
+void mostraVetor (int32_t vet[], int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		printf("%d ", vet[i]);
+	}
+	puts("");
+}
+
