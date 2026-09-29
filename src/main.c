@@ -234,7 +234,7 @@ void acaoDijkstra(struct Graph * graph, struct List * v, int32_t est[], int32_t 
 	est = malloc(sizeof(int32_t)*graph->verticesQtd);
 	prev = malloc(sizeof(int32_t)*graph->verticesQtd);
 
-	if(dijkstra(graph, v->id-1, est, prev))
+	if(!dijkstra(graph, v->id-1, est, prev))
 	{
 		puts("Dijkstra: \n");
 		printf("Estimado: ");mostraVetor(est, graph->verticesQtd);
@@ -271,8 +271,8 @@ int main()
 	struct List * remover2 = NULL;
 	struct Node * tempNode = NULL;
 
-	int32_t * prev;
-	int32_t * est;
+	int32_t * prev = {};
+	int32_t * est = {};
 
 	bool verticeCollision = false;
 

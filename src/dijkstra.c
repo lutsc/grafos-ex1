@@ -36,7 +36,7 @@ int32_t dijkstra(struct Graph * graph, uint32_t vertice, int32_t estimate[], int
 		closed[current] = 1;
 
 		for(uint32_t i = 0; i < graph->verticesQtd; i++) {
-			if(!closed[i]) {
+			if(!closed[i] && estimate[i] != -1) {
 				min = i;
 				break;
 			}
