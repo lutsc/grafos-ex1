@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "dfs.h"
-#include "bfs.h"
+#include "busca.h"
 #include "fechotransitivo.h"
 #include "kosaraju.h"
 
