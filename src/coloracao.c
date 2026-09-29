@@ -17,12 +17,14 @@ int32_t verticesColoracao(struct Graph * graph, int *ret) {
 int32_t maiorGrauColoracao(struct Graph * graph, int32_t *ref, int32_t *ret) {
 
 	int32_t **mat = NULL;
+	bool usedColors[graph->verticesQtd]; 
 
 	if(gerarMatrizAdjacente(graph, &mat))
 		return -1;
 
 	for(uint32_t i = 0; i < graph->verticesQtd; i++) {
 		ret[i] = 0;
+		usedColors[i] = false;
 	}
 
 	for(uint32_t i = 0; i < graph->verticesQtd; i++) {
@@ -31,8 +33,12 @@ int32_t maiorGrauColoracao(struct Graph * graph, int32_t *ref, int32_t *ret) {
 			continue;
 
 		for(uint32_t j = 0; j < graph->verticesQtd; j++) {
-			if(mat[i][j] > 0)
-				ret[j]++;
+			if(mat[i][j] > 0) {
+				if(!usedColors[j]) {
+					usedColors[j] = true;
+					ret[j]++;
+				}
+			}
 		}
 	}
 	return 0;
