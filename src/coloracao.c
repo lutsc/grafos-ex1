@@ -14,7 +14,7 @@ int32_t verticesColoracao(struct Graph * graph, int *ret) {
 
 }
 
-int32_t maiorGrauColoracao(struct Graph * graph, int32_t *ref, int32_t *ret) {
+int32_t grausColoracao(struct Graph * graph, int32_t *ref, int32_t *ret) {
 
 	int32_t **mat = NULL;
 	bool usedColors[graph->verticesQtd]; 
@@ -24,7 +24,6 @@ int32_t maiorGrauColoracao(struct Graph * graph, int32_t *ref, int32_t *ret) {
 
 	for(uint32_t i = 0; i < graph->verticesQtd; i++) {
 		ret[i] = 0;
-		usedColors[i] = false;
 	}
 
 	for(uint32_t i = 0; i < graph->verticesQtd; i++) {
@@ -32,11 +31,14 @@ int32_t maiorGrauColoracao(struct Graph * graph, int32_t *ref, int32_t *ret) {
 		if(ref[i] == 0) //TODO: Ainda não está conferindo se um vértice está adjacente a duas cores iguais
 			continue;
 
+		for(uint32_t k = 0; k < graph->verticesQtd; k++)
+			usedColors[k] = false;
+
 		for(uint32_t j = 0; j < graph->verticesQtd; j++) {
 			if(mat[i][j] > 0) {
-				if(!usedColors[j]) {
-					usedColors[j] = true;
-					ret[j]++;
+				if(!usedColors[ref[j]-1]) {
+					usedColors[ref[j]-1] = true;
+					ret[i]++;
 				}
 			}
 		}
