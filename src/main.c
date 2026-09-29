@@ -257,6 +257,8 @@ int main()
 
 	enum MOUSE_STATE mouseState = SELECT;
 
+	SetExitKey(KEY_NULL);
+
 	struct Graph graph;
 	graph.verticesQtd = 0;
 	graph.directed = 1;
@@ -382,7 +384,6 @@ int main()
 								currentVertice = &graph.array[i];
 							}
 							else{
-								// TODO: Pedir peso para aresta
 								inserirAresta(&graph, currentVertice->id, graph.array[i].id, 1);
 								currentVertice = &graph.array[i];
 							}
@@ -450,7 +451,16 @@ int main()
 				mouseState = SELECT_LINE;
 				break;
 			case KEY_SPACE:
+			case KEY_ESCAPE:
 				mouseState = SELECT;
+				break;
+			case KEY_BACKSPACE:
+			case KEY_DELETE:
+				if (currentVertice != NULL) {
+					removerVertice(&graph, currentVertice->id);
+					currentVertice = NULL;
+				}
+				break;
 			default:
 				break;
 		}
