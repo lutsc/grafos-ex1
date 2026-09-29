@@ -10,9 +10,6 @@
 #include "grafos.h"
 #include "fechotransitivo.h"
 
-#define RAYGUI_IMPLEMENTATION
-#include <raygui.h>
-
 #define WIDTH 800
 #define HEIGHT 600
 
