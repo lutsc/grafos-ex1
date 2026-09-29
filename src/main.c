@@ -4,11 +4,22 @@
  * [s]: Imprime o grafo no terminal
  * [clique do meio do mouse]: remove um vértice
  * [clique esquerdo do mouse]: movimenta um vértice ou cria um vértice ou aresta
+ * [f]: Fecho transitivo direto do vértice selecionado
+ * [i]: Fecho transitivo inverso do vértice selecionado
+ * [d]: Percorre em profundidade (DFS) a partir do vértice selecionado
+ * [b]: Percorre em largura (BFS) a partir do vértice selecionado
+ * [c]: Verifica conexidade / componentes fortemente conexos
+ *
+ * Os atalhos f, i, d, b e c também têm botão na barra superior (FTD, FTI, DFS, BFS, Conexo).
+ * Os de vértice (FTD, FTI, DFS, BFS) ficam cinza até haver um vértice selecionado.
  */
 
 #include <raylib.h>
+#include <stdlib.h>
 #include "grafos.h"
 #include "fechotransitivo.h"
+#include "busca.h"
+#include "kosaraju.h"
 
 #define WIDTH 800
 #define HEIGHT 600
@@ -122,6 +133,94 @@ int32_t LineButton(Rectangle rect)
 DrawLine(rect.x, rect.y+rect.height, rect.x+rect.width, rect.y, lineColor); return clicked;
 }
 
+/*
+ * Botão retangular com texto. Retorna se foi clicado.
+ * Se "enabled" for false, aparece cinza e não responde ao clique.
+ */
+int32_t TextButton(Rectangle rect, const char * label, bool enabled)
+{
+	bool clicked = false;
+	Color btnColor = BUTTON_COLOR;
+
+	if(!enabled) {
+		btnColor = GRAY;
+	}
+	else if(CheckCollisionPointRec(GetMousePosition(), rect)) {
+		if(IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+			clicked = true;
+		}
+		if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+			btnColor = ColorBrightness(BUTTON_COLOR, -0.2);
+		}
+	}
+
+	DrawRectangleRec(rect, btnColor);
+	int textSize = 14;
+	int textW = MeasureText(label, textSize);
+	DrawText(label, rect.x + (rect.width - textW)/2, rect.y + (rect.height - textSize)/2, textSize, WHITE);
+	return clicked;
+}
+
+/*
+ * Ações sobre o grafo (usadas tanto pelos botões quanto pelo teclado)
+ */
+void acaoFtd(struct Graph * graph, struct List * v)
+{
+	if(v == NULL)
+		return;
+	int ftdA[graph->verticesQtd] = {};
+	ftdGrafo(graph, v->id-1, ftdA);
+	printf("Ftd do vértice %d:", v->id);
+	for(uint32_t i = 0; i < graph->verticesQtd; i++) {
+		printf("%d ", ftdA[i]);
+	}
+	puts("");
+}
+
+void acaoFti(struct Graph * graph, struct List * v)
+{
+	if(v == NULL)
+		return;
+	int ftiA[graph->verticesQtd] = {};
+	ftdiGrafo(graph, v->id-1, ftiA);
+	printf("Fti do vértice %d:", v->id);
+	for(uint32_t i = 0; i < graph->verticesQtd; i++) {
+		printf("%d ", ftiA[i]);
+	}
+	puts("");
+}
+
+void acaoDfs(struct Graph * graph, struct List * v)
+{
+	if(v == NULL)
+		return;
+	if(dfs(graph, v->id) != 0)
+		printf("\nVértice inválido.\n");
+	puts("");
+}
+
+void acaoBfs(struct Graph * graph, struct List * v)
+{
+	if(v == NULL)
+		return;
+	if(bfs(graph, v->id) != 0)
+		printf("\nVértice inválido.\n");
+	puts("");
+}
+
+void acaoConexidade(struct Graph * graph)
+{
+	if(graph->verticesQtd == 0)
+		return;
+	if(grafoConexo(graph)) {
+		printf("O grafo é conexo.\n");
+	} else {
+		printf("O grafo NÃO é conexo.\n\n");
+		printf("Subgrafos fortemente conexos máximos:\n");
+		componentesFortementeConexos(graph);
+	}
+}
+
 enum MOUSE_STATE {
 	SELECT, SELECT_CIRCLE, SELECT_LINE
 };
@@ -167,6 +266,31 @@ int main()
 		}
 		else if(LineButton((Rectangle){(int)(WIDTH/20+PADDING), (int)(BAR_HEIGHT/2)-15, 15, 30})) {
 			mouseState = SELECT_LINE;
+		}
+
+		// Botões de ações (as que dependem de vértice ficam cinza sem seleção)
+		{
+			bool temSelecao = (currentVertice != NULL);
+			float btnX = WIDTH/20 + PADDING + 50;
+			float btnY = BAR_HEIGHT/2 - 15;
+			float btnW = 55;
+			float btnH = 30;
+			float btnGap = 10;
+
+			if(TextButton((Rectangle){btnX, btnY, btnW, btnH}, "FTD", temSelecao))
+				acaoFtd(&graph, currentVertice);
+			btnX += btnW + btnGap;
+			if(TextButton((Rectangle){btnX, btnY, btnW, btnH}, "FTI", temSelecao))
+				acaoFti(&graph, currentVertice);
+			btnX += btnW + btnGap;
+			if(TextButton((Rectangle){btnX, btnY, btnW, btnH}, "DFS", temSelecao))
+				acaoDfs(&graph, currentVertice);
+			btnX += btnW + btnGap;
+			if(TextButton((Rectangle){btnX, btnY, btnW, btnH}, "BFS", temSelecao))
+				acaoBfs(&graph, currentVertice);
+			btnX += btnW + btnGap;
+			if(TextButton((Rectangle){btnX, btnY, btnW + 20, btnH}, "Conexo", graph.verticesQtd > 0))
+				acaoConexidade(&graph);
 		}
 
 		switch(mouseState)
@@ -276,26 +400,19 @@ int main()
 				mostrarGrafo(&graph);
 				break;
 			case KEY_F:
-				if(currentVertice != NULL) {
-					int ftdA[graph.verticesQtd] = {};
-					ftdGrafo(&graph, currentVertice->id-1, ftdA);
-					printf("Ftd do vértice %d:", currentVertice->id);
-					for(uint32_t i = 0; i < graph.verticesQtd; i++) {
-						printf("%d ", ftdA[i]);
-					}
-					puts("");
-				}
+				acaoFtd(&graph, currentVertice);
 				break;
 			case KEY_I:
-				if(currentVertice != NULL) {
-					int ftiA[graph.verticesQtd] = {};
-					ftdiGrafo(&graph, currentVertice->id-1, ftiA);
-					printf("Fti do vértice %d:", currentVertice->id);
-					for(uint32_t i = 0; i < graph.verticesQtd; i++) {
-						printf("%d ", ftiA[i]);
-					}
-					puts("");
-				}
+				acaoFti(&graph, currentVertice);
+				break;
+			case KEY_D:
+				acaoDfs(&graph, currentVertice);
+				break;
+			case KEY_B:
+				acaoBfs(&graph, currentVertice);
+				break;
+			case KEY_C:
+				acaoConexidade(&graph);
 				break;
 			case KEY_V:
 			case KEY_ONE:
@@ -316,7 +433,7 @@ int main()
 			switch(mouseState)
 			{
 				case SELECT:
-					if(!verticeCollision)
+					if(!verticeCollision && mousePos.y > BAR_HEIGHT)
 						currentVertice = NULL;
 					break;
 				case SELECT_CIRCLE:
@@ -325,7 +442,7 @@ int main()
 					}
 					break;
 				case SELECT_LINE:
-					if(!verticeCollision)
+					if(!verticeCollision && mousePos.y > BAR_HEIGHT)
 						currentVertice = NULL;
 					break;
 
