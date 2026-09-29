@@ -317,8 +317,14 @@ int main()
 			if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "BFS", isSelected))
 				acaoBfs(&graph, currentVertice);
 			buttonX += buttonW + buttonGap;
-			if(TextButton((Rectangle){buttonX, buttonY, buttonW + 20, buttonH}, "Conexo", graph.verticesQtd > 0))
+			if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "Conexo", graph.verticesQtd > 0))
 				acaoConexidade(&graph);
+			buttonX += buttonW + buttonGap;
+			if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "Cor", graph.verticesQtd > 0))
+				acaoConexidade(&graph);
+			buttonX += buttonW + buttonGap;
+			if(TextButton((Rectangle){buttonX, buttonY, buttonW + 20, buttonH}, "Dijkstra", isSelected))
+				acaoDijkstra(&graph, currentVertice, est, prev);
 		}
 
 		switch(mouseState)
