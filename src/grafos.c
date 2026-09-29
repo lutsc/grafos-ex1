@@ -1,5 +1,4 @@
 #include "grafos.h"
-#include "matrizes.h"
 
 int32_t iniciarGrafo(struct Graph * graph, uint32_t vertices, bool dirigido) {
 	if (graph == NULL) {
