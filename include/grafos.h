@@ -32,7 +32,7 @@ void mostrarGrafo(struct Graph * graph);
 /*
  * Cria uma conexão entre dois nós usando os seus ids
  */
-int32_t inserirAresta(struct Graph * graph, uint32_t id1, uint32_t id2);
+int32_t inserirAresta(struct Graph * graph, uint32_t id1, uint32_t id2, uint32_t weight);
 
 /*
  * Desfaz uma conexão entre dois nós usando os seus ids

@@ -82,7 +82,7 @@ void mostrarGrafo(struct Graph * graph) {
 /*
  * Checa se há conexão já existente, se não, adiciona conexão para id2 no vértice id1, idem se o grafo é dirigido
  */
-int32_t inserirAresta(struct Graph * graph, uint32_t id1, uint32_t id2){
+int32_t inserirAresta(struct Graph * graph, uint32_t id1, uint32_t id2, uint32_t weight){
 	if (graph == NULL || graph->array == NULL) {
 		// Grafo ou Lista inválida
 		return 1;
@@ -103,7 +103,7 @@ int32_t inserirAresta(struct Graph * graph, uint32_t id1, uint32_t id2){
 
 	// Conexão id1 -> id2
 	struct Node * novoNode;
-	if (criarNode(&novoNode, 0, id2))
+	if (criarNode(&novoNode, weight, id2))
 		return 1;
 	insereListaFim(&graph->array[id1-1], &novoNode);
 
@@ -111,7 +111,7 @@ int32_t inserirAresta(struct Graph * graph, uint32_t id1, uint32_t id2){
 	// Conexão id2 -> id1
 	if (graph->directed == 0) {
 		struct Node * novoNode2;
-		if (criarNode(&novoNode2, 0, id1))
+		if (criarNode(&novoNode2, weight, id1))
 			return 1;
 		insereListaFim(&graph->array[id2-1], &novoNode2);
 	}
