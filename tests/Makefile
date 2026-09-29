@@ -4,4 +4,4 @@ OBJS = ../build/lista_encadeada.o ../build/matrizes.o ../build/grafos.o ../build
 
 
 %:%.c
-	gcc -g -I../include -lraylib $(OBJS) $^ -o build/$@
+	gcc -g -I../include -lraylib $(OBJS) $^ -o bin/$@

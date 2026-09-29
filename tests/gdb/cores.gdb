@@ -1,14 +1,13 @@
 start
-break 32
+break 34
 continue
 step
-break 29
+break 56
 continue
 display *ret@5
 display *ref@5
 display *usedColors@5
 display i
-break 38
-continue
 display j
 display mat[i][j]
+

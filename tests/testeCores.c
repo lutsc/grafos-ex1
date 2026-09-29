@@ -27,12 +27,21 @@ int main()
 
 	mostrarGrafo(&graph);
 
+	printf("\n\t---\t Teste graus de coloração --- \t\n");
 	int32_t ret[5] = {0};
+	// int32_t ref[5] = {0, 1, 0, 0, 0};
 	int32_t ref[5] = {2, 1, 3, 4, 2};
-	maiorGrauColoracao(&graph, ref, ret);
-
+	grausColoracao(&graph, ref, ret);
 	mostrarCores(ret, 5, ref, 5);
 
+	printf("\n\t---\t Teste cores para os vértices --- \t\n");
+	verticesColoracaoGrafo(&graph, ret);
+	printf("Ret: ");
+	for(int i = 0; i < 5; i++)
+	{
+		printf("%d ", ret[i]);
+	}
+	puts("");
 }
 
 void mostrarCores(int * ret, int size1, int * ref, int size2) {
@@ -50,4 +59,3 @@ void mostrarCores(int * ret, int size1, int * ref, int size2) {
 	}
 	puts("");
 }
-
