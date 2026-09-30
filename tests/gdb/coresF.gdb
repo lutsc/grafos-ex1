@@ -1,12 +1,14 @@
 start
-break 37
+break 38
 continue
 step
-break 91
+break 102
 continue
 display *ret@5
 display *grausCor@5
-display maiorGrau
-display maiorCor
+display *usedColors@5
+display indiceMaiorCor
 display current
+display tempColor
+display done
 

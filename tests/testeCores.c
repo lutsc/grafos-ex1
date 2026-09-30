@@ -29,8 +29,8 @@ int main()
 
 	printf("\n\t---\t Teste graus de coloração --- \t\n");
 	int32_t ret[5] = {0};
-	// int32_t ref[5] = {0, 1, 0, 0, 0};
-	int32_t ref[5] = {2, 1, 3, 4, 2};
+	int32_t ref[5] = {0, 1, 0, 0, 0};
+	// int32_t ref[5] = {2, 1, 3, 4, 2};
 	grausColoracao(&graph, ref, ret);
 	mostrarCores(ret, 5, ref, 5);
 

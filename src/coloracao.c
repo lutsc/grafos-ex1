@@ -79,10 +79,12 @@ int32_t verticesColoracaoGrafo(struct Graph * graph, int32_t *ret) {
 
 	uint32_t temp = 0;
 	uint32_t maiorGrau = 0;
-	uint32_t maiorCor = 0;
+	uint32_t indiceMaiorCor = 0;
+	bool usedColors[graph->verticesQtd];
 
 	for(uint32_t i = 0; i < graph->verticesQtd; i++){
 		ret[i] = 0;
+		usedColors[i] = false;
 
 		temp = graph->array[i].nodeQtd;
 		if(temp > graph->array[maiorGrau].nodeQtd)
@@ -91,21 +93,42 @@ int32_t verticesColoracaoGrafo(struct Graph * graph, int32_t *ret) {
 	ret[maiorGrau] = 1;
 
 	int32_t grausCor[graph->verticesQtd];
+	uint32_t current = indiceMaiorCor; 
+	uint32_t tempColor = 0; 
 
-	uint32_t current = maiorGrau; 
-	while(true){
+	bool done = false;
+
+
+	while(!done) {
+		done = true;
+
 		grausColoracao(graph, ret, grausCor);
 
-		for(uint32_t i = 0; i < graph->verticesQtd; i++){
-			temp = grausCor[i];
-			if(temp > maiorCor)
-				maiorCor = i;
+		indiceMaiorCor = 0;
+		for(uint32_t j = 0; j < graph->verticesQtd; j++){
+			usedColors[j] = false;
+			grausCor[j] = (uint32_t)grausCor[j] & ((bool)ret[j] - 1);
+
+			if(grausCor[j] > grausCor[(int32_t)indiceMaiorCor])
+				indiceMaiorCor = j;
+		}
+		current = indiceMaiorCor;
+
+		for(uint32_t j = 0; j < graph->verticesQtd; j++){
+			if(mat[current][j] > 0 && ret[j] > 0) {
+				usedColors[ret[j]-1] = true;
+			}
+			if(ret[j] == 0)
+				done = false;
 		}
 
-		if(maiorCor == current)
-			break;
+		for(uint32_t j = 0; j < graph->verticesQtd; j++){
+			if(!usedColors[j]) {
+				ret[current] = j+1;
+				break;
+			}
+		}
 
-		ret[maiorCor] = ret[current]+1; //NOTE: Atualmente errado
 	}
 
 
