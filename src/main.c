@@ -226,7 +226,6 @@ void acaoConexidade(struct Graph * graph)
 	}
 }
 
-
 void acaoDijkstra(struct Graph * graph, struct List * v, int32_t est[], int32_t prev[])
 {
 	if(v == NULL)
@@ -244,6 +243,16 @@ void acaoDijkstra(struct Graph * graph, struct List * v, int32_t est[], int32_t 
 	free(est);
 	free(prev);
 }
+
+void calcularCores(struct Graph * graph)
+{
+	int32_t cores[graph->verticesQtd];
+
+	verticesColoracaoGrafo(graph, cores);
+	atualizarColoracaoGrafo(graph, cores);
+}
+
+
 
 enum MOUSE_STATE {
 	SELECT, SELECT_CIRCLE, SELECT_LINE
@@ -297,36 +306,35 @@ int main()
 			mouseState = SELECT_LINE;
 		}
 
-		// Botões de ações (as que dependem de vértice ficam cinza sem seleção)
-		{
-			bool isSelected = (currentVertice != NULL);
-			float buttonW = 55;
-			float buttonH = 30;
-			float buttonGap = 10;
-			float buttonX = (int)(WIDTH/20) + PADDING + 50;
-			float buttonY = (int)(BAR_HEIGHT/2) - buttonH/2;
+		bool mostrarCores = false;
+		bool isSelected = (currentVertice != NULL);
+		float buttonW = 55;
+		float buttonH = 30;
+		float buttonGap = 10;
+		float buttonX = (int)(WIDTH/20) + PADDING + 50;
+		float buttonY = (int)(BAR_HEIGHT/2) - buttonH/2;
 
-			if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "FTD", isSelected))
-				acaoFtd(&graph, currentVertice);
-			buttonX += buttonW + buttonGap;
-			if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "FTI", isSelected))
-				acaoFti(&graph, currentVertice);
-			buttonX += buttonW + buttonGap;
-			if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "DFS", isSelected))
-				acaoDfs(&graph, currentVertice);
-			buttonX += buttonW + buttonGap;
-			if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "BFS", isSelected))
-				acaoBfs(&graph, currentVertice);
-			buttonX += buttonW + buttonGap;
-			if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "Conexo", graph.verticesQtd > 0))
-				acaoConexidade(&graph);
-			buttonX += buttonW + buttonGap;
-			if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "Cor", graph.verticesQtd > 0))
-				acaoConexidade(&graph);
-			buttonX += buttonW + buttonGap;
-			if(TextButton((Rectangle){buttonX, buttonY, buttonW + 20, buttonH}, "Dijkstra", isSelected))
-				acaoDijkstra(&graph, currentVertice, est, prev);
+		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "FTD", isSelected))
+			acaoFtd(&graph, currentVertice);
+		buttonX += buttonW + buttonGap;
+		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "FTI", isSelected))
+			acaoFti(&graph, currentVertice);
+		buttonX += buttonW + buttonGap;
+		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "DFS", isSelected))
+			acaoDfs(&graph, currentVertice);
+		buttonX += buttonW + buttonGap;
+		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "BFS", isSelected))
+			acaoBfs(&graph, currentVertice);
+		buttonX += buttonW + buttonGap;
+		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "Conexo", graph.verticesQtd > 0))
+			acaoConexidade(&graph);
+		buttonX += buttonW + buttonGap;
+		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "Cor", graph.verticesQtd > 0)) {
+			mostrarCores = !mostrarCores;
 		}
+		buttonX += buttonW + buttonGap;
+		if(TextButton((Rectangle){buttonX, buttonY, buttonW + 20, buttonH}, "Dijkstra", isSelected))
+			acaoDijkstra(&graph, currentVertice, est, prev);
 
 		switch(mouseState)
 		{
@@ -346,7 +354,12 @@ int main()
 		for(uint32_t i = 0; i < graph.verticesQtd; i++)
 		{
 			// DrawCircleV(graph.array[i].pos, CIRCLE_RADIUS, V_COLOR);
-			DrawPoly(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, V_COLOR);
+			if(!mostrarCores) {
+				DrawPoly(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, V_COLOR);
+			}
+			else{
+				DrawPoly(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, GetColor(graph.array->color));
+			}
 			DrawText(TextFormat("%d", graph.array[i].id), graph.array[i].pos.x-(int)(MeasureText(TextFormat("%d", graph.array[i].id), FONT_SIZE)/2), graph.array[i].pos.y-(int)(FONT_SIZE), FONT_SIZE, BLACK);
 			tempNode = graph.array[i].head;
 			while(tempNode != NULL)
@@ -393,6 +406,7 @@ int main()
 							else{
 								inserirAresta(&graph, currentVertice->id, graph.array[i].id, 1);
 								currentVertice = &graph.array[i];
+								calcularCores(&graph);
 							}
 						default:
 							break;
@@ -483,6 +497,7 @@ int main()
 				case SELECT_CIRCLE:
 					if(mousePos.y > BAR_HEIGHT+CIRCLE_RADIUS) {
 						inserirVertice(&graph);
+						calcularCores(&graph);
 					}
 					break;
 				case SELECT_LINE:
