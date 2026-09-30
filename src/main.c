@@ -16,6 +16,7 @@
 
 #include <raylib.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "grafos.h"
 #include "fechotransitivo.h"
@@ -294,13 +295,28 @@ Color getColor(uint32_t num){
 	uint8_t g = 255 * (bool)(num&0b00000010);
 	uint8_t b = 255 * (bool)(num&0b00000001);
 	for(int i = 0; i < 5; i++){
-		r -= (128 >> i) * (bool)(num&(0b00001000 << i) * (bool)(num&0b00000100)) + (255>>i)*(num&~0b00000111);
-		g -= (128 >> i) * (bool)(num&(0b00001000 << i) * (bool)(num&0b00000010)) + (255>>i)*(num&~0b00000111);
-		b -= (128 >> i) * (bool)(num&(0b00001000 << i) * (bool)(num&0b00000001)) + (255>>i)*(num&~0b00000111);
+		r -= (128 >> i) * (bool)(num&(0b00001000 << i) * (bool)(num&0b00000100)) + (255>>i)*(num&0b11111000);
+		g -= (128 >> i) * (bool)(num&(0b00001000 << i) * (bool)(num&0b00000010)) + (255>>i)*(num&0b11111000);
+		b -= (128 >> i) * (bool)(num&(0b00001000 << i) * (bool)(num&0b00000001)) + (255>>i)*(num&0b11111000);
 	}
 
 	return (Color){r, g, b, 255};
 }
+
+void drawNumberMiddleLine(Vector2 pos1, Vector2 pos2, uint32_t number) {
+	Vector2 final = pos1;
+	final.x += (pos2.x - pos1.x)/2;
+	final.y += (pos2.y - pos1.y)/2 - 3*(float)FONT_SIZE;
+
+	// Vector2 hyp = {fabs(final.x - pos1.x), fabs(final.y - pos1.y)};
+
+	// double angle = acos(module(final));
+	// double angle = 90;
+	// DrawTextPro(GetFontDefault(), TextFormat("%d", number), final, final, angle, (float)FONT_SIZE, 1, BLACK);
+	DrawText(TextFormat("%d", number), final.x, final.y, FONT_SIZE, BLACK);
+}
+
+
 
 int main()
 {
@@ -375,15 +391,15 @@ int main()
 		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "BFS", isSelected))
 			acaoBfs(&graph, currentVertice);
 		buttonX += buttonW + buttonGap;
+		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "Dijkstra", isSelected))
+			acaoDijkstra(&graph, currentVertice, est, prev);
+		buttonX += buttonW + buttonGap;
 		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "Conexo", graph.verticesQtd > 0))
 			acaoConexidade(&graph);
 		buttonX += buttonW + buttonGap;
 		if(TextButtonToggle((Rectangle){buttonX, buttonY, buttonW, buttonH}, "Cor", graph.verticesQtd > 0 && mostrarCores)) {
 			mostrarCores = !mostrarCores;
 		}
-		buttonX += buttonW + buttonGap;
-		if(TextButton((Rectangle){buttonX, buttonY, buttonW + 20, buttonH}, "Dijkstra", isSelected))
-			acaoDijkstra(&graph, currentVertice, est, prev);
 
 		switch(mouseState)
 		{
@@ -417,6 +433,7 @@ int main()
 				if(CheckCollisionCircleLine(mousePos, 15, graph.array[i].pos, graph.array[tempNode->id-1].pos))
 				{
 					DrawArrow(concentricPointStop(graph.array[tempNode->id-1].pos, graph.array[i].pos, CIRCLE_RADIUS), concentricPointStop(graph.array[i].pos, graph.array[tempNode->id-1].pos, CIRCLE_RADIUS), ARROW_ANGLE, ARROW_WING, RED);
+					drawNumberMiddleLine(graph.array[i].pos, graph.array[tempNode->id-1].pos, tempNode->data);
 					if(IsMouseButtonPressed(MOUSE_MIDDLE_BUTTON)){
 						remover1 = &graph.array[i];
 						remover2 = &graph.array[tempNode->id-1];
@@ -424,6 +441,8 @@ int main()
 				}
 				else {
 					DrawArrow(concentricPointStop(graph.array[tempNode->id-1].pos, graph.array[i].pos, CIRCLE_RADIUS), concentricPointStop(graph.array[i].pos, graph.array[tempNode->id-1].pos, CIRCLE_RADIUS), ARROW_ANGLE, ARROW_WING, BLACK);
+					// drawNumberMiddleLine((Vector2){300, 300}, (Vector2){400, 300}, 10);
+					drawNumberMiddleLine(graph.array[i].pos, graph.array[tempNode->id-1].pos, tempNode->data);
 				}
 
 
