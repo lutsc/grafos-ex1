@@ -8,6 +8,7 @@ int32_t iniciarLista(struct List * list, uint32_t id, Vector2 pos) {
 	list->id = id;
 	list->nodeQtd = 0;
 	list->head = NULL;
+	list->color = 0;
 	return 0;
 }
 

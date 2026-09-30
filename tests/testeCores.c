@@ -5,13 +5,15 @@
 #include "grafos.h"
 #include "coloracao.h"
 
+#define qtdVertices 8
+
 
 void mostrarCores(int * ret, int size1, int * ref, int size2);
 
 int main()
 {
 	struct Graph graph;
-	iniciarGrafo(&graph, 5, 0);
+	iniciarGrafo(&graph, qtdVertices, 0);
 
 	inserirAresta(&graph, 1, 2, 1);
 	inserirAresta(&graph, 1, 3, 1);
@@ -28,16 +30,16 @@ int main()
 	mostrarGrafo(&graph);
 
 	printf("\n\t---\t Teste graus de coloração --- \t\n");
-	int32_t ret[5] = {0};
-	int32_t ref[5] = {0, 1, 0, 0, 0};
-	// int32_t ref[5] = {2, 1, 3, 4, 2};
+	int32_t ret[qtdVertices] = {0};
+	// int32_t ref[5] = {0, 1, 0, 0, 0};
+	int32_t ref[qtdVertices] = {2, 1, 3, 4, 2};
 	grausColoracao(&graph, ref, ret);
-	mostrarCores(ret, 5, ref, 5);
+	mostrarCores(ret, qtdVertices, ref, qtdVertices);
 
 	printf("\n\t---\t Teste cores para os vértices --- \t\n");
 	verticesColoracaoGrafo(&graph, ret);
 	printf("Ret: ");
-	for(int i = 0; i < 5; i++)
+	for(int i = 0; i < qtdVertices; i++)
 	{
 		printf("%d ", ret[i]);
 	}

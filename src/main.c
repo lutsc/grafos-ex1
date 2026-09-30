@@ -358,7 +358,7 @@ int main()
 				DrawPoly(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, V_COLOR);
 			}
 			else{
-				DrawPoly(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, GetColor(graph.array->color));
+				// DrawPoly(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, GetColor(graph.array->color));
 			}
 			DrawText(TextFormat("%d", graph.array[i].id), graph.array[i].pos.x-(int)(MeasureText(TextFormat("%d", graph.array[i].id), FONT_SIZE)/2), graph.array[i].pos.y-(int)(FONT_SIZE), FONT_SIZE, BLACK);
 			tempNode = graph.array[i].head;
