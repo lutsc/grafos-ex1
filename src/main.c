@@ -357,6 +357,7 @@ int main()
 			mouseState = SELECT_LINE;
 		}
 
+		isSelected = (currentVertice != NULL);
 		buttonX = (int)(WIDTH/20) + PADDING + 50; 
 		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "FTD", isSelected))
 			acaoFtd(&graph, currentVertice);
@@ -462,6 +463,7 @@ int main()
 					removerVertice(&graph, graph.array[i].id);
 					if(currentVertice == &graph.array[i])
 						currentVertice = NULL;
+
 					atualizarGrafo = true;
 				}
 
