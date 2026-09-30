@@ -145,7 +145,7 @@ int32_t atualizarColoracaoGrafo(struct Graph * graph, int32_t *cores)
 		return -1;
 
 	for(uint32_t i = 0; i < graph->verticesQtd; i++){
-		graph->array->color = cores[i];
+		graph->array[i].color = cores[i];
 	}
 
 	return 0;
