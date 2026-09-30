@@ -289,7 +289,7 @@ enum MOUSE_STATE {
 Color COLORS[] = {
     // HACK: Idealmente fazer algo dinâmico para as cores, pois enums limitam a
     // quantidade
-    MAGENTA,   BLUE,   ORANGE,    RED,      GREEN,      PINK,  GOLD,
+    MAGENTA,   BLUE,   GREEN,    RED,      ORANGE,      PINK,  GOLD,
     YELLOW,    VIOLET, LIME,      PURPLE,   SKYBLUE,    GRAY,  DARKGRAY,
     DARKGREEN, MAROON, LIGHTGRAY, DARKBLUE, DARKPURPLE, BEIGE, BROWN,
     DARKBROWN, WHITE,  BLACK,     BLANK,    RAYWHITE,
@@ -308,7 +308,7 @@ int main()
 
 	struct Graph graph;
 	graph.verticesQtd = 0; 
-	graph.directed = 0; //WARN: Apenas para testes
+	graph.directed = 1;
 
 	iniciarGrafo(&graph, graph.verticesQtd, graph.directed);
 
@@ -329,6 +329,13 @@ int main()
 	bool isSelected = (currentVertice != NULL);
 	bool atualizarGrafo = false;
 
+
+	float buttonW = 55; 
+	float buttonH = 30;
+	float buttonGap = 10;
+	float buttonX = (int)(WIDTH/20) + PADDING + 50;
+	float buttonY = (int)(BAR_HEIGHT/2) - buttonH/2;
+
 	// ToggleFullscreen();
 
 	while(!WindowShouldClose())
@@ -347,12 +354,7 @@ int main()
 			mouseState = SELECT_LINE;
 		}
 
-		float buttonW = 55; //FIX: Declaração de variáveis dentro do loop
-		float buttonH = 30;
-		float buttonGap = 10;
-		float buttonX = (int)(WIDTH/20) + PADDING + 50;
-		float buttonY = (int)(BAR_HEIGHT/2) - buttonH/2;
-
+		buttonX = (int)(WIDTH/20) + PADDING + 50; 
 		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "FTD", isSelected))
 			acaoFtd(&graph, currentVertice);
 		buttonX += buttonW + buttonGap;
