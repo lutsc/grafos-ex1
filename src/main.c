@@ -290,10 +290,14 @@ enum MOUSE_STATE {
  * Retorna uma cor dado um número inteiro positivo
  */
 Color getColor(uint32_t num){ 
-
 	uint8_t r = 255 * (bool)(num&0b00000100);
 	uint8_t g = 255 * (bool)(num&0b00000010);
 	uint8_t b = 255 * (bool)(num&0b00000001);
+	for(int i = 0; i < 5; i++){
+		r -= (128 >> i) * (bool)(num&(0b00001000 << i) * (bool)(num&0b00000100)) + (255>>i)*(num&~0b00000111);
+		g -= (128 >> i) * (bool)(num&(0b00001000 << i) * (bool)(num&0b00000010)) + (255>>i)*(num&~0b00000111);
+		b -= (128 >> i) * (bool)(num&(0b00001000 << i) * (bool)(num&0b00000001)) + (255>>i)*(num&~0b00000111);
+	}
 
 	return (Color){r, g, b, 255};
 }
