@@ -5,7 +5,7 @@
 #include "grafos.h"
 #include "coloracao.h"
 
-#define qtdVertices 8
+#define qtdVertices 5
 
 
 void mostrarCores(int * ret, int size1, int * ref, int size2);
@@ -13,7 +13,7 @@ void mostrarCores(int * ret, int size1, int * ref, int size2);
 int main()
 {
 	struct Graph graph;
-	iniciarGrafo(&graph, qtdVertices, 0);
+	iniciarGrafo(&graph, qtdVertices, 1);
 
 	inserirAresta(&graph, 1, 2, 1);
 	inserirAresta(&graph, 1, 3, 1);

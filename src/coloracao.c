@@ -54,7 +54,7 @@ int32_t grausColoracao(struct Graph * graph, int32_t *ref, int32_t *ret) {
 			usedColors[k] = false;
 
 		for(uint32_t j = 0; j < graph->verticesQtd; j++) {
-			if(mat[i][j] > 0 && ref[j] != 0) {
+			if((mat[i][j] > 0 || mat[j][i]) && ref[j] != 0) {
 				if(!usedColors[ref[j]-1]) {
 					usedColors[ref[j]-1] = true;
 					ret[i]++;
@@ -118,7 +118,7 @@ int32_t verticesColoracaoGrafo(struct Graph * graph, int32_t *ret) {
 		current = indiceMaiorCor;
 
 		for(uint32_t j = 0; j < graph->verticesQtd; j++){
-			if(mat[current][j] > 0 && ret[j] > 0) {
+			if((mat[current][j] > 0 || mat[j][current]) && ret[j] > 0) {
 				usedColors[ret[j]-1] = true;
 			}
 			if(ret[j] == 0)
