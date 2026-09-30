@@ -22,6 +22,7 @@
 #include "busca.h"
 #include "kosaraju.h"
 #include "dijkstra.h"
+#include "coloracao.h"
 
 #define WIDTH 800
 #define HEIGHT 600

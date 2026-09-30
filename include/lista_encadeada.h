@@ -13,6 +13,7 @@ struct Node {
 };
 
 struct List {
+	uint32_t color;
 	Vector2 pos;
 	uint32_t id;
 	uint32_t nodeQtd;

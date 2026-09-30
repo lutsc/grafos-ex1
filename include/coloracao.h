@@ -22,4 +22,9 @@ int32_t grausColoracao(struct Graph * graph, int32_t *ref, int32_t *ret);
  */
 int32_t verticesColoracaoGrafo(struct Graph * graph, int32_t *ret);
 
+/*
+ * Atualiza as variáveis de cores das listas (vértices) do grafo
+ */
+int32_t atualizarColoracaoGrafo(struct Graph * graph, int32_t *cores);
+
 #endif

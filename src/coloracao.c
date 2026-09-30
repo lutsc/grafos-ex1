@@ -135,3 +135,18 @@ int32_t verticesColoracaoGrafo(struct Graph * graph, int32_t *ret) {
 	liberarMatriz(mat, graph->verticesQtd);
 	return 0;
 }
+
+int32_t atualizarColoracaoGrafo(struct Graph * graph, int32_t *cores)
+{
+	if(graph == NULL)
+		return -1;
+
+	if(graph->verticesQtd == 0)
+		return -1;
+
+	for(uint32_t i = 0; i < graph->verticesQtd; i++){
+		graph->array->color = cores[i];
+	}
+
+	return 0;
+}
