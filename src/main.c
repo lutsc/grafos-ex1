@@ -167,6 +167,34 @@ int32_t TextButton(Rectangle rect, const char * label, bool enabled)
 }
 
 /*
+ * Similar ao TextButton mas permite ser clicado mesmo inativo
+ */
+int32_t TextButtonToggle(Rectangle rect, const char * label, bool enabled)
+{
+	bool clicked = false;
+	Color buttonColor = BUTTON_COLOR;
+
+	if(!enabled) {
+		buttonColor = GRAY;
+	}
+
+	if(CheckCollisionPointRec(GetMousePosition(), rect)) {
+		if(IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
+			clicked = true;
+		}
+		if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+			buttonColor = ColorBrightness(BUTTON_COLOR, -0.2);
+		}
+	}
+
+	DrawRectangleRec(rect, buttonColor);
+	int textSize = 14;
+	int textW = MeasureText(label, textSize);
+	DrawText(label, rect.x + (rect.width - textW)/2, rect.y + (rect.height - textSize)/2, textSize, WHITE);
+	return clicked;
+}
+
+/*
  * Ações sobre o grafo (usadas tanto pelos botões quanto pelo teclado)
  */
 void acaoFtd(struct Graph * graph, struct List * v)
@@ -258,6 +286,15 @@ enum MOUSE_STATE {
 	SELECT, SELECT_CIRCLE, SELECT_LINE
 };
 
+Color COLORS[] = {
+    // HACK: Idealmente fazer algo dinâmico para as cores, pois enums limitam a
+    // quantidade
+    MAGENTA,   BLUE,   ORANGE,    RED,      GREEN,      PINK,  GOLD,
+    YELLOW,    VIOLET, LIME,      PURPLE,   SKYBLUE,    GRAY,  DARKGRAY,
+    DARKGREEN, MAROON, LIGHTGRAY, DARKBLUE, DARKPURPLE, BEIGE, BROWN,
+    DARKBROWN, WHITE,  BLACK,     BLANK,    RAYWHITE,
+};
+
 int main()
 {
 	SetTraceLogLevel(LOG_NONE);
@@ -270,8 +307,8 @@ int main()
 	SetExitKey(KEY_NULL);
 
 	struct Graph graph;
-	graph.verticesQtd = 0;
-	graph.directed = 1;
+	graph.verticesQtd = 0; 
+	graph.directed = 0; //WARN: Apenas para testes
 
 	iniciarGrafo(&graph, graph.verticesQtd, graph.directed);
 
@@ -287,6 +324,10 @@ int main()
 	bool verticeCollision = false;
 
 	Vector2 mousePos;
+
+	bool mostrarCores = false;
+	bool isSelected = (currentVertice != NULL);
+	bool atualizarGrafo = false;
 
 	// ToggleFullscreen();
 
@@ -306,9 +347,7 @@ int main()
 			mouseState = SELECT_LINE;
 		}
 
-		bool mostrarCores = false;
-		bool isSelected = (currentVertice != NULL);
-		float buttonW = 55;
+		float buttonW = 55; //FIX: Declaração de variáveis dentro do loop
 		float buttonH = 30;
 		float buttonGap = 10;
 		float buttonX = (int)(WIDTH/20) + PADDING + 50;
@@ -329,7 +368,7 @@ int main()
 		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "Conexo", graph.verticesQtd > 0))
 			acaoConexidade(&graph);
 		buttonX += buttonW + buttonGap;
-		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "Cor", graph.verticesQtd > 0)) {
+		if(TextButtonToggle((Rectangle){buttonX, buttonY, buttonW, buttonH}, "Cor", graph.verticesQtd > 0 && mostrarCores)) {
 			mostrarCores = !mostrarCores;
 		}
 		buttonX += buttonW + buttonGap;
@@ -358,7 +397,7 @@ int main()
 				DrawPoly(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, V_COLOR);
 			}
 			else{
-				// DrawPoly(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, GetColor(graph.array->color));
+				DrawPoly(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, COLORS[graph.array[i].color%26]); 
 			}
 			DrawText(TextFormat("%d", graph.array[i].id), graph.array[i].pos.x-(int)(MeasureText(TextFormat("%d", graph.array[i].id), FONT_SIZE)/2), graph.array[i].pos.y-(int)(FONT_SIZE), FONT_SIZE, BLACK);
 			tempNode = graph.array[i].head;
@@ -406,7 +445,7 @@ int main()
 							else{
 								inserirAresta(&graph, currentVertice->id, graph.array[i].id, 1);
 								currentVertice = &graph.array[i];
-								calcularCores(&graph);
+								atualizarGrafo = true;
 							}
 						default:
 							break;
@@ -418,6 +457,7 @@ int main()
 					removerVertice(&graph, graph.array[i].id);
 					if(currentVertice == &graph.array[i])
 						currentVertice = NULL;
+					atualizarGrafo = true;
 				}
 
 			}
@@ -438,6 +478,12 @@ int main()
 			removerAresta(&graph, remover1->id, remover2->id);
 			remover1 = NULL;
 			remover2 = NULL;
+			atualizarGrafo = true;
+		}
+
+		if(atualizarGrafo){
+			calcularCores(&graph);
+			atualizarGrafo = false;
 		}
 
 		switch(GetKeyPressed())
@@ -480,6 +526,7 @@ int main()
 				if (currentVertice != NULL) {
 					removerVertice(&graph, currentVertice->id);
 					currentVertice = NULL;
+					atualizarGrafo = true;
 				}
 				break;
 			default:
@@ -497,7 +544,7 @@ int main()
 				case SELECT_CIRCLE:
 					if(mousePos.y > BAR_HEIGHT+CIRCLE_RADIUS) {
 						inserirVertice(&graph);
-						calcularCores(&graph);
+						atualizarGrafo = true;
 					}
 					break;
 				case SELECT_LINE:

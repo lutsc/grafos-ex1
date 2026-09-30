@@ -109,7 +109,7 @@ int32_t verticesColoracaoGrafo(struct Graph * graph, int32_t *ret) {
 			usedColors[j] = false;
 
 			grausCor[j] = grausCor[j]+1;
-			grausCor[j] = grausCor[j] * (-1 * (bool)ret[j]); //FIX: Atualmente o programa crasha em casos de mais de um vértice sem conexões
+			grausCor[j] = grausCor[j] * (-1 * (bool)ret[j]);
 
 
 			if(grausCor[j] > grausCor[(int32_t)indiceMaiorCor])
