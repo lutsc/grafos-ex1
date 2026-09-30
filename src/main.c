@@ -286,14 +286,17 @@ enum MOUSE_STATE {
 	SELECT, SELECT_CIRCLE, SELECT_LINE
 };
 
-Color COLORS[] = {
-    // HACK: Idealmente fazer algo dinâmico para as cores, pois enums limitam a
-    // quantidade
-    MAGENTA,   BLUE,   GREEN,    RED,      ORANGE,      PINK,  GOLD,
-    YELLOW,    VIOLET, LIME,      PURPLE,   SKYBLUE,    GRAY,  DARKGRAY,
-    DARKGREEN, MAROON, LIGHTGRAY, DARKBLUE, DARKPURPLE, BEIGE, BROWN,
-    DARKBROWN, WHITE,  BLACK,     BLANK,    RAYWHITE,
-};
+/*
+ * Retorna uma cor dado um número inteiro positivo
+ */
+Color getColor(uint32_t num){ 
+
+	uint8_t r = 255 * (bool)(num&0b00000100);
+	uint8_t g = 255 * (bool)(num&0b00000010);
+	uint8_t b = 255 * (bool)(num&0b00000001);
+
+	return (Color){r, g, b, 255};
+}
 
 int main()
 {
@@ -399,7 +402,7 @@ int main()
 				DrawPoly(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, V_COLOR);
 			}
 			else{
-				DrawPoly(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, COLORS[graph.array[i].color%26]); 
+				DrawPoly(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, getColor(graph.array[i].color)); 
 			}
 			DrawText(TextFormat("%d", graph.array[i].id), graph.array[i].pos.x-(int)(MeasureText(TextFormat("%d", graph.array[i].id), FONT_SIZE)/2), graph.array[i].pos.y-(int)(FONT_SIZE), FONT_SIZE, BLACK);
 			tempNode = graph.array[i].head;
