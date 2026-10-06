@@ -4,8 +4,6 @@
 #include "matrizes.h"
 #include "grafos.h"
 
-int32_t verticesColoracao(struct Graph * graph, int *ret);
-
 /*
  * Modifica a variavel *max para adotar o maior função de um vetor, retorna 0 em êxito e -1 caso contrário
  */

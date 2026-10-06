@@ -1,18 +1,6 @@
 #include "coloracao.h"
 
-int32_t verticesColoracao(struct Graph * graph, int *ret) {
-
-	int vertices = graph->array->nodeQtd;
-
-	if (vertices <= 0)
-		return 0;
-	
-	int saturacao[vertices];
-	int coloracao[vertices];
-
-	int maiorGrau;
-
-}
+// TODO: Converter função para utilizar lista de adjacência
 
 int32_t maxVetor(int32_t * vec, uint32_t size, int32_t * max) {
 	if(vec == NULL)
@@ -31,7 +19,6 @@ int32_t maxVetor(int32_t * vec, uint32_t size, int32_t * max) {
 
 	return 0;
 }
-
 
 int32_t grausColoracao(struct Graph * graph, int32_t *ref, int32_t *ret) {
 
@@ -94,10 +81,8 @@ int32_t verticesColoracaoGrafo(struct Graph * graph, int32_t *ret) {
 
 	int32_t grausCor[graph->verticesQtd];
 	uint32_t current = indiceMaiorCor; 
-	uint32_t tempColor = 0; 
 
 	bool done = false;
-
 
 	while(!done) {
 		done = true;
@@ -133,7 +118,6 @@ int32_t verticesColoracaoGrafo(struct Graph * graph, int32_t *ret) {
 		}
 
 	}
-
 
 	liberarMatriz(mat, graph->verticesQtd);
 	return 0;
