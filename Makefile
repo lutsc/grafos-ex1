@@ -1,6 +1,6 @@
 CFLAGS = -Iinclude -lm -lraylib -g -Wall -Wextra
 
-OBJS = build/main.o build/lista_encadeada.o build/matrizes.o build/grafos.o build/menu.o build/busca.o build/fechotransitivo.o build/kosaraju.o build/coloracao.o build/dijkstra.o
+OBJS = build/main.o build/lista_encadeada.o build/matrizes.o build/grafos.o build/menu.o build/busca.o build/fechotransitivo.o build/kosaraju.o build/coloracao.o
 
 TARGET = bin/main
 

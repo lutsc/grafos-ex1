@@ -19,7 +19,6 @@
 #include "fechotransitivo.h"
 #include "busca.h"
 #include "kosaraju.h"
-#include "dijkstra.h"
 #include "coloracao.h"
 
 void mostraVetor (int32_t vet[], int n)
@@ -34,46 +33,46 @@ void mostraVetor (int32_t vet[], int n)
 /*
  * Ações sobre o grafo (usadas tanto pelos botões quanto pelo teclado)
  */
-void acaoFtd(struct Graph * graph, struct List * v)
+void acaoFtd(struct Graph * graph, struct List * currentVertice)
 {
-	if(v == NULL)
+	if(currentVertice == NULL)
 		return;
 	int * ftdA = malloc(graph->verticesQtd * sizeof(int));
-	ftdGrafo(graph, v->id-1, ftdA);
-	printf("Ftd do vértice %d:", v->id);
+	ftdGrafo(graph, currentVertice->id - 1, ftdA);
+	printf("Ftd do vértice %d:", currentVertice->id);
 	for(uint32_t i = 0; i < graph->verticesQtd; i++) {
 		printf("%d ", ftdA[i]);
 	}
 	puts("");
 }
 
-void acaoFti(struct Graph * graph, struct List * v)
+void acaoFti(struct Graph * graph, struct List * currentVertice)
 {
-	if(v == NULL)
+	if(currentVertice == NULL)
 		return;
 	int * ftiA = malloc(graph->verticesQtd * sizeof(int));
-	ftdiGrafo(graph, v->id-1, ftiA);
-	printf("Fti do vértice %d:", v->id);
+	ftdiGrafo(graph, currentVertice->id - 1, ftiA);
+	printf("Fti do vértice %d:", currentVertice->id);
 	for(uint32_t i = 0; i < graph->verticesQtd; i++) {
 		printf("%d ", ftiA[i]);
 	}
 	puts("");
 }
 
-void acaoDfs(struct Graph * graph, struct List * v)
+void acaoDfs(struct Graph * graph, struct List * currentVertice)
 {
-	if(v == NULL)
+	if(currentVertice == NULL)
 		return;
-	if(dfs(graph, v->id) != 0)
+	if(dfs(graph, currentVertice->id) != 0)
 		printf("\nVértice inválido.\n");
 	puts("");
 }
 
-void acaoBfs(struct Graph * graph, struct List * v)
+void acaoBfs(struct Graph * graph, struct List * currentVertice)
 {
-	if(v == NULL)
+	if(currentVertice == NULL)
 		return;
-	if(bfs(graph, v->id) != 0)
+	if(bfs(graph, currentVertice->id) != 0)
 		printf("\nVértice inválido.\n");
 	puts("");
 }
@@ -91,15 +90,15 @@ void acaoConexidade(struct Graph * graph)
 	}
 }
 
-void acaoDijkstra(struct Graph * graph, struct List * v, int32_t est[], int32_t prev[])
+void acaoDijkstra(struct Graph * graph, struct List * currentVertice, int32_t est[], int32_t prev[])
 {
-	if(v == NULL)
+	if(currentVertice == NULL)
 		return;
 
 	est = malloc(sizeof(int32_t)*graph->verticesQtd);
 	prev = malloc(sizeof(int32_t)*graph->verticesQtd);
 
-	if(!dijkstra(graph, v->id-1, est, prev))
+	if(!dijkstra(graph, currentVertice->id - 1, est, prev))
 	{
 		puts("Dijkstra: \n");
 		printf("Estimado: ");mostraVetor(est, graph->verticesQtd);
@@ -197,21 +196,27 @@ int main()
 		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "FTD", isSelected))
 			acaoFtd(&graph, currentVertice);
 		buttonX += buttonW + buttonGap;
+
 		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "FTI", isSelected))
 			acaoFti(&graph, currentVertice);
 		buttonX += buttonW + buttonGap;
+
 		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "DFS", isSelected))
 			acaoDfs(&graph, currentVertice);
 		buttonX += buttonW + buttonGap;
+	
 		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "BFS", isSelected))
 			acaoBfs(&graph, currentVertice);
 		buttonX += buttonW + buttonGap;
+
 		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "Dijkstra", isSelected))
 			acaoDijkstra(&graph, currentVertice, est, prev);
 		buttonX += buttonW + buttonGap;
+
 		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "Conexo", graph.verticesQtd > 0))
 			acaoConexidade(&graph);
 		buttonX += buttonW + buttonGap;
+
 		if(TextButtonToggle((Rectangle){buttonX, buttonY, buttonW, buttonH}, "Cor", graph.verticesQtd > 0 && mostrarCores)) {
 			mostrarCores = !mostrarCores;
 		}
