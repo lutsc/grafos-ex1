@@ -4,7 +4,7 @@
  * Retorna o fecho transitivo direto do node passado na função
 */
 int32_t ftd(int32_t ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdA[tamanhoMatriz]) {
-	int32_t result[tamanhoMatriz] = {};
+	int32_t * result = malloc(tamanhoMatriz * sizeof(int32_t));
 	for(uint32_t i = 0; i < tamanhoMatriz; i++)
 	{
 		result[i] = -1;
@@ -68,7 +68,7 @@ int32_t ftdGrafo(struct Graph * graph, uint32_t v, int32_t * ftdA) {
  * Retorna o fecho transitivo inverso do node passado na função
 */
 int32_t ftdi(int32_t ** mat, uint32_t tamanhoMatriz, uint32_t node, int32_t ftdiA[tamanhoMatriz]) {
-	int32_t result[tamanhoMatriz] = {};
+	int32_t * result = malloc(tamanhoMatriz * sizeof(int32_t));
 	for(uint32_t i = 0; i < tamanhoMatriz; i++)
 	{
 		result[i] = -1;
@@ -133,8 +133,8 @@ int32_t ftdiGrafo(struct Graph * graph, uint32_t v, int32_t * ftdiA) {
 */
 int32_t eConexo(int32_t ** mat, uint32_t tamanhoMatriz)
 {
-	int32_t ftdA[tamanhoMatriz] = {};
-	int32_t ftdiA[tamanhoMatriz] = {};
+	int32_t * ftdA = malloc(tamanhoMatriz * sizeof(int32_t));
+	int32_t * ftdiA = malloc(tamanhoMatriz * sizeof(int32_t));
 
 	ftd(mat, tamanhoMatriz, 0, ftdA);
 	ftdi(mat, tamanhoMatriz, 0, ftdiA);
