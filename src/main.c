@@ -14,185 +14,21 @@
  * Os de vértice (FTD, FTI, DFS, BFS) ficam cinza até haver um vértice selecionado.
  */
 
-#include <raylib.h>
-#include <stdlib.h>
-#include <math.h>
-
-#include "grafos.h"
+// #include "grafos.h"
+#include "menu.h"
 #include "fechotransitivo.h"
 #include "busca.h"
 #include "kosaraju.h"
 #include "dijkstra.h"
 #include "coloracao.h"
 
-#define WIDTH 800
-#define HEIGHT 600
-
-#define BAR_HEIGHT (int)(HEIGHT/10)
-
-#define BUTTON_COLOR BLUE
-#define CIRCLE_RADIUS 15
-#define PADDING 60
-
-#define CIRCLE_RESOLUTION 100
-
-#define ARROW_ANGLE PI/6
-#define ARROW_WING 20
-
-#define FONT_SIZE CIRCLE_RADIUS/5
-
-#define V_COLOR PURPLE
-
-#include <stdio.h>
-#include <math.h>
-
-void mostraVetor (int32_t vet[], int n);
-
-uint32_t module(Vector2 vec)
+void mostraVetor (int32_t vet[], int n)
 {
-	return sqrt(pow(vec.x,2)+pow(vec.y,2));
-}
-
-Vector2 concentricPointStop(Vector2 a, Vector2 b, float r) {
-	double D = sqrt(pow(b.x - a.x, 2) + pow(b.y - a.y, 2));
-
-	Vector2 c;
-	if (D == 0.0) {
-		c.x = 0;
-		c.y = 0;
-		return c;
+	for (int i = 0; i < n; i++)
+	{
+		printf("%d ", vet[i]);
 	}
-
-	if (D <= r)
-	  c = a;
-
-	double d = D - r;
-	double t = d / D;
-
-	c.x = a.x + t * (b.x - a.x);
-	c.y = a.y + t * (b.y - a.y);
-
-	return c;
-}
-
-void DrawArrow(Vector2 pos1, Vector2 pos2, float angle, float wing_size, Color color)
-{
-	float deltaX = pos2.x - pos1.x;
-	float deltaY = pos2.y - pos1.y;
-	float Length = sqrt(pow(deltaX,2) + pow(deltaY,2));;
-
-	if(Length == 0)
-		return;
-
-	float uX = -deltaX/Length;
-	float uY = -deltaY/Length;
-
-	double bX = uX * wing_size; 
-	double bY = uY * wing_size; 
-
-	Vector2 wing1;
-	wing1.x = bX * cos(angle)- bY * sin(angle) + pos2.x;
-	wing1.y = bX * sin(angle)+ bY * cos(angle) + pos2.y;
-
-	Vector2 wing2;
-	wing2.x = bX * cos(-angle)- bY * sin(-angle) + pos2.x;
-	wing2.y = bX * sin(-angle)+ bY * cos(-angle) + pos2.y;
-
-	DrawLineV(pos1, pos2, color);
-	DrawLineV(pos2, wing1, color);
-	DrawLineV(pos2, wing2, color);
-}
-
-/*
- * Returns a boolean representing if the button is pressed or not
- */
-int32_t CircleButton(int32_t posX, int32_t posY, int32_t radius)
-{
-	bool clicked = false;
-	Color circleColor = BUTTON_COLOR;
-
-	if(CheckCollisionPointCircle(GetMousePosition(), (Vector2){posX, posY}, radius)) {
-		if(IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
-			clicked = true;
-		}
-		if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-			circleColor = ColorBrightness(BUTTON_COLOR, -0.2);
-		}
-	}
-// DrawCircle(posX, posY, radius, circleColor); return clicked;
-DrawPoly((Vector2){posX, posY}, CIRCLE_RESOLUTION, radius, 0,circleColor); return clicked;
-}
-
-int32_t LineButton(Rectangle rect)
-{
-	bool clicked = false;
-	Color lineColor = BLACK;
-
-	if(CheckCollisionPointRec(GetMousePosition(), rect)) {
-		if(IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
-			clicked = true;
-		}
-		if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-			lineColor = ColorBrightness(BUTTON_COLOR, 0.2);
-		}
-	}
-DrawLine(rect.x, rect.y+rect.height, rect.x+rect.width, rect.y, lineColor); return clicked;
-}
-
-/*
- * Botão retangular com texto. Retorna se foi clicado.
- * Se "enabled" for false, aparece cinza e não responde ao clique.
- */
-int32_t TextButton(Rectangle rect, const char * label, bool enabled)
-{
-	bool clicked = false;
-	Color buttonColor = BUTTON_COLOR;
-
-	if(!enabled) {
-		buttonColor = GRAY;
-	}
-	else if(CheckCollisionPointRec(GetMousePosition(), rect)) {
-		if(IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
-			clicked = true;
-		}
-		if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-			buttonColor = ColorBrightness(BUTTON_COLOR, -0.2);
-		}
-	}
-
-	DrawRectangleRec(rect, buttonColor);
-	int textSize = 14;
-	int textW = MeasureText(label, textSize);
-	DrawText(label, rect.x + (rect.width - textW)/2, rect.y + (rect.height - textSize)/2, textSize, WHITE);
-	return clicked;
-}
-
-/*
- * Similar ao TextButton mas permite ser clicado mesmo inativo
- */
-int32_t TextButtonToggle(Rectangle rect, const char * label, bool enabled)
-{
-	bool clicked = false;
-	Color buttonColor = BUTTON_COLOR;
-
-	if(!enabled) {
-		buttonColor = GRAY;
-	}
-
-	if(CheckCollisionPointRec(GetMousePosition(), rect)) {
-		if(IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) {
-			clicked = true;
-		}
-		if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-			buttonColor = ColorBrightness(BUTTON_COLOR, -0.2);
-		}
-	}
-
-	DrawRectangleRec(rect, buttonColor);
-	int textSize = 14;
-	int textW = MeasureText(label, textSize);
-	DrawText(label, rect.x + (rect.width - textW)/2, rect.y + (rect.height - textSize)/2, textSize, WHITE);
-	return clicked;
+	puts("");
 }
 
 /*
@@ -202,7 +38,7 @@ void acaoFtd(struct Graph * graph, struct List * v)
 {
 	if(v == NULL)
 		return;
-	int ftdA[graph->verticesQtd] = {};
+	int * ftdA = malloc(graph->verticesQtd * sizeof(int));
 	ftdGrafo(graph, v->id-1, ftdA);
 	printf("Ftd do vértice %d:", v->id);
 	for(uint32_t i = 0; i < graph->verticesQtd; i++) {
@@ -215,7 +51,7 @@ void acaoFti(struct Graph * graph, struct List * v)
 {
 	if(v == NULL)
 		return;
-	int ftiA[graph->verticesQtd] = {};
+	int * ftiA = malloc(graph->verticesQtd * sizeof(int));
 	ftdiGrafo(graph, v->id-1, ftiA);
 	printf("Fti do vértice %d:", v->id);
 	for(uint32_t i = 0; i < graph->verticesQtd; i++) {
@@ -281,12 +117,6 @@ void calcularCores(struct Graph * graph)
 	atualizarColoracaoGrafo(graph, cores);
 }
 
-
-
-enum MOUSE_STATE {
-	SELECT, SELECT_CIRCLE, SELECT_LINE
-};
-
 /*
  * Retorna uma cor dado um número inteiro positivo
  */
@@ -302,21 +132,6 @@ Color getColor(uint32_t num){
 
 	return (Color){r, g, b, 255};
 }
-
-void drawNumberMiddleLine(Vector2 pos1, Vector2 pos2, uint32_t number) {
-	Vector2 final = pos1;
-	final.x += (pos2.x - pos1.x)/2;
-	final.y += (pos2.y - pos1.y)/2 - 3*(float)FONT_SIZE;
-
-	// Vector2 hyp = {fabs(final.x - pos1.x), fabs(final.y - pos1.y)};
-
-	// double angle = acos(module(final));
-	// double angle = 90;
-	// DrawTextPro(GetFontDefault(), TextFormat("%d", number), final, final, angle, (float)FONT_SIZE, 1, BLACK);
-	DrawText(TextFormat("%d", number), final.x, final.y, FONT_SIZE, BLACK);
-}
-
-
 
 int main()
 {
@@ -341,8 +156,8 @@ int main()
 	struct List * remover2 = NULL;
 	struct Node * tempNode = NULL;
 
-	int32_t * prev = {};
-	int32_t * est = {};
+	int32_t * prev = malloc(sizeof(int32_t));
+	int32_t * est = malloc(sizeof(int32_t));
 
 	bool verticeCollision = false;
 
@@ -606,14 +421,5 @@ int main()
 		}
 		EndDrawing();
 	}
+	return 0;
 }
-
-void mostraVetor (int32_t vet[], int n)
-{
-	for (int i = 0; i < n; i++)
-	{
-		printf("%d ", vet[i]);
-	}
-	puts("");
-}
-
