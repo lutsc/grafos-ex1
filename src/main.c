@@ -20,6 +20,7 @@
 #include "busca.h"
 #include "kosaraju.h"
 #include "coloracao.h"
+#include "string.h"
 
 void mostraVetor (int32_t vet[], int n)
 {
@@ -132,6 +133,33 @@ Color getColor(uint32_t num){
 	return (Color){r, g, b, 255};
 }
 
+int32_t getPesoAresta(struct Node * aresta, char buf[], int32_t * used) {
+ 	int32_t MAXINPUT = 6;
+
+
+	int key = GetKeyPressed();
+	while(key > 0){
+		if((key >= 32) && (key <= 125) && (*used < MAXINPUT)){
+			buf[*used] = (char)key;
+			buf[*used+1] = '\0';
+			*used += 1;
+		}
+		key = GetKeyPressed();
+	}
+	if(IsKeyPressed(KEY_BACKSPACE)){
+		*used -= 1;
+		if (*used < 0)
+			*used = 0;
+		buf[*used] = '\0';
+	}
+	if(IsKeyPressed(KEY_ENTER)){
+		aresta->data = atoi(buf);
+		printf("%s\n", buf);
+		return 0;
+	}
+	return -1;
+}
+
 int main()
 {
 	SetTraceLogLevel(LOG_NONE);
@@ -154,6 +182,13 @@ int main()
 	struct List * remover1 = NULL;
 	struct List * remover2 = NULL;
 	struct Node * tempNode = NULL;
+
+	struct Node * currentAresta = NULL;
+
+	char buf[16] = "\0";
+	int32_t usedBuf = 0;
+
+	int32_t **mat = NULL;
 
 	int32_t * prev = malloc(sizeof(int32_t));
 	int32_t * est = malloc(sizeof(int32_t));
@@ -258,10 +293,13 @@ int main()
 						remover1 = &graph.array[i];
 						remover2 = &graph.array[tempNode->id-1];
 					}
+
+					else if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+						currentAresta = tempNode;
+					}
 				}
 				else {
 					DrawArrow(concentricPointStop(graph.array[tempNode->id-1].pos, graph.array[i].pos, CIRCLE_RADIUS), concentricPointStop(graph.array[i].pos, graph.array[tempNode->id-1].pos, CIRCLE_RADIUS), ARROW_ANGLE, ARROW_WING, BLACK);
-					// drawNumberMiddleLine((Vector2){300, 300}, (Vector2){400, 300}, 10);
 					drawNumberMiddleLine(graph.array[i].pos, graph.array[tempNode->id-1].pos, tempNode->data);
 				}
 
@@ -312,7 +350,7 @@ int main()
 
 			}
 		}
-		if(currentVertice != NULL)
+		if(currentVertice != NULL) //TODO: Tentar simplificar esses ifs eventualmente
 		{
 			// DrawCircleLinesV(currentVertice->pos, CIRCLE_RADIUS, RED);
 			DrawPolyLines(currentVertice->pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, RED);
@@ -329,6 +367,18 @@ int main()
 			remover1 = NULL;
 			remover2 = NULL;
 			atualizarGrafo = true;
+		}
+
+		if(hoverVertice) {
+			currentAresta = NULL;
+		}
+
+		if(currentAresta != NULL && hoverVertice == NULL) {
+			if(!getPesoAresta(currentAresta, buf, &usedBuf)) { //FIX: Peso não é igual caso a aresta seja de ida e volta
+				strcpy(buf, "\0");
+				usedBuf = 0;
+				currentAresta = NULL;
+			}
 		}
 
 		if(atualizarGrafo){
