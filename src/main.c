@@ -139,7 +139,7 @@ int32_t getPesoAresta(struct Node * aresta, char buf[], int32_t * used) {
 
 	int key = GetKeyPressed();
 	while(key > 0){
-		if((key >= 32) && (key <= 125) && (*used < MAXINPUT)){
+		if((key >= 48) && (key <= 57) && (*used < MAXINPUT)){
 			buf[*used] = (char)key;
 			buf[*used+1] = '\0';
 			*used += 1;
@@ -157,7 +157,7 @@ int32_t getPesoAresta(struct Node * aresta, char buf[], int32_t * used) {
 		printf("%s\n", buf);
 		return 0;
 	}
-	return -1;
+	return -1; //FIX: Após definir o valor, conferir se ele não foi definido como 0
 }
 
 int main()
@@ -188,7 +188,7 @@ int main()
 	char buf[16] = "\0";
 	int32_t usedBuf = 0;
 
-	int32_t **mat = NULL;
+	// int32_t **mat = NULL;
 
 	int32_t * prev = malloc(sizeof(int32_t));
 	int32_t * est = malloc(sizeof(int32_t));
