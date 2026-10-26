@@ -21,6 +21,7 @@ int32_t bfs(struct Graph * graph, uint32_t inicio);
  */
 int32_t dijkstra(struct Graph * graph, uint32_t vertice, int32_t estimate[], int32_t previous[]);
 
+int32_t getHeuristica(struct Graph * graph, uint32_t vertice, int32_t heuristic[]);
 /*
  * Recebe um grafo e retorna o vetor de estimativas de distância e de vértice anterior do algoritmo a*
  */

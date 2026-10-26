@@ -1,4 +1,5 @@
 #include "busca.h"
+#include "fechotransitivo.h"
 
 int32_t dfs(struct Graph * graph, uint32_t inicio) {
 	if (graph == NULL || graph->array == NULL) {
@@ -180,6 +181,25 @@ int32_t dijkstra(struct Graph * graph, uint32_t vertice, int32_t estimate[], int
 	}
 
 
+	return 0;
+}
+
+int32_t getHeuristica(struct Graph * graph, uint32_t vertice, int32_t heuristic[])
+{
+	if(graph == NULL)
+		return -1; //Grafo inexistente
+
+	if(graph->verticesQtd == 0)
+		return -1; //Grafo vazio
+
+	ftdiGrafo(graph, vertice, heuristic);
+	for(uint32_t i = 0; i < graph->verticesQtd; i++)
+	{
+		if(heuristic[i] > 0) {
+			heuristic[i] *= 5;
+			heuristic[i] += graph->array[i].head->data*10;
+		}
+	}
 	return 0;
 }
 

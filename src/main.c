@@ -109,6 +109,29 @@ void acaoDijkstra(struct Graph * graph, struct List * currentVertice, int32_t es
 	free(prev);
 }
 
+void acaoAestrela(struct Graph * graph, struct List * currentVertice, struct List * v2, int32_t heuristica[], int32_t est[], int32_t prev[])
+{
+	if(currentVertice == NULL)
+		return;
+
+	est = malloc(sizeof(int32_t)*graph->verticesQtd);
+	prev = malloc(sizeof(int32_t)*graph->verticesQtd);
+	heuristica = calloc(sizeof(int32_t)*graph->verticesQtd, sizeof(int32_t));
+
+	getHeuristica(graph, v2->id, heuristica);
+
+	if(!aestrela(graph, currentVertice->id - 1, heuristica, est, prev))
+	{
+		puts("A*: \n");
+		printf("Estimado: ");mostraVetor(est, graph->verticesQtd);
+		printf("Antecessor: ");mostraVetor(prev, graph->verticesQtd);
+		printf("Heuristica: ");mostraVetor(heuristica, graph->verticesQtd);
+	}
+	free(est);
+	free(prev);
+	free(heuristica);
+}
+
 void calcularCores(struct Graph * graph)
 {
 	int32_t cores[graph->verticesQtd];
@@ -192,6 +215,7 @@ int main()
 
 	int32_t * prev = malloc(sizeof(int32_t));
 	int32_t * est = malloc(sizeof(int32_t));
+	int32_t * heuristica = malloc(sizeof(int32_t));
 
 	bool verticeCollision = false;
 
@@ -248,6 +272,11 @@ int main()
 			acaoDijkstra(&graph, currentVertice, est, prev);
 		buttonX += buttonW + buttonGap;
 
+		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "A*", isSelected))
+			mouseState = SELECT_SECOND;
+			// acaoAestrela(&graph, currentVertice, heuristica, est, prev);
+		buttonX += buttonW + buttonGap;
+
 		if(TextButton((Rectangle){buttonX, buttonY, buttonW, buttonH}, "Conexo", graph.verticesQtd > 0))
 			acaoConexidade(&graph);
 		buttonX += buttonW + buttonGap;
@@ -274,7 +303,10 @@ int main()
 		for(uint32_t i = 0; i < graph.verticesQtd; i++)
 		{
 			// DrawCircleV(graph.array[i].pos, CIRCLE_RADIUS, V_COLOR);
-			if(!mostrarCores) {
+			if(mouseState == SELECT_SECOND){
+				DrawPoly(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, BLUE);
+			}
+			else if(!mostrarCores) {
 				DrawPoly(graph.array[i].pos, CIRCLE_RESOLUTION, CIRCLE_RADIUS, 0, V_COLOR);
 			}
 			else{
@@ -334,6 +366,12 @@ int main()
 								currentVertice = &graph.array[i];
 								atualizarGrafo = true;
 							}
+							break;
+						case SELECT_SECOND:
+							acaoAestrela(&graph, currentVertice, &graph.array[i], heuristica, est, prev);
+							mouseState = SELECT;
+							break;
+
 						default:
 							break;
 
