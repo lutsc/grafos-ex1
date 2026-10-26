@@ -183,7 +183,7 @@ int32_t dijkstra(struct Graph * graph, uint32_t vertice, int32_t estimate[], int
 	return 0;
 }
 
-int32_t aestrela(struct Graph * graph, uint32_t v1, uint32_t v2, int32_t heuristic[], int32_t estimate[], int32_t previous[]) {
+int32_t aestrela(struct Graph * graph, uint32_t v1, int32_t heuristic[], int32_t estimate[], int32_t previous[]) {
 	if(graph == NULL)
 		return -1; //Grafo inexistente
 

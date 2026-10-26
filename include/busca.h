@@ -24,6 +24,6 @@ int32_t dijkstra(struct Graph * graph, uint32_t vertice, int32_t estimate[], int
 /*
  * Recebe um grafo e retorna o vetor de estimativas de distância e de vértice anterior do algoritmo a*
  */
-int32_t aestrela(struct Graph * graph, uint32_t v1, uint32_t v2, int32_t heuristic[], int32_t estimate[], int32_t previous[]);
+int32_t aestrela(struct Graph * graph, uint32_t v1, int32_t heuristic[], int32_t estimate[], int32_t previous[]);
 
 #endif
