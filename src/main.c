@@ -22,11 +22,11 @@
 #include "coloracao.h"
 #include "string.h"
 
-void mostraVetor (int32_t vet[], int n)
+void mostraVetorID (int32_t vet[], int n)
 {
 	for (int i = 0; i < n; i++)
 	{
-		printf("%d ", vet[i]);
+		printf("%d ", vet[i]+1);
 	}
 	puts("");
 }
@@ -102,8 +102,8 @@ void acaoDijkstra(struct Graph * graph, struct List * currentVertice, int32_t es
 	if(!dijkstra(graph, currentVertice->id - 1, est, prev))
 	{
 		puts("Dijkstra: \n");
-		printf("Estimado: ");mostraVetor(est, graph->verticesQtd);
-		printf("Antecessor: ");mostraVetor(prev, graph->verticesQtd);
+		printf("Estimado: ");mostraVetorID(est, graph->verticesQtd);
+		printf("Antecessor: ");mostraVetorID(prev, graph->verticesQtd);
 	}
 	free(est);
 	free(prev);
@@ -123,9 +123,9 @@ void acaoAestrela(struct Graph * graph, struct List * currentVertice, struct Lis
 	if(!aestrela(graph, currentVertice->id - 1, heuristica, est, prev))
 	{
 		puts("A*: \n");
-		printf("Estimado: ");mostraVetor(est, graph->verticesQtd);
-		printf("Antecessor: ");mostraVetor(prev, graph->verticesQtd);
-		printf("Heuristica: ");mostraVetor(heuristica, graph->verticesQtd);
+		printf("Estimado: ");mostraVetorID(est, graph->verticesQtd);
+		printf("Antecessor: ");mostraVetorID(prev, graph->verticesQtd);
+		printf("Heuristica: ");mostraVetorID(heuristica, graph->verticesQtd);
 	}
 	free(est);
 	free(prev);
