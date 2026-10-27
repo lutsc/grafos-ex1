@@ -180,8 +180,49 @@ int32_t getPesoAresta(struct Node * aresta, char buf[], int32_t * used) {
 		printf("%s\n", buf);
 		return 0;
 	}
-	return -1; //FIX: Após definir o valor, conferir se ele não foi definido como 0
+	return -1;
 }
+
+// int32_t conferirPesos(struct Graph * graph) {
+// 	if(graph == NULL)
+// 		return -1; //Grafo inexistente
+//
+// 	if(graph->verticesQtd == 0)
+// 		return -1; //Grafo vazio
+//
+// 	int32_t ** mat;
+// 	gerarMatrizAdjacente(graph, &mat);
+// 	for(uint32_t i = 0; i < graph->verticesQtd; i++) {
+// 		for(uint32_t j = 0; j < graph->verticesQtd; j++) {
+// 			if(mat[i][j] > 0 && mat[j][i] > 0)
+// 			{
+// 				mat[j][i] = mat[i][j]; 
+// 			}
+// 		}
+// 	}
+//
+// 	printMatriz(mat, graph->verticesQtd);
+// 	puts("");
+//
+// 	// iniciarGrafo(graph, graph->verticesQtd, graph->directed);
+// 	// uint32_t maxIJ = graph->verticesQtd;
+// 	//
+// 	// for(uint32_t i = 0; i < maxIJ; i++) {
+// 	// 	inserirVertice(graph);
+// 	// 	for(uint32_t j = 0; j < maxIJ; j++) {
+// 	// 		if(mat[i][j] > 0)
+// 	// 		{
+// 	// 			inserirAresta(graph, i, j, mat[i][j]);
+// 	// 		}
+// 	// 	}
+// 	// }
+//
+//
+//
+// 	liberarMatriz(mat, graph->verticesQtd);
+// 	return 0;
+// }
+
 
 int main()
 {
@@ -416,6 +457,7 @@ int main()
 				strcpy(buf, "\0");
 				usedBuf = 0;
 				currentAresta = NULL;
+				atualizarGrafo = true;
 			}
 		}
 
