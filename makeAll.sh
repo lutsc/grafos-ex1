@@ -11,3 +11,4 @@ gcc -Iinclude -lm -lraylib -g -Wall -Wextra -c src/coloracao.c -o build/coloraca
 mkdir -p bin
 gcc build/main.o build/lista_encadeada.o build/matrizes.o build/grafos.o build/menu.o build/busca.o build/fechotransitivo.o build/kosaraju.o build/coloracao.o -Iinclude -lm -lraylib -g -Wall -Wextra -o bin/main
 
+gcc -std=c11 -O2 -Wall -Wextra -Iinclude src/pert.c src/pert_svg.c src/pert_main.c -static -lm -o bin/pert
